@@ -26,6 +26,8 @@ var installChaincode = async function(peers, chaincodeName, chaincodePath,
 	chaincodeVersion, chaincodeType, username, org_name) {
 	logger.debug('\n\n============ Install chaincode on organizations ============\n');
 	helper.setupChaincodeDeploy();
+
+	
 	let error_message = null;
 	try {
 		logger.info('Calling peers in organization "%s" to join the channel', org_name);
@@ -33,7 +35,9 @@ var installChaincode = async function(peers, chaincodeName, chaincodePath,
 		// first setup the client for this org
 		var client = await helper.getClientForOrg(org_name, username);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
-
+		// enable Client TLS
+		var tlsInfo =  await helper.tlsEnroll(client);
+		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
 		tx_id = client.newTransactionID(true); //get an admin transactionID
 		var request = {
 			targets: peers,

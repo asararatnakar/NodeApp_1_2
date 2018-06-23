@@ -20,7 +20,6 @@ logger.setLevel('DEBUG');
 
 var path = require('path');
 var util = require('util');
-var copService = require('fabric-ca-client');
 
 var hfc = require('fabric-client');
 hfc.setLogger(logger);
@@ -124,7 +123,21 @@ var getLogger = function(moduleName) {
 	return logger;
 };
 
+async function tlsEnroll(client) {
+		let caClient = client.getCertificateAuthority();
+
+		let req = {
+			enrollmentID: 'admin',
+			enrollmentSecret: 'adminpw',
+			profile: 'tls'
+		};
+		var enrollment = await caClient.enroll(req);
+		enrollment.key = enrollment.key.toBytes();
+		return enrollment;
+}
+
 exports.getClientForOrg = getClientForOrg;
 exports.getLogger = getLogger;
 exports.setupChaincodeDeploy = setupChaincodeDeploy;
 exports.getRegisteredUser = getRegisteredUser;
+exports.tlsEnroll = tlsEnroll;

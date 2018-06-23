@@ -27,6 +27,10 @@ var createChannel = async function(channelName, channelConfigPath, username, org
 		var client = await helper.getClientForOrg(orgName);
 		logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
 
+		// enable Client TLS
+		var tlsInfo =  await helper.tlsEnroll(client);
+		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
+
 		// read in the envelope for the channel config raw bytes
 		var envelope = fs.readFileSync(path.join(__dirname, channelConfigPath));
 		// extract the channel config bytes from the envelope to be signed
