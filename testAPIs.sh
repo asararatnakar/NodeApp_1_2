@@ -151,6 +151,7 @@ curl -s -X POST \
   -H "authorization: Bearer $ORG1_TOKEN" \
   -H "content-type: application/json" \
   -d "{
+  \"peers\": [\"peer0.org1.example.com\"],
 	\"chaincodeName\":\"mycc\",
 	\"chaincodeVersion\":\"v0\",
 	\"chaincodeType\": \"$LANGUAGE\",
@@ -158,6 +159,7 @@ curl -s -X POST \
 }"
 echo
 echo
+# exit
 
 echo "POST invoke chaincode on peers of Org1"
 echo
@@ -167,6 +169,21 @@ TRX_ID=$(curl -s -X POST \
   -H "content-type: application/json" \
   -d '{
 	"peers": ["peer0.org1.example.com","peer1.org1.example.com"],
+	"fcn":"move",
+	"args":["a","b","10"]
+}')
+echo "Transaction ID is $TRX_ID"
+echo
+echo
+
+echo "POST invoke chaincode on peers of Org1"
+echo
+TRX_ID=$(curl -s -X POST \
+  http://localhost:4000/channels/mychannel/chaincodes/mycc \
+  -H "authorization: Bearer $ORG2_TOKEN" \
+  -H "content-type: application/json" \
+  -d '{
+	"peers": ["peer0.org2.example.com","peer1.org2.example.com"],
 	"fcn":"move",
 	"args":["a","b","10"]
 }')

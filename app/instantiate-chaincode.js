@@ -30,11 +30,13 @@ var instantiateChaincode = async function(peers, channelName, chaincodeName, cha
 		// first setup the client for this org
 		var client = await helper.getClientForOrg(org_name, username);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
-
+		var client2 = await helper.getClientForOrg('Org2', 'Barry');
+		logger.debug('Successfully got the fabric client for the organization "%s"', 'Org2');
 		// enable Client TLS
 		var tlsInfo =  await helper.tlsEnroll(client);
 		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
-
+		tlsInfo =  await helper.tlsEnroll(client2);
+		client2.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
 		var channel = client.getChannel(channelName);
 		if(!channel) {
 			let message = util.format('Channel %s was not defined in the connection profile', channelName);
@@ -85,7 +87,7 @@ var instantiateChaincode = async function(peers, channelName, chaincodeName, cha
 			all_good = all_good & one_good;
 		}
 
-		if (all_good) {
+		// if (all_good) {
 			logger.info(util.format(
 				'Successfully sent Proposal and received ProposalResponse: Status - %s, message - "%s", metadata - "%s", endorsement signature: %s',
 				proposalResponses[0].response.status, proposalResponses[0].response.message,
@@ -95,6 +97,9 @@ var instantiateChaincode = async function(peers, channelName, chaincodeName, cha
 			// instantiate transaction was committed on the peer
 			var promises = [];
 			let event_hubs = channel.getChannelEventHubsForOrg();
+			console.log('=========================================');
+			console.log(event_hubs);
+			console.log('=========================================');
 			logger.debug('found %s eventhubs for this organization %s',event_hubs.length, org_name);
 			event_hubs.forEach((eh) => {
 				let instantiateEventPromise = new Promise((resolve, reject) => {
@@ -147,7 +152,7 @@ var instantiateChaincode = async function(peers, channelName, chaincodeName, cha
 			// put the send to the orderer last so that the events get registered and
 			// are ready for the orderering and committing
 			promises.push(sendPromise);
-			let results = await Promise.all(promises);
+			results = await Promise.all(promises);
 			logger.debug(util.format('------->>> R E S P O N S E : %j', results));
 			let response = results.pop(); //  orderer results are last in the results
 			if (response.status === 'SUCCESS') {
@@ -169,10 +174,10 @@ var instantiateChaincode = async function(peers, channelName, chaincodeName, cha
 					logger.debug(event_hub_result.toString());
 				}
 			}
-		} else {
-			error_message = util.format('Failed to send Proposal and receive all good ProposalResponse');
-			logger.debug(error_message);
-		}
+		// } else {
+		// 	error_message = util.format('Failed to send Proposal and receive all good ProposalResponse');
+		// 	logger.debug(error_message);
+		// }
 	} catch (error) {
 		logger.error('Failed to send instantiate due to error: ' + error.stack ? error.stack : error);
 		error_message = error.toString();

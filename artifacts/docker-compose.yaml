@@ -87,9 +87,6 @@ services:
       - 7053:7053
     volumes:
         - ./channel/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/:/etc/hyperledger/crypto/peer
-        - ./channel/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/:/etc/hyperledger/crypto/admin1
-        - ./channel/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/:/etc/hyperledger/crypto/admin2
-        - ./channel/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/:/etc/hyperledger/crypto/orderer
     depends_on:
       - orderer.example.com
 
@@ -113,9 +110,6 @@ services:
       - 7058:7053
     volumes:
         - ./channel/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/:/etc/hyperledger/crypto/peer
-        - ./channel/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/:/etc/hyperledger/crypto/admin1
-        - ./channel/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/:/etc/hyperledger/crypto/admin2
-        - ./channel/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/:/etc/hyperledger/crypto/orderer
     depends_on:
       - orderer.example.com
 
@@ -139,9 +133,6 @@ services:
       - 8053:7053
     volumes:
         - ./channel/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/:/etc/hyperledger/crypto/peer
-        - ./channel/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/:/etc/hyperledger/crypto/admin2
-        - ./channel/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/:/etc/hyperledger/crypto/orderer
-        - ./channel/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/:/etc/hyperledger/crypto/admin1
     depends_on:
       - orderer.example.com
 
@@ -165,8 +156,5 @@ services:
       - 8058:7053
     volumes:
         - ./channel/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/:/etc/hyperledger/crypto/peer
-        - ./channel/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/:/etc/hyperledger/crypto/admin2
-        - ./channel/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/:/etc/hyperledger/crypto/orderer
-        - ./channel/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/:/etc/hyperledger/crypto/admin1
     depends_on:
       - orderer.example.com
