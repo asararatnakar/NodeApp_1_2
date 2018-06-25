@@ -176,21 +176,6 @@ echo "Transaction ID is $TRX_ID"
 echo
 echo
 
-echo "POST invoke chaincode on peers of Org1"
-echo
-TRX_ID=$(curl -s -X POST \
-  http://localhost:4000/channels/mychannel/chaincodes/mycc \
-  -H "authorization: Bearer $ORG2_TOKEN" \
-  -H "content-type: application/json" \
-  -d '{
-	"peers": ["peer0.org2.example.com","peer1.org2.example.com"],
-	"fcn":"move",
-	"args":["a","b","10"]
-}')
-echo "Transaction ID is $TRX_ID"
-echo
-echo
-
 echo "GET query chaincode on peer1 of Org1"
 echo
 curl -s -X GET \
@@ -199,6 +184,7 @@ curl -s -X GET \
   -H "content-type: application/json"
 echo
 echo
+exit
 
 echo "GET query Block by blockNumber"
 echo

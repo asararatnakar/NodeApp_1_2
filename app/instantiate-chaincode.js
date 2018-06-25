@@ -30,13 +30,13 @@ var instantiateChaincode = async function(peers, channelName, chaincodeName, cha
 		// first setup the client for this org
 		var client = await helper.getClientForOrg(org_name, username);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
-		var client2 = await helper.getClientForOrg('Org2', 'Barry');
-		logger.debug('Successfully got the fabric client for the organization "%s"', 'Org2');
 		// enable Client TLS
 		var tlsInfo =  await helper.tlsEnroll(client);
 		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
+		/*var client2 = await helper.getClientForOrg('Org2', 'Barry');
+		logger.debug('Successfully got the fabric client2 for the organization "%s"', 'Org2');
 		tlsInfo =  await helper.tlsEnroll(client2);
-		client2.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
+		client2.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);*/
 		var channel = client.getChannel(channelName);
 		if(!channel) {
 			let message = util.format('Channel %s was not defined in the connection profile', channelName);
