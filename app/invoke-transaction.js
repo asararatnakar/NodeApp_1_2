@@ -21,6 +21,25 @@ var hfc = require('fabric-client');
 var helper = require('./helper.js');
 var logger = helper.getLogger('invoke-chaincode');
 
+////////TODO: START - Remove this once the API is available in SDK //////////
+var grpc = require('grpc');
+var _identityProto = grpc.load(path.join(__dirname, '../node_modules/fabric-client/lib/protos/msp/identities.proto')).msp;
+var X509 = require('x509');
+function decodeIdentity(id_bytes) {
+        //logger.debug('decodeIdentity - %s',id_bytes);
+        var identity = {};
+        try {
+                var proto_identity = _identityProto.SerializedIdentity.decode(id_bytes);
+                identity.Mspid = proto_identity.getMspid();
+                identity.IdBytes = proto_identity.getIdBytes().toBuffer().toString();
+        } catch (err) {
+                logger.error('Failed to decode the identity: %s', err.stack ? err.stack : err);
+        }
+
+        return identity;
+}
+////////TODO: END - Remove this once the API is available in SDK //////////
+
 var invokeChaincode = async function(peerNames, channelName, chaincodeName, fcn, args, username, org_name) {
 	logger.debug(util.format('\n============ invoke transaction on channel %s ============\n', channelName));
 	var error_message = null;
@@ -79,10 +98,18 @@ var invokeChaincode = async function(peerNames, channelName, chaincodeName, fcn,
 		}
 
 		if (all_good) {
-			logger.info(util.format(
-				'Successfully sent Proposal and received ProposalResponse: Status - %s, message - "%s", metadata - "%s", endorsement signature: %s',
-				proposalResponses[0].response.status, proposalResponses[0].response.message,
-				proposalResponses[0].response.payload, proposalResponses[0].endorsement.signature));
+                        console.log('=============================================================');
+                        var endorser1 = decodeIdentity(proposalResponses[0].endorsement.endorser);
+                        var endorser2 = decodeIdentity(proposalResponses[0].endorsement.endorser);
+                        var subject1 = X509.getSubject(endorser1.IdBytes).commonName;
+                        var subject2 = X509.getSubject(endorser2.IdBytes).commonName;
+                        console.log('\n Endorsed by the peer '+subject1+' belongs to MSP :  '+endorser1.Mspid);
+                        console.log('\n Endorsed by the peer '+subject2+' belongs to MSP :  '+endorser2.Mspid);
+                        console.log('=============================================================');
+			//logger.info(util.format(
+			//	'Successfully sent Proposal and received ProposalResponse: Status - %s, message - "%s", metadata - "%s", endorsement signature: %s',
+			//	proposalResponses[0].response.status, proposalResponses[0].response.message,
+			//	proposalResponses[0].response.payload, proposalResponses[0].endorsement.signature));
 
 			// wait for the channel-based event hub to tell us
 			// that the commit was good or bad on each peer in our organization
