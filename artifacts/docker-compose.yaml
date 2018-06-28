@@ -79,14 +79,12 @@ services:
       - CORE_PEER_LISTENADDRESS=peer0.org1.example.com:7051
       - CORE_PEER_GOSSIP_ENDPOINT=peer0.org1.example.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org1.example.com:7051
-      - CORE_PEER_EVENTS_ADDRESS=0.0.0.0:7053
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/crypto/peer/msp/cacerts/ca.org1.example.com-cert.pem
-      - CORE_PEER_TLS_CLIENTROOTCAS_FILES=/etc/hyperledger/crypto/peer/msp/cacerts/ca.org1.example.com-cert.pem
     ports:
       - 7051:7051
       - 7053:7053
     volumes:
         - ./channel/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/:/etc/hyperledger/crypto/peer
+        - ./channel/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem:/etc/hyperledger/crypto/ca/ca.crt
     depends_on:
       - orderer.example.com
 
@@ -102,14 +100,12 @@ services:
       - CORE_PEER_LISTENADDRESS=peer1.org1.example.com:7051
       - CORE_PEER_GOSSIP_ENDPOINT=peer0.org1.example.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org1.example.com:7051
-      - CORE_PEER_EVENTS_ADDRESS=0.0.0.0:7053
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/crypto/peer/msp/cacerts/ca.org1.example.com-cert.pem
-      - CORE_PEER_TLS_CLIENTROOTCAS_FILES=/etc/hyperledger/crypto/peer/msp/cacerts/ca.org1.example.com-cert.pem
     ports:
       - 7056:7051
       - 7058:7053
     volumes:
         - ./channel/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/:/etc/hyperledger/crypto/peer
+        - ./channel/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem:/etc/hyperledger/crypto/ca/ca.crt
     depends_on:
       - orderer.example.com
 
@@ -125,14 +121,12 @@ services:
       - CORE_PEER_LISTENADDRESS=peer0.org2.example.com:7051
       - CORE_PEER_GOSSIP_ENDPOINT=peer0.org2.example.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org2.example.com:7051
-      - CORE_PEER_EVENTS_ADDRESS=0.0.0.0:7053
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/crypto/peer/msp/cacerts/ca.org2.example.com-cert.pem
-      - CORE_PEER_TLS_CLIENTROOTCAS_FILES=/etc/hyperledger/crypto/peer/msp/cacerts/ca.org2.example.com-cert.pem
     ports:
       - 8051:7051
       - 8053:7053
     volumes:
         - ./channel/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/:/etc/hyperledger/crypto/peer
+        - ./channel/crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem:/etc/hyperledger/crypto/ca/ca.crt
     depends_on:
       - orderer.example.com
 
@@ -148,13 +142,11 @@ services:
       - CORE_PEER_LISTENADDRESS=peer1.org2.example.com:7051
       - CORE_PEER_GOSSIP_ENDPOINT=peer0.org2.example.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org2.example.com:7051
-      - CORE_PEER_EVENTS_ADDRESS=0.0.0.0:7053
-      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/crypto/peer/msp/cacerts/ca.org2.example.com-cert.pem
-      - CORE_PEER_TLS_CLIENTROOTCAS_FILES=/etc/hyperledger/crypto/peer/msp/cacerts/ca.org2.example.com-cert.pem
     ports:
       - 8056:7051
       - 8058:7053
     volumes:
         - ./channel/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/:/etc/hyperledger/crypto/peer
+        - ./channel/crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem:/etc/hyperledger/crypto/ca/ca.crt
     depends_on:
       - orderer.example.com

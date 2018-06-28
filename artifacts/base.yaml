@@ -17,10 +17,13 @@ services:
       - CORE_PEER_GOSSIP_USELEADERELECTION=true
       - CORE_PEER_GOSSIP_ORGLEADER=false
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/crypto/peer/msp
-      - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CLIENTAUTHREQUIRED=true
+      - CORE_PEER_TLS_ENABLED=true #enable TLS
+      - CORE_PEER_TLS_CLIENTAUTHREQUIRED=true #enable Mutual TLS
+      - CORE_PEER_EVENTS_ADDRESS=0.0.0.0:7053
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/crypto/peer/tls/server.key
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/crypto/peer/tls/server.crt
+      - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/crypto/ca/ca.crt
+      - CORE_PEER_TLS_CLIENTROOTCAS_FILES=/etc/hyperledger/crypto/ca/ca.crt
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     volumes:
