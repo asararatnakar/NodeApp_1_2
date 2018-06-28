@@ -159,7 +159,6 @@ curl -s -X POST \
 }"
 echo
 echo
-# exit
 
 echo "POST invoke chaincode on peers of Org1"
 echo
@@ -184,7 +183,6 @@ curl -s -X GET \
   -H "content-type: application/json"
 echo
 echo
-exit
 
 echo "GET query Block by blockNumber"
 echo

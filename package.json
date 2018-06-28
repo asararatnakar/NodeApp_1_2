@@ -28,8 +28,8 @@
     "fabric-client": "unstable",
     "fs-extra": "^2.0.0",
     "grpc": "1.10.1",
-    "x509": "0.3.3",
     "jsonwebtoken": "^7.3.0",
-    "log4js": "^0.6.38"
+    "log4js": "^0.6.38",
+    "x509": "^0.3.3"
   }
 }

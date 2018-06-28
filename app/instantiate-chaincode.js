@@ -33,10 +33,6 @@ var instantiateChaincode = async function(peers, channelName, chaincodeName, cha
 		// enable Client TLS
 		var tlsInfo =  await helper.tlsEnroll(client);
 		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
-		/*var client2 = await helper.getClientForOrg('Org2', 'Barry');
-		logger.debug('Successfully got the fabric client2 for the organization "%s"', 'Org2');
-		tlsInfo =  await helper.tlsEnroll(client2);
-		client2.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);*/
 		var channel = client.getChannel(channelName);
 		if(!channel) {
 			let message = util.format('Channel %s was not defined in the connection profile', channelName);
@@ -97,9 +93,6 @@ var instantiateChaincode = async function(peers, channelName, chaincodeName, cha
 			// instantiate transaction was committed on the peer
 			var promises = [];
 			let event_hubs = channel.getChannelEventHubsForOrg();
-			console.log('=========================================');
-			console.log(event_hubs);
-			console.log('=========================================');
 			logger.debug('found %s eventhubs for this organization %s',event_hubs.length, org_name);
 			event_hubs.forEach((eh) => {
 				let instantiateEventPromise = new Promise((resolve, reject) => {
