@@ -3,6 +3,7 @@
 Added the following features :
 
 * Kafka based Orderering Service Node (OSN)
+* Add AND endorsement policy
 * Enabled Mutual TLS 
 
 This will work when the patch https://gerrit.hyperledger.org/r/#/c/23691/ is merged
