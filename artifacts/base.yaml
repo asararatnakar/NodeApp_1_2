@@ -66,7 +66,7 @@ services:
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/crypto/peer/tls/server.key
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/crypto/peer/tls/server.crt
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/crypto/ca/ca.crt
-      - CORE_PEER_TLS_CLIENTROOTCAS_FILES=/etc/hyperledger/crypto/ca/ca.crt
+      - CORE_PEER_TLS_CLIENTROOTCAS_FILES=/etc/hyperledger/crypto/ca1/ca.crt /etc/hyperledger/crypto/ca2/ca.crt
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     volumes:

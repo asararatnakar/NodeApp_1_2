@@ -197,6 +197,8 @@ services:
     volumes:
         - ./channel/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/:/etc/hyperledger/crypto/peer
         - ./channel/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem:/etc/hyperledger/crypto/ca/ca.crt
+        - ./channel/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem:/etc/hyperledger/crypto/ca1/ca.crt
+        - ./channel/crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem:/etc/hyperledger/crypto/ca2/ca.crt
     depends_on:
       - orderer0.example.com
       - orderer1.example.com
@@ -219,7 +221,9 @@ services:
       - 7058:7053
     volumes:
         - ./channel/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/:/etc/hyperledger/crypto/peer
+        - ./channel/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem:/etc/hyperledger/crypto/ca1/ca.crt
         - ./channel/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem:/etc/hyperledger/crypto/ca/ca.crt
+        - ./channel/crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem:/etc/hyperledger/crypto/ca2/ca.crt
     depends_on:
       - orderer0.example.com
       - orderer1.example.com
@@ -242,6 +246,8 @@ services:
       - 8053:7053
     volumes:
         - ./channel/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/:/etc/hyperledger/crypto/peer
+        - ./channel/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem:/etc/hyperledger/crypto/ca1/ca.crt
+        - ./channel/crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem:/etc/hyperledger/crypto/ca2/ca.crt
         - ./channel/crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem:/etc/hyperledger/crypto/ca/ca.crt
     depends_on:
       - orderer0.example.com
@@ -265,6 +271,8 @@ services:
       - 8058:7053
     volumes:
         - ./channel/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/:/etc/hyperledger/crypto/peer
+        - ./channel/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem:/etc/hyperledger/crypto/ca1/ca.crt
+        - ./channel/crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem:/etc/hyperledger/crypto/ca2/ca.crt
         - ./channel/crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem:/etc/hyperledger/crypto/ca/ca.crt
     depends_on:
       - orderer0.example.com

@@ -21,6 +21,17 @@ var hfc = require('fabric-client');
 var helper = require('./helper.js');
 var logger = helper.getLogger('instantiate-chaincode');
 
+// Use this to demonstrate the following policy:
+// The policy can be fulfilled when members from both orgs signed.
+const endorsement_policy = {
+	identities: [
+		{ role: { name: 'member', mspId: 'Org1MSP' } },
+		{ role: { name: 'member', mspId: 'Org2MSP' } }
+	],
+		policy: {
+		'2-of': [{ 'signed-by': 0 }, { 'signed-by': 1 }]
+	}
+}
 var instantiateChaincode = async function(peers, channelName, chaincodeName, chaincodeVersion, functionName, chaincodeType, args, username, org_name) {
 	logger.debug('\n\n============ Instantiate chaincode on channel ' + channelName +
 		' ============\n');
@@ -53,7 +64,8 @@ var instantiateChaincode = async function(peers, channelName, chaincodeName, cha
 			chaincodeType: chaincodeType,
 			chaincodeVersion: chaincodeVersion,
 			args: args,
-			txId: tx_id
+			txId: tx_id,
+			'endorsement-policy': endorsement_policy
 		};
 
 		if (functionName)
