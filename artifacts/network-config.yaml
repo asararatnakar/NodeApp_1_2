@@ -44,7 +44,9 @@ channels:
     # operational decisions to share loads from applications among the orderers.  The values must
     # be "names" of orgs defined under "organizations/peers"
     orderers:
-      - orderer.example.com
+      - orderer0.example.com
+      - orderer1.example.com
+      - orderer2.example.com
 
     # Required. list of peers from participating orgs
     peers:
@@ -120,7 +122,7 @@ organizations:
     # this way. The SDK should allow applications to set the org admin identity via APIs, and only use
     # this route as an alternative when it exists.
     adminPrivateKey:
-      path: artifacts/channel/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/02dc4b6c6a58e90fd51c15d325261a5a4bcdc503838cb1af66fa264c2a0abca5_sk
+      path: artifacts/channel/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/ea5dc0221301d130050317ef96d2e9ff140cc380e569b4b8f156db45d533df60_sk
     signedCert:
       path: artifacts/channel/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem
 
@@ -137,7 +139,7 @@ organizations:
     certificateAuthorities:
       - ca-org2
     adminPrivateKey:
-      path: artifacts/channel/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore/5b6718a4b8dacce539155908f7770cc8c6c1aa8053bdc140d7bcc4667aa75f7e_sk
+      path: artifacts/channel/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore/373e7602ad3d4c1f23a198bddbd8c16efd8c02af2c73f91a8978430e9b89dd3b_sk
     signedCert:
       path: artifacts/channel/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts/Admin@org2.example.com-cert.pem
 
@@ -147,16 +149,36 @@ organizations:
 # SDK is implementation specific. Consult each SDK's documentation for its handling of orderers.
 #
 orderers:
-  orderer.example.com:
+  orderer0.example.com:
     url: grpcs://localhost:7050
 
     # these are standard properties defined by the gRPC library
     # they will be passed in as-is to gRPC client constructor
     grpcOptions:
-      ssl-target-name-override: orderer.example.com
+      ssl-target-name-override: orderer0.example.com
 
     tlsCACerts:
-      path: artifacts/channel/crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt
+      path: artifacts/channel/crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/tls/ca.crt
+  orderer1.example.com:
+    url: grpcs://localhost:8050
+
+    # these are standard properties defined by the gRPC library
+    # they will be passed in as-is to gRPC client constructor
+    grpcOptions:
+      ssl-target-name-override: orderer1.example.com
+
+    tlsCACerts:
+      path: artifacts/channel/crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/ca.crt
+  orderer2.example.com:
+    url: grpcs://localhost:9050
+
+    # these are standard properties defined by the gRPC library
+    # they will be passed in as-is to gRPC client constructor
+    grpcOptions:
+      ssl-target-name-override: orderer2.example.com
+
+    tlsCACerts:
+      path: artifacts/channel/crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/ca.crt
 
 #
 # List of peers to send various requests to, including endorsement, query
