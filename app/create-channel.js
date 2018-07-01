@@ -16,11 +16,12 @@
 var util = require('util');
 var fs = require('fs');
 var path = require('path');
+const agent = require('superagent-promise')(require('superagent'), Promise);
 
 var helper = require('./helper.js');
 var logger = helper.getLogger('Create-Channel');
 //Attempt to send a request to the orderer with the sendTransaction method
-var createChannel = async function(channelName, channelConfigPath, username, orgName) {
+var createChannel = async function(channelName, username, orgName) {
 	logger.debug('\n====== Creating Channel \'' + channelName + '\' ======\n');
 	try {
 		// first setup the client for this org
@@ -31,10 +32,17 @@ var createChannel = async function(channelName, channelConfigPath, username, org
 		var tlsInfo =  await helper.tlsEnroll(client);
 		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
 
-		// read in the envelope for the channel config raw bytes
-		var envelope = fs.readFileSync(path.join(__dirname, channelConfigPath));
-		// extract the channel config bytes from the envelope to be signed
-		var channelConfig = client.extractChannelConfig(envelope);
+		//TODO: needs to include the following and Cleanup
+		// 1. don't hardcode the URLs and PATHs
+		// 2. Read MSPIDS dynamically
+		// &  modularize this to make it for channel configurations
+		const channelCfg = fs.readFileSync(path.join(__dirname, '../artifacts/channel/channel_template.json'));
+		const configJson = JSON.parse(channelCfg.toString());
+		configJson.channel_id = channelName;
+
+		const config = await agent.post('http://127.0.0.1:7059/protolator/encode/common.ConfigUpdate', JSON.stringify(configJson))
+		.buffer();
+		let channelConfig = config.body;
 
 		//Acting as a client in the given organization provided with "orgName" param
 		// sign the channel config bytes as "endorsement", this is required by
