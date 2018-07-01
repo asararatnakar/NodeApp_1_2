@@ -19,11 +19,11 @@ var fs = require('fs');
 var util = require('util');
 var hfc = require('fabric-client');
 var helper = require('./helper.js');
-var logger = helper.getLogger('instantiate-chaincode');
+var logger = helper.getLogger('instantiate-upgrade-chaincode');
 
 // Use this to demonstrate the following policy:
 // The policy can be fulfilled when members from both orgs signed.
-const endorsement_policy = {
+const endorsementPolicy = {
 	identities: [
 		{ role: { name: 'member', mspId: 'Org1MSP' } },
 		{ role: { name: 'member', mspId: 'Org2MSP' } }
@@ -31,8 +31,8 @@ const endorsement_policy = {
 		policy: {
 		'2-of': [{ 'signed-by': 0 }, { 'signed-by': 1 }]
 	}
-}
-var instantiateChaincode = async function(peers, channelName, chaincodeName, chaincodeVersion, functionName, chaincodeType, args, username, org_name) {
+};
+var instantiateUpdgradeChaincode = async function(peers, channelName, chaincodeName, chaincodeVersion, functionName, chaincodeType, args, username, org_name, isUpgrade) {
 	logger.debug('\n\n============ Instantiate chaincode on channel ' + channelName +
 		' ============\n');
 	var error_message = null;
@@ -64,14 +64,19 @@ var instantiateChaincode = async function(peers, channelName, chaincodeName, cha
 			chaincodeType: chaincodeType,
 			chaincodeVersion: chaincodeVersion,
 			args: args,
-			txId: tx_id,
-			'endorsement-policy': endorsement_policy
+			'endorsement-policy': endorsementPolicy,
+			txId: tx_id
 		};
 
 		if (functionName)
 			request.fcn = functionName;
 
-		let results = await channel.sendInstantiateProposal(request, 60000); //instantiate takes much longer
+		let results = null;
+		if (isUpgrade && isUpgrade == true){
+			results = await channel.sendUpgradeProposal(request); //Upgrade
+		} else {
+			results = await channel.sendInstantiateProposal(request, 60000); //instantiate takes much longer
+		}
 
 		// the returned object has both the endorsement results
 		// and the actual proposal, the proposal will be needed
@@ -190,7 +195,7 @@ var instantiateChaincode = async function(peers, channelName, chaincodeName, cha
 
 	if (!error_message) {
 		let message = util.format(
-			'Successfully instantiate chaingcode in organization %s to the channel \'%s\'',
+			'Successfully instantiate/upgrade chaincode in organization %s to the channel \'%s\'',
 			org_name, channelName);
 		logger.info(message);
 		// build a response to send back to the REST caller
@@ -205,4 +210,4 @@ var instantiateChaincode = async function(peers, channelName, chaincodeName, cha
 		throw new Error(message);
 	}
 };
-exports.instantiateChaincode = instantiateChaincode;
+exports.instantiateUpdgradeChaincode = instantiateUpdgradeChaincode;
