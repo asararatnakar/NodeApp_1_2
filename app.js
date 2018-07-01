@@ -35,7 +35,7 @@ var helper = require('./app/helper.js');
 var createChannel = require('./app/create-channel.js');
 var join = require('./app/join-channel.js');
 var install = require('./app/install-chaincode.js');
-var instantiate = require('./app/instantiate-chaincode.js');
+var instantiate = require('./app/instantiate-upgrade-chaincode.js');
 var invoke = require('./app/invoke-transaction.js');
 var query = require('./app/query.js');
 var host = process.env.HOST || hfc.getConfigSetting('host');
@@ -216,6 +216,7 @@ app.post('/channels/:channelName/chaincodes', async function(req, res) {
 	var chaincodeVersion = req.body.chaincodeVersion;
 	var channelName = req.params.channelName;
 	var chaincodeType = req.body.chaincodeType;
+	var isUpgrade = req.body.isUpgrade;
 	var fcn = req.body.fcn;
 	var args = req.body.args;
 	logger.debug('peers  : ' + peers);
@@ -225,6 +226,7 @@ app.post('/channels/:channelName/chaincodes', async function(req, res) {
 	logger.debug('chaincodeType  : ' + chaincodeType);
 	logger.debug('fcn  : ' + fcn);
 	logger.debug('args  : ' + args);
+	logger.debug('isUpgrade  : ' + isUpgrade);
 	if (!chaincodeName) {
 		res.json(getErrorMessage('\'chaincodeName\''));
 		return;
@@ -245,8 +247,11 @@ app.post('/channels/:channelName/chaincodes', async function(req, res) {
 		res.json(getErrorMessage('\'args\''));
 		return;
 	}
+	if (!isUpgrade){
+		logger.debug('Instantiate the chaincode ' + chaincodeName);
+	}
 
-	let message = await instantiate.instantiateChaincode(peers, channelName, chaincodeName, chaincodeVersion, chaincodeType, fcn, args, req.username, req.orgname);
+	let message = await instantiate.instantiateUpdgradeChaincode(peers, channelName, chaincodeName, chaincodeVersion, chaincodeType, fcn, args, req.username, req.orgname, isUpgrade);
 	res.send(message);
 });
 // Invoke transaction on chaincode on target peers
