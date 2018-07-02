@@ -47,7 +47,15 @@ services:
         - ./channel:/etc/hyperledger/configtx
         - ./channel/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/:/etc/hyperledger/crypto/peerOrg1
         - ./channel/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/:/etc/hyperledger/crypto/peerOrg2
-
+  couchdb:
+    image: hyperledger/fabric-couchdb
+    environment:
+      - COUCHDB_USER=
+      - COUCHDB_PASSWORD=
+    # Comment/Uncomment the port mapping if you want to hide/expose the CouchDB service,
+    # for example map it to utilize Fauxton User Interface in dev environments.
+    ports:
+      - "5984:5984"
   peer-base:
     image: hyperledger/fabric-peer
     environment:
@@ -56,18 +64,20 @@ services:
       # bridge network as the peers
       # https://docs.docker.com/compose/networking/
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=artifacts_default
-      - CORE_LOGGING_LEVEL=INFO
-      - CORE_LOGGING_PEER_GOSSIP=WARNING
+      - CORE_LOGGING_LEVEL=DEBUG
+      # - CORE_LOGGING_PEER_GOSSIP=WARNING
+      - CORE_LOGGING_PEER_GOSSIP=DEBUG
       - CORE_PEER_GOSSIP_USELEADERELECTION=true
       - CORE_PEER_GOSSIP_ORGLEADER=false
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/crypto/peer/msp
+      - CORE_PEER_GOSSIP_PVTDATA_PUSHACKTIMEOUT=12s
       - CORE_PEER_TLS_ENABLED=true #enable TLS
       - CORE_PEER_TLS_CLIENTAUTHREQUIRED=true #enable Mutual TLS
       - CORE_PEER_EVENTS_ADDRESS=0.0.0.0:7053
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/crypto/peer/tls/server.key
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/crypto/peer/tls/server.crt
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/crypto/ca/ca.crt
-      - CORE_PEER_TLS_CLIENTROOTCAS_FILES=/etc/hyperledger/crypto/ca1/ca.crt /etc/hyperledger/crypto/ca2/ca.crt
+      - CORE_PEER_TLS_CLIENTROOTCAS_FILES=/etc/hyperledger/crypto/ca1/ca.crt /etc/hyperledger/crypto/ca2/ca.crt 
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     volumes:

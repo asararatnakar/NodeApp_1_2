@@ -1,69 +1,80 @@
 {
-    "channel_id": "channel_name",
-    "read_set": {
-      "groups": {
-        "Application": {
-          "groups": {
-            "Org1MSP": {},
-            "Org2MSP": {}
-          }
-        }
-      },
-      "values": {
-        "Consortium": {
-          "value": {
-            "name": "SampleConsortium"
-          }
+  "channel_id": "mychannel",
+  "read_set": {
+    "groups": {
+      "Application": {
+        "groups": {
+          "Org1MSP": {},
+          "Org2MSP": {}
         }
       }
     },
-    "write_set": {
-      "groups": {
-        "Application": {
-          "groups": {
-            "Org1MSP": {},
-            "Org2MSP": {}
-          },
-          "mod_policy": "Admins",
-          "policies": {
-            "Admins": {
-              "mod_policy": "Admins",
-              "policy": {
-                "type": 3,
-                "value": {
-                  "rule": "MAJORITY",
-                  "sub_policy": "Admins"
-                }
-              }
-            },
-            "Readers": {
-              "mod_policy": "Admins",
-              "policy": {
-                "type": 3,
-                "value": {
-                  "sub_policy": "Readers"
-                }
-              }
-            },
-            "Writers": {
-              "mod_policy": "Admins",
-              "policy": {
-                "type": 3,
-                "value": {
-                  "sub_policy": "Writers"
-                }
+    "mod_policy": "",
+    "values": {
+      "Consortium": {}
+    }
+  },
+  "write_set": {
+    "groups": {
+      "Application": {
+        "groups": {
+          "Org1MSP": {},
+          "Org2MSP": {}
+        },
+        "mod_policy": "Admins",
+        "policies": {
+          "Admins": {
+            "mod_policy": "Admins",
+            "policy": {
+              "type": 3,
+              "value": {
+                "rule": "MAJORITY",
+                "sub_policy": "Admins"
               }
             }
           },
-          "version": "1"
-        }
-      },
-      "values": {
-        "Consortium": {
-          "value": {
-            "name": "SampleConsortium"
+          "Readers": {
+            "mod_policy": "Admins",
+            "policy": {
+              "type": 3,
+              "value": {
+                "rule": "ANY",
+                "sub_policy": "Readers"
+              }
+            }
+          },
+          "Writers": {
+            "mod_policy": "Admins",
+            "policy": {
+              "type": 3,
+              "value": {
+                "rule": "ANY",
+                "sub_policy": "Writers"
+              }
+            }
           }
+        },
+        "values": {
+          "Capabilities": {
+            "mod_policy": "Admins",
+            "value": {
+              "capabilities": {
+                "V1_2": {}
+              }
+            }
+          }
+        },
+        "version": "1"
+      }
+    },
+    "mod_policy": "",
+    "values": {
+      "Consortium": {
+        "mod_policy": "",
+        "value": {
+          "name": "SampleConsortium"
         }
       }
     }
   }
+}

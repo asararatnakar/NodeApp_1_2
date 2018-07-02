@@ -7,9 +7,9 @@ Added the following functionality :
 * 'AND' endorsement policy (Read a file pass it to the instantiate/upgrade request)
 * Used REST based configtxlator for channel creation
 * Upgrade chaincode
+* Add private DB support + collections
+* add support for couchdb Indexes
 
 TODO :
 * Update Anchor peers using channel config update
-* add support for couchdb Indexes
-* Add private DB support + collections
 * Service Discovery

@@ -21,17 +21,6 @@ var hfc = require('fabric-client');
 var helper = require('./helper.js');
 var logger = helper.getLogger('instantiate-upgrade-chaincode');
 
-// Use this to demonstrate the following policy:
-// The policy can be fulfilled when members from both orgs signed.
-const endorsementPolicy = {
-	identities: [
-		{ role: { name: 'member', mspId: 'Org1MSP' } },
-		{ role: { name: 'member', mspId: 'Org2MSP' } }
-	],
-		policy: {
-		'2-of': [{ 'signed-by': 0 }, { 'signed-by': 1 }]
-	}
-};
 var instantiateUpdgradeChaincode = async function(peers, channelName, chaincodeName, chaincodeVersion, functionName, chaincodeType, args, username, org_name, isUpgrade) {
 	logger.debug('\n\n============ Instantiate chaincode on channel ' + channelName +
 		' ============\n');
@@ -56,7 +45,8 @@ var instantiateUpdgradeChaincode = async function(peers, channelName, chaincodeN
 		                                       // be used to sign the proposal request.
 		// will need the transaction ID string for the event registration later
 		var deployId = tx_id.getTransactionID();
-
+		const collectionsConfigPath = path.resolve(__dirname, '../artifacts/src/github.com/marbles/collections_config.json');
+		console.log(collectionsConfigPath.toString());
 		// send proposal to endorser
 		var request = {
 			targets : peers,
@@ -64,7 +54,7 @@ var instantiateUpdgradeChaincode = async function(peers, channelName, chaincodeN
 			chaincodeType: chaincodeType,
 			chaincodeVersion: chaincodeVersion,
 			args: args,
-			'endorsement-policy': endorsementPolicy,
+			'collections-config': collectionsConfigPath,
 			txId: tx_id
 		};
 
@@ -96,6 +86,7 @@ var instantiateUpdgradeChaincode = async function(peers, channelName, chaincodeN
 				logger.info('instantiate proposal was good');
 			} else {
 				logger.error('instantiate proposal was bad');
+				logger.error(proposalResponses[i].response);
 			}
 			all_good = all_good & one_good;
 		}

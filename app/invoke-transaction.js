@@ -26,21 +26,21 @@ var grpc = require('grpc');
 var _identityProto = grpc.load(path.join(__dirname, '../node_modules/fabric-client/lib/protos/msp/identities.proto')).msp;
 var X509 = require('x509');
 function decodeIdentity(id_bytes) {
-        //logger.debug('decodeIdentity - %s',id_bytes);
-        var identity = {};
-        try {
-                var proto_identity = _identityProto.SerializedIdentity.decode(id_bytes);
-                identity.Mspid = proto_identity.getMspid();
-                identity.IdBytes = proto_identity.getIdBytes().toBuffer().toString();
-        } catch (err) {
-                logger.error('Failed to decode the identity: %s', err.stack ? err.stack : err);
-        }
+	//logger.debug('decodeIdentity - %s',id_bytes);
+	var identity = {};
+	try {
+		var proto_identity = _identityProto.SerializedIdentity.decode(id_bytes);
+		identity.Mspid = proto_identity.getMspid();
+		identity.IdBytes = proto_identity.getIdBytes().toBuffer().toString();
+	} catch (err) {
+		logger.error('Failed to decode the identity: %s', err.stack ? err.stack : err);
+	}
 
-        return identity;
+	return identity;
 }
 ////////TODO: END - Remove this once the API is available in SDK //////////
 
-var invokeChaincode = async function(peerNames, channelName, chaincodeName, fcn, args, username, org_name) {
+var invokeChaincode = async function (peerNames, channelName, chaincodeName, fcn, args, username, org_name) {
 	logger.debug(util.format('\n============ invoke transaction on channel %s ============\n', channelName));
 	var error_message = null;
 	var tx_id_string = null;
@@ -48,13 +48,13 @@ var invokeChaincode = async function(peerNames, channelName, chaincodeName, fcn,
 		// first setup the client for this org
 		var client = await helper.getClientForOrg(org_name, username);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
-		
+
 		// enable Client TLS
-		var tlsInfo =  await helper.tlsEnroll(client);
+		var tlsInfo = await helper.tlsEnroll(client);
 		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
 
 		var channel = client.getChannel(channelName);
-		if(!channel) {
+		if (!channel) {
 			let message = util.format('Channel %s was not defined in the connection profile', channelName);
 			logger.error(message);
 			throw new Error(message);
@@ -93,19 +93,22 @@ var invokeChaincode = async function(peerNames, channelName, chaincodeName, fcn,
 				logger.info('invoke chaincode proposal was good');
 			} else {
 				logger.error('invoke chaincode proposal was bad');
+				logger.error(proposalResponses[i].response);
+				let res = proposalResponses[i].response;
+				logger.error(res.payload.toString());
 			}
 			all_good = all_good & one_good;
 		}
 
 		if (all_good) {
-                        console.log('=============================================================');
-                        var endorser1 = decodeIdentity(proposalResponses[0].endorsement.endorser);
-                        var endorser2 = decodeIdentity(proposalResponses[0].endorsement.endorser);
-                        var subject1 = X509.getSubject(endorser1.IdBytes).commonName;
-                        var subject2 = X509.getSubject(endorser2.IdBytes).commonName;
-                        console.log('\n Endorsed by the peer '+subject1+' belongs to MSP :  '+endorser1.Mspid);
-                        console.log('\n Endorsed by the peer '+subject2+' belongs to MSP :  '+endorser2.Mspid);
-                        console.log('=============================================================');
+			console.log('=============================================================');
+			var endorser1 = decodeIdentity(proposalResponses[0].endorsement.endorser);
+			var endorser2 = decodeIdentity(proposalResponses[0].endorsement.endorser);
+			var subject1 = X509.getSubject(endorser1.IdBytes).commonName;
+			var subject2 = X509.getSubject(endorser2.IdBytes).commonName;
+			console.log('\n Endorsed by the peer ' + subject1 + ' belongs to MSP :  ' + endorser1.Mspid);
+			console.log('\n Endorsed by the peer ' + subject2 + ' belongs to MSP :  ' + endorser2.Mspid);
+			console.log('=============================================================');
 			//logger.info(util.format(
 			//	'Successfully sent Proposal and received ProposalResponse: Status - %s, message - "%s", metadata - "%s", endorsement signature: %s',
 			//	proposalResponses[0].response.status, proposalResponses[0].response.message,
@@ -124,12 +127,12 @@ var invokeChaincode = async function(peerNames, channelName, chaincodeName, fcn,
 						eh.disconnect();
 					}, 3000);
 					eh.registerTxEvent(tx_id_string, (tx, code, block_num) => {
-						logger.info('The chaincode invoke chaincode transaction has been committed on peer %s',eh.getPeerAddr());
+						logger.info('The chaincode invoke chaincode transaction has been committed on peer %s', eh.getPeerAddr());
 						logger.info('Transaction %s has status of %s in blocl %s', tx, code, block_num);
 						clearTimeout(event_timeout);
 
 						if (code !== 'VALID') {
-							let message = util.format('The invoke chaincode transaction was invalid, code:%s',code);
+							let message = util.format('The invoke chaincode transaction was invalid, code:%s', code);
 							logger.error(message);
 							reject(new Error(message));
 						} else {
@@ -146,7 +149,7 @@ var invokeChaincode = async function(peerNames, channelName, chaincodeName, fcn,
 						// so no real need to set here, however for 'disconnect'
 						// the default is false as most event hubs are long running
 						// in this use case we are using it only once
-						{unregister: true, disconnect: true}
+						{ unregister: true, disconnect: true }
 					);
 					eh.connect();
 				});
@@ -168,19 +171,19 @@ var invokeChaincode = async function(peerNames, channelName, chaincodeName, fcn,
 			if (response.status === 'SUCCESS') {
 				logger.info('Successfully sent transaction to the orderer.');
 			} else {
-				error_message = util.format('Failed to order the transaction. Error code: %s',response.status);
+				error_message = util.format('Failed to order the transaction. Error code: %s', response.status);
 				logger.debug(error_message);
 			}
 
 			// now see what each of the event hubs reported
-			for(let i in results) {
+			for (let i in results) {
 				let event_hub_result = results[i];
 				let event_hub = event_hubs[i];
-				logger.debug('Event results for event hub :%s',event_hub.getPeerAddr());
-				if(typeof event_hub_result === 'string') {
+				logger.debug('Event results for event hub :%s', event_hub.getPeerAddr());
+				if (typeof event_hub_result === 'string') {
 					logger.debug(event_hub_result);
 				} else {
-					if(!error_message) error_message = event_hub_result.toString();
+					if (!error_message) error_message = event_hub_result.toString();
 					logger.debug(event_hub_result.toString());
 				}
 			}
@@ -201,7 +204,7 @@ var invokeChaincode = async function(peerNames, channelName, chaincodeName, fcn,
 
 		return tx_id_string;
 	} else {
-		let message = util.format('Failed to invoke chaincode. cause:%s',error_message);
+		let message = util.format('Failed to invoke chaincode. cause:%s', error_message);
 		logger.error(message);
 		throw new Error(message);
 	}

@@ -39,11 +39,13 @@ var installChaincode = async function(peers, chaincodeName, chaincodePath,
 		var tlsInfo =  await helper.tlsEnroll(client);
 		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
 		tx_id = client.newTransactionID(true); //get an admin transactionID
+		let metadata_path = path.resolve(__dirname, '../artifacts/src/github.com/marbles/go/META-INF');
 		var request = {
 			targets: peers,
 			chaincodePath: chaincodePath,
 			chaincodeId: chaincodeName,
 			chaincodeVersion: chaincodeVersion,
+			metadataPath: metadata_path,
 			chaincodeType: chaincodeType
 		};
 		let results = await client.installChaincode(request);

@@ -40,7 +40,8 @@ function setChaincodePath(){
 	LANGUAGE=`echo "$LANGUAGE" | tr '[:upper:]' '[:lower:]'`
 	case "$LANGUAGE" in
 		"golang")
-		CC_SRC_PATH="github.com/example_cc/go"
+		# CC_SRC_PATH="github.com/example_cc/go"
+		CC_SRC_PATH="github.com/marbles/go"
 		;;
 		"node")
 		CC_SRC_PATH="$PWD/artifacts/src/github.com/example_cc/node"
@@ -155,7 +156,7 @@ function installInstantiateUpgradeChaincode(){
     \"chaincodeVersion\":\"v$1\",
     \"chaincodeType\": \"$LANGUAGE\",
     \"isUpgrade\": $2,
-    \"args\":[\"a\",\"100\",\"b\",\"200\"]
+    \"args\":[\"\"]
   }"
   echo
   echo
@@ -164,38 +165,57 @@ function installInstantiateUpgradeChaincode(){
 function invokeAndQuery() {
   echo "POST invoke chaincode on peers of Org1 and Org2"
   echo
+    # "peers": ["peer0.org1.example.com","peer0.org2.example.com"],
+INIT_MARBLE=$(cat <<EOF
+{
+    "peers": ["peer0.org1.example.com","peer0.org2.example.com"],
+    "fcn":"initMarble",
+    "args":["marble$1", "blue", "35", "tom", "99"]
+}
+EOF
+)
+  echo $INIT_MARBLE; echo
+
   TRX_ID=$(curl -s -X POST \
     http://localhost:4000/channels/testchannel/chaincodes/mycc \
     -H "authorization: Bearer $ORG1_TOKEN" \
     -H "content-type: application/json" \
-    -d '{
-    "peers": ["peer0.org1.example.com","peer0.org2.example.com"],
-    "fcn":"move",
-    "args":["a","b","10"]
-  }')
+    -d "${INIT_MARBLE}")
   echo "Transaction ID is $TRX_ID"
   echo
   echo
 
-  echo "GET query chaincode on peer1 of Org1"
+for ((i=1;i<=2;i++))
+do
+  echo "GET query chaincode on peer1 of Org${i}, readMarble"
   echo
   curl -s -X GET \
-    "http://localhost:4000/channels/testchannel/chaincodes/mycc?peer=peer0.org1.example.com&fcn=query&args=%5B%22a%22%5D" \
+    "http://localhost:4000/channels/testchannel/chaincodes/mycc?peer=peer0.org${i}.example.com&fcn=readMarble&args=%5B%22marble${1}%22%5D" \
     -H "authorization: Bearer $ORG1_TOKEN" \
     -H "content-type: application/json"
   echo
   echo
+
+  echo "GET query chaincode on peer1 of Org${i}, readMarblePrivateDetails"
+  echo
+  curl -s -X GET \
+    "http://localhost:4000/channels/testchannel/chaincodes/mycc?peer=peer0.org${i}.example.com&fcn=readMarblePrivateDetails&args=%5B%22marble${1}%22%5D" \
+    -H "authorization: Bearer $ORG1_TOKEN" \
+    -H "content-type: application/json"
+  echo
+  echo
+  done
 }
 
 # Install & Instantiate the cc with version "v0" and false here indicates that this is Instantiate
 installInstantiateUpgradeChaincode 0 false
 sleep 1
-invokeAndQuery
+invokeAndQuery 1
 
 # Install & Upgrade the cc with version "v1" and true indicates that this is Upgrade
 installInstantiateUpgradeChaincode 1 true
 sleep 1
-invokeAndQuery
+invokeAndQuery 2
 
 echo "GET query Block by blockNumber"
 echo
