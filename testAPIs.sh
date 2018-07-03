@@ -75,6 +75,7 @@ ORG2_TOKEN=$(echo $ORG2_TOKEN | jq ".token" | sed "s/\"//g")
 echo
 echo "ORG2 token is $ORG2_TOKEN"
 echo
+
 echo
 echo "POST request Create channel  ..."
 echo
@@ -112,6 +113,36 @@ curl -s -X POST \
 echo
 echo
 
+# Update Anchor peer on the channel
+echo
+echo "POST request update channel  ..."
+echo
+curl -s -X POST \
+  http://localhost:4000/channels/testchannel/update \
+  -H "authorization: Bearer $ORG1_TOKEN" \
+  -H "content-type: application/json" \
+  -d '{
+	"channelName":"testchannel",
+  "host":"peer0.org1.example.com",
+  "port":"7051"
+}'
+echo
+echo
+echo
+echo "POST request update channel  ..."
+echo
+curl -s -X POST \
+  http://localhost:4000/channels/testchannel/update \
+  -H "authorization: Bearer $ORG2_TOKEN" \
+  -H "content-type: application/json" \
+  -d '{
+	"channelName":"testchannel",
+  "host":"peer0.org2.example.com",
+  "port":"7051"
+}'
+echo
+echo
+# exit
 function installInstantiateUpgradeChaincode(){
   echo "POST Install chaincode on Org1"
   echo
@@ -174,7 +205,6 @@ INIT_MARBLE=$(cat <<EOF
 }
 EOF
 )
-  echo $INIT_MARBLE; echo
 
   TRX_ID=$(curl -s -X POST \
     http://localhost:4000/channels/testchannel/chaincodes/mycc \
@@ -220,7 +250,7 @@ invokeAndQuery 2
 echo "GET query Block by blockNumber"
 echo
 curl -s -X GET \
-  "http://localhost:4000/channels/testchannel/blocks/1?peer=peer0.org1.example.com" \
+  "http://localhost:4000/channels/testchannel/blocks/4?peer=peer0.org1.example.com" \
   -H "authorization: Bearer $ORG1_TOKEN" \
   -H "content-type: application/json"
 echo
