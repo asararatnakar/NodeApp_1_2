@@ -1,0 +1,24 @@
+{
+    "channel_id": "channelname",
+    "read_set": {
+        "groups": {
+            "Application": {
+                "groups": {
+                },
+                "mod_policy": "Admins",
+                "version": "1"
+            }
+        }
+    },
+    "write_set": {
+        "groups": {
+            "Application": {
+                "groups": {},
+                "mod_policy": "Admins",
+                "version": "1"
+            }
+        },
+        "mod_policy": "",
+        "version": "0"
+    }
+}

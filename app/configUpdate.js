@@ -20,9 +20,54 @@ var configUpdate = async function(channelName, username, orgName, body) {
 		// enable Client TLS
 		var tlsInfo =  await helper.tlsEnroll(client);
 		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
+        //TODO: Check what type of config update ?
+		//TODO: needs to include the following + Cleanup
+		// 1. don't hardcode the URLs and PATHs
+		// 2. Read MSPIDS dynamically
+		// &  modularize this to make it for channel configurations
+		const channelCfg = fs.readFileSync(path.join(__dirname, '../artifacts/channel/anchor_template.json'));
+		const configJson = JSON.parse(channelCfg.toString());
+		configJson.channel_id = channelName;
 
-        let envelope = fs.readFileSync(path.join(__dirname, '../artifacts/channel/'+client.getMspid()+'anchors.tx'));
-        var channelConfig = client.extractChannelConfig(envelope);
+        let mspPlaceHolder = {
+            "policies": {
+                "Admins": {},
+                "Readers": {},
+                "Writers": {}
+            },
+            "values": {
+                "MSP": {}
+            }
+        };
+        let anchorPlaceHolder = {
+                "mod_policy": "Admins",
+                "values": {
+                    "AnchorPeers": {
+                        "mod_policy": "Admins",
+                        "value": {
+                            "anchor_peers": [
+                                {
+                                    "host": "peer",
+                                    "port": 7051
+                                }
+                            ]
+                        },
+                        "version": "0"
+                    },
+                    "MSP": {}
+                },
+                "version": "1"
+            };
+            configJson.read_set.groups.Application.groups[client.getMspid()] = mspPlaceHolder;
+            anchorPlaceHolder.policies = mspPlaceHolder.policies;
+            anchorPlaceHolder.values.AnchorPeers.value.anchor_peers[0].host = body.host;
+            anchorPlaceHolder.values.AnchorPeers.value.anchor_peers[0].port = body.port;
+            configJson.write_set.groups.Application.groups[client.getMspid()] = anchorPlaceHolder;
+            // console.log(JSON.stringify(configJson));
+            const config = await agent.post('http://127.0.0.1:7059/protolator/encode/common.ConfigUpdate', JSON.stringify(configJson)).buffer();
+            let channelConfig = config.body;
+			// console.log(channelConfig.toString());
+
 		//Acting as a client in the given organization provided with "orgName" param
 		// sign the channel config bytes as "endorsement", this is required by
 		// the orderer's channel creation policy

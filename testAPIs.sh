@@ -124,10 +124,11 @@ curl -s -X POST \
   -d '{
 	"channelName":"testchannel",
   "host":"peer0.org1.example.com",
-  "port":"7051"
+  "port": 7051
 }'
 echo
 echo
+
 echo
 echo "POST request update channel  ..."
 echo
@@ -138,11 +139,10 @@ curl -s -X POST \
   -d '{
 	"channelName":"testchannel",
   "host":"peer0.org2.example.com",
-  "port":"7051"
+  "port": 7051
 }'
 echo
 echo
-# exit
 function installInstantiateUpgradeChaincode(){
   echo "POST Install chaincode on Org1"
   echo
