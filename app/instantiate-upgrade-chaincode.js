@@ -45,8 +45,6 @@ var instantiateUpdgradeChaincode = async function(peers, channelName, chaincodeN
 		                                       // be used to sign the proposal request.
 		// will need the transaction ID string for the event registration later
 		var deployId = tx_id.getTransactionID();
-		const collectionsConfigPath = path.resolve(__dirname, '../artifacts/src/github.com/marbles/collections_config.json');
-		console.log(collectionsConfigPath.toString());
 		// send proposal to endorser
 		var request = {
 			targets : peers,
@@ -54,7 +52,7 @@ var instantiateUpdgradeChaincode = async function(peers, channelName, chaincodeN
 			chaincodeType: chaincodeType,
 			chaincodeVersion: chaincodeVersion,
 			args: args,
-			'collections-config': collectionsConfigPath,
+			
 			txId: tx_id
 		};
 
@@ -62,9 +60,16 @@ var instantiateUpdgradeChaincode = async function(peers, channelName, chaincodeN
 			request.fcn = functionName;
 
 		let results = null;
+		let collectionsConfigPath = "";
 		if (isUpgrade && isUpgrade == true){
+			collectionsConfigPath = path.resolve(__dirname, '../artifacts/src/github.com/marbles/collections_config_update.json');
+			console.log(collectionsConfigPath.toString());
+			request['collections-config'] = collectionsConfigPath;
 			results = await channel.sendUpgradeProposal(request); //Upgrade
 		} else {
+			collectionsConfigPath = path.resolve(__dirname, '../artifacts/src/github.com/marbles/collections_config.json');
+			console.log(collectionsConfigPath.toString());
+			request['collections-config'] = collectionsConfigPath;
 			results = await channel.sendInstantiateProposal(request, 60000); //instantiate takes much longer
 		}
 
