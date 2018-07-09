@@ -63,6 +63,7 @@ echo $ORG1_TOKEN
 ORG1_TOKEN=$(echo $ORG1_TOKEN | jq ".token" | sed "s/\"//g")
 echo
 echo "ORG1 token is $ORG1_TOKEN"
+
 echo
 echo "POST request Enroll on Org2 ..."
 echo
@@ -76,6 +77,18 @@ echo
 echo "ORG2 token is $ORG2_TOKEN"
 echo
 
+echo
+echo "POST request Enroll ratnakar on Org1 ..."
+echo
+TEMP_TOKEN=$(curl -s -X POST \
+  http://localhost:4000/users \
+  -H "content-type: application/x-www-form-urlencoded" \
+  -d 'username=ratnakar&orgName=Org1')
+echo $TEMP_TOKEN
+TEMP_TOKEN=$(echo $TEMP_TOKEN | jq ".token" | sed "s/\"//g")
+echo
+echo "ORG2 token is $TEMP_TOKEN"
+echo
 echo
 echo "POST request Create channel  ..."
 echo
@@ -215,7 +228,8 @@ EOF
   echo
   echo
 
-for ((i=1;i<=2;i++))
+#### Create 3 marbles
+for ((i=1;i<=3;i++))
 do
   echo "GET query chaincode on peer1 of Org${i}, readMarble"
   echo
@@ -234,18 +248,51 @@ do
     -H "content-type: application/json"
   echo
   echo
+
+  echo "GET query chaincode on peer1 of Org${i}, readMarble"
+  echo
+  curl -s -X GET \
+    "http://localhost:4000/channels/testchannel/chaincodes/mycc?peer=peer0.org${i}.example.com&fcn=readMarble&args=%5B%22marble${1}%22%5D" \
+    -H "authorization: Bearer $ORG1_TOKEN" \
+    -H "content-type: application/json"
+  echo
+  echo
   done
 }
 
-# Install & Instantiate the cc with version "v0" and false here indicates that this is Instantiate
+function richQuery(){
+  echo "richQuery chaincode on peer1 of Org1, queryMarblesByOwner 'tom'"
+  echo
+  curl -s -X GET \
+    "http://localhost:4000/channels/testchannel/chaincodes/mycc?peer=peer0.org1.example.com&fcn=queryMarblesByOwner&args=%5B%22tom%22%5D" \
+    -H "authorization: Bearer $ORG1_TOKEN" \
+    -H "content-type: application/json"
+  echo
+  echo
+}
+
+function rangeQuery(){
+  echo "rangeQuery chaincode on peer1 of Org1, getMarblesByRange"
+  echo
+  curl -s -X GET \
+    "http://localhost:4000/channels/testchannel/chaincodes/mycc?peer=peer0.org1.example.com&fcn=getMarblesByRange&args=%5B%22marble1%22,%22marble3%22%5D" \
+    -H "authorization: Bearer $ORG1_TOKEN" \
+    -H "content-type: application/json"
+  echo
+  echo
+}
+# Install & Instantiate the cc with version "v0". FALSE here indicates that this is CC Instantiate
 installInstantiateUpgradeChaincode 0 false
 sleep 1
 invokeAndQuery 1
 
-# Install & Upgrade the cc with version "v1" and true indicates that this is Upgrade
+# Install & Upgrade the cc with version "v1". TRUE here indicates that this is CC Upgrade
 installInstantiateUpgradeChaincode 1 true
 sleep 1
 invokeAndQuery 2
+
+richQuery
+rangeQuery
 
 echo "GET query Block by blockNumber"
 echo
@@ -315,5 +362,16 @@ curl -s -X GET \
 echo
 echo
 
+
+###### REVOKE USER ######
+echo
+echo "POST request revokeUser ratnakar on Org1  ..."
+echo
+curl -s -X POST \
+  http://localhost:4000/revokeUser \
+  -H "authorization: Bearer $TEMP_TOKEN" \
+  -H "content-type: application/x-www-form-urlencoded"
+echo ""
+###### REVOKE USER ######
 
 echo "Total execution time : $(($(date +%s)-starttime)) secs ..."

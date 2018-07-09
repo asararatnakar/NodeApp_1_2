@@ -9,7 +9,7 @@ Added the following functionality :
 * Upgrade chaincode
 * Add private DB support + collections
 * add support for couchdb Indexes
+* Update Anchor peers using channel config update
 
 TODO :
-* Update Anchor peers using channel config update
 * Service Discovery

@@ -8,10 +8,10 @@ var path = require('path');
 const agent = require('superagent-promise')(require('superagent'), Promise);
 // var superagent = require('superagent');
 var helper = require('./helper.js');
-var logger = helper.getLogger('Create-Channel');
+var logger = helper.getLogger('Update-Channel');
 //Attempt to send a request to the orderer with the sendTransaction method
 var configUpdate = async function (channelName, username, orgName, body) {
-	logger.debug('\n====== Creating Channel \'' + channelName + '\' ======\n');
+	logger.debug('\n====== Updating Channel \'' + channelName + '\' ======\n');
 	try {
 		// first setup the client for this org
 		var client = await helper.getClientForOrg(orgName);

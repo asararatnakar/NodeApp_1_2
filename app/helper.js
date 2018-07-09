@@ -136,8 +136,35 @@ async function tlsEnroll(client) {
 		return enrollment;
 }
 
+async function revokeUser(username, userOrg){
+	try {
+		var client = await getClientForOrg(userOrg);
+		logger.debug('Successfully initialized the credential stores');
+		// client can now act as an agent for organization Org1
+		// first check to see if the user is enrolled or not
+		var user = await client.getUserContext(username, true);
+		if (user && user.isEnrolled()) {
+			logger.info('Successfully loaded member from persistence');
+			var admins = hfc.getConfigSetting('admins');
+			let adminUserObj = await client.setUserContext({username: admins[0].username, password: admins[0].secret});
+			let caClient = client.getCertificateAuthority();
+			let crl = await caClient.revoke({enrollmentID: username}, adminUserObj);
+			console.log('##############################');
+			console.log(crl);
+			console.log('##############################');
+			return crl;
+		} else {
+			logger.error('Failed to get registered user: %s !!! First register the user : '+username);
+		}
+	} catch(error) {
+		logger.error('Failed to get registered user: %s with error: %s', username, error.toString());
+		return 'failed '+error.toString();
+	}
+}
+
 exports.getClientForOrg = getClientForOrg;
 exports.getLogger = getLogger;
 exports.setupChaincodeDeploy = setupChaincodeDeploy;
 exports.getRegisteredUser = getRegisteredUser;
 exports.tlsEnroll = tlsEnroll;
+exports.revokeUser = revokeUser;

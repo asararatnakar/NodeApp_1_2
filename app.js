@@ -138,6 +138,16 @@ app.post('/users', async function(req, res) {
 	}
 
 });
+
+// Revoke User
+app.post('/revokeUser', async function(req, res) {
+	logger.info('<<<<<<<<<<<<<<<<< R E V O K E   U S E R >>>>>>>>>>>>>>>>>');
+	logger.debug('End point : /revokeUser');
+
+	let message = await helper.revokeUser(req.username, req.orgname);
+	res.send(message);
+});
+
 // Create Channel
 app.post('/channels', async function(req, res) {
 	logger.info('<<<<<<<<<<<<<<<<< C R E A T E  C H A N N E L >>>>>>>>>>>>>>>>>');
@@ -177,8 +187,8 @@ app.post('/channels/:channelName/peers', async function(req, res) {
 // Update Channel
 app.post('/channels/:channelName/update', async function(req, res) {
 	logger.info('<<<<<<<<<<<<<<<<< U P D A T E  C H A N N E L >>>>>>>>>>>>>>>>>');
-	logger.debug('End point : /channels');
 	var channelName = req.body.channelName;
+	logger.debug('End point : /channels/'+channelName+'/update');
 	var host = req.body.host;
 	var port = req.body.port;
 	logger.debug('Channel name : ' + channelName);
