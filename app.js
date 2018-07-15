@@ -33,7 +33,7 @@ var hfc = require('fabric-client');
 
 var helper = require('./app/helper.js');
 var createChannel = require('./app/create-channel.js');
-var configUpdate = require('./app/configUpdate.js');
+var anchorUpdate = require('./app/anchorPeerUpdate.js');
 var join = require('./app/join-channel.js');
 var install = require('./app/install-chaincode.js');
 var instantiate = require('./app/instantiate-upgrade-chaincode.js');
@@ -184,10 +184,10 @@ app.post('/channels/:channelName/peers', async function(req, res) {
 	let message =  await join.joinChannel(channelName, peers, req.username, req.orgname);
 	res.send(message);
 });
-// Update Channel
-app.post('/channels/:channelName/update', async function(req, res) {
-	logger.info('<<<<<<<<<<<<<<<<< U P D A T E  C H A N N E L >>>>>>>>>>>>>>>>>');
-	var channelName = req.body.channelName;
+// Anchor peer update on a Channel
+app.post('/channels/:channelName/anchorupdate', async function(req, res) {
+	logger.info('<<<<<<<<<<<<<<<<< A N C H O R    P E E R   U P D A T E  >>>>>>>>>>>>>>>>>');
+	var channelName = req.params.channelName;
 	logger.debug('End point : /channels/'+channelName+'/update');
 	var host = req.body.host;
 	var port = req.body.port;
@@ -206,9 +206,36 @@ app.post('/channels/:channelName/update', async function(req, res) {
 		res.json(getErrorMessage('\'port\''));
 		return;
 	}
-	let message = await configUpdate.configUpdate(channelName, req.username, req.orgname, req.body);
+	let message = await anchorUpdate.anchorPeerUpdate(channelName, req.username, req.orgname, req.body);
 	res.send(message);
 });
+
+// Update the Channel
+app.post('/channels/:channelName/update', async function(req, res) {
+	logger.info('<<<<<<<<<<<<<<<<< A N C H O R    P E E R   U P D A T E  >>>>>>>>>>>>>>>>>');
+	var channelName = req.params.channelName;
+	logger.debug('End point : /channels/'+channelName+'/update');
+	var host = req.body.host;
+	var port = req.body.port;
+	logger.debug('Channel name : ' + channelName);
+	logger.debug('Host : ' + host);
+	logger.debug('Port : ' + port);
+	if (!channelName) {
+		res.json(getErrorMessage('\'channelName\''));
+		return;
+	}
+	if (!host) {
+		res.json(getErrorMessage('\'host\''));
+		return;
+	}
+	if (!port) {
+		res.json(getErrorMessage('\'port\''));
+		return;
+	}
+	let message = await anchorUpdate.anchorPeerUpdate(channelName, req.username, req.orgname, req.body);
+	res.send(message);
+});
+
 // Install chaincode on target peers
 app.post('/chaincodes', async function(req, res) {
 	logger.debug('==================== INSTALL CHAINCODE ==================');

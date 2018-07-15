@@ -152,7 +152,17 @@ async function revokeUser(username, userOrg){
 			console.log('##############################');
 			console.log(crl);
 			console.log('##############################');
-			return crl;
+			// return crl;
+			let genCrl = await caClient.generateCRL({}, adminUserObj);
+			// ({enrollmentID: username}, adminUserObj);
+			console.log('##############################');
+			console.log(genCrl);
+			return genCrl;
+			// console.log('-------------------------------');
+			// var crlCert = new Buffer(genCrl, 'base64');
+			// console.log(crlCert.toString());
+			// console.log('##############################');
+			// return crlCert.toString();
 		} else {
 			logger.error('Failed to get registered user: %s !!! First register the user : '+username);
 		}

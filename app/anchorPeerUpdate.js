@@ -8,10 +8,10 @@ var path = require('path');
 const agent = require('superagent-promise')(require('superagent'), Promise);
 // var superagent = require('superagent');
 var helper = require('./helper.js');
-var logger = helper.getLogger('Update-Channel');
+var logger = helper.getLogger('Update-AnchorPeer');
 //Attempt to send a request to the orderer with the sendTransaction method
-var configUpdate = async function (channelName, username, orgName, body) {
-	logger.debug('\n====== Updating Channel \'' + channelName + '\' ======\n');
+var anchorPeerUpdate = async function (channelName, username, orgName, body) {
+	logger.debug('\n====== Updating Anchor Peer on the Channel \'' + channelName + '\' ======\n');
 	try {
 		// first setup the client for this org
 		var client = await helper.getClientForOrg(orgName);
@@ -84,16 +84,16 @@ var configUpdate = async function (channelName, username, orgName, body) {
 		var response = await client.updateChannel(request)
 		logger.debug(' response ::%j', response);
 		if (response && response.status === 'SUCCESS') {
-			logger.debug('Successfully created the channel.');
+			logger.debug('Successfully update the channel with Anchor peer.');
 			let response = {
 				success: true,
 				message: 'Channel \'' + channelName + '\' updated with Anchor peer Successfully'
 			};
 			return response;
 		} else {
-			logger.error('\n!!!!!!!!! Failed to update the channel \'' + channelName +
+			logger.error('\n!!!!!!!!! Failed to update the Anchor peer on channel \'' + channelName +
 				'\' with Anchor peer !!!!!!!!!\n\n');
-			throw new Error('Failed to update the channel \'' + channelName + '\' with Anchor peer');
+			throw new Error('Failed to update the Anchor peer on channel \'' + channelName + '\' with Anchor peer');
 		}
 	} catch (err) {
 		logger.error('Failed to initialize the channel: ' + err.stack ? err.stack : err);
@@ -101,4 +101,4 @@ var configUpdate = async function (channelName, username, orgName, body) {
 	}
 };
 
-exports.configUpdate = configUpdate;
+exports.anchorPeerUpdate = anchorPeerUpdate;
