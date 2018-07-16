@@ -97,15 +97,6 @@ echo "ORG2 token is $ORG2_TOKEN"
 echo
 
 echo
-echo "POST request Enroll ratnakar on Org1 ..."
-echo
-TEMP_TOKEN=$(curl -s -X POST \
-  http://localhost:4000/users \
-  -H "content-type: application/x-www-form-urlencoded" \
-  -d 'username=ratnakar&orgName=Org1')
-echo $TEMP_TOKEN
-TEMP_TOKEN=$(echo $TEMP_TOKEN | jq ".token" | sed "s/\"//g")
-echo
 echo "ORG2 token is $TEMP_TOKEN"
 echo
 echo
@@ -173,6 +164,54 @@ curl -s -X POST \
 }'
 echo
 echo
+
+
+function registerAndRevokeUser() {
+  echo
+  echo "POST request Enroll ratnakar on Org1 ..."
+  echo
+  TEMP_TOKEN=$(curl -s -X POST \
+    http://localhost:4000/users \
+    -H "content-type: application/x-www-form-urlencoded" \
+    -d 'username=ratnakar&orgName=Org1')
+  echo $TEMP_TOKEN
+  TEMP_TOKEN=$(echo $TEMP_TOKEN | jq ".token" | sed "s/\"//g")
+  echo
+
+  ###### REVOKE USER ######
+  echo
+  echo "POST request revokeUser ratnakar on Org1  ..."
+  echo
+  CRL=$(curl -s -X POST \
+    http://localhost:4000/revokeUser \
+    -H "authorization: Bearer $TEMP_TOKEN" \
+    -H "content-type: application/x-www-form-urlencoded")
+  echo ""
+  printf "\nCRL of user ratnakar is: ${CRL}\n"
+  ###### REVOKE USER ######
+
+  echo "curl -s -X POST http://localhost:4000/channels/${CHANNEL}/update -H \"authorization: Bearer $TEMP_TOKEN\" -H \"content-type: application/json\" -d \"{ \\\"crl\\\":\\\"${CRL}\\\"}\""
+  echo 
+  echo 
+  curl -s -X POST \
+    "http://localhost:4000/channels/${CHANNEL}/update" \
+    -H "authorization: Bearer $TEMP_TOKEN" \
+    -H "content-type: application/json" \
+    -d "{
+    \"crl\":\"${CRL}\"
+  }"
+  echo 
+  echo 
+  echo "Query chaincode with revoked user ratnakat"
+  echo 
+  curl -s -X GET \
+    "http://localhost:4000/channels/${CHANNEL}/chaincodes/mycc?peer=peer0.org1.example.com&fcn=readMarble&args=%5B%22marble1%22%5D" \
+    -H "authorization: Bearer $TEMP_TOKEN" \
+    -H "content-type: application/json"
+  echo
+  echo
+}
+
 function installInstantiateUpgradeChaincode(){
   echo "POST Install chaincode on Org1"
   echo
@@ -304,6 +343,10 @@ installInstantiateUpgradeChaincode 0 false
 sleep 1
 invokeAndQuery 1
 
+
+### regsiter a new user ratnakar, revoke and update the channel
+registerAndRevokeUser
+
 # Install & Upgrade the cc with version "v1". TRUE here indicates that this is CC Upgrade
 installInstantiateUpgradeChaincode 1 true
 sleep 1
@@ -379,17 +422,5 @@ curl -s -X GET \
   -H "content-type: application/json"
 echo
 echo
-
-
-###### REVOKE USER ######
-echo
-echo "POST request revokeUser ratnakar on Org1  ..."
-echo
-curl -s -X POST \
-  http://localhost:4000/revokeUser \
-  -H "authorization: Bearer $TEMP_TOKEN" \
-  -H "content-type: application/x-www-form-urlencoded"
-echo ""
-###### REVOKE USER ######
 
 echo "Total execution time : $(($(date +%s)-starttime)) secs ..."

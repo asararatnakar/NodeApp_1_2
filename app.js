@@ -34,6 +34,7 @@ var hfc = require('fabric-client');
 var helper = require('./app/helper.js');
 var createChannel = require('./app/create-channel.js');
 var anchorUpdate = require('./app/anchorPeerUpdate.js');
+var configUpdate = require('./app/configUpdate.js');
 var join = require('./app/join-channel.js');
 var install = require('./app/install-chaincode.js');
 var instantiate = require('./app/instantiate-upgrade-chaincode.js');
@@ -215,24 +216,18 @@ app.post('/channels/:channelName/update', async function(req, res) {
 	logger.info('<<<<<<<<<<<<<<<<< A N C H O R    P E E R   U P D A T E  >>>>>>>>>>>>>>>>>');
 	var channelName = req.params.channelName;
 	logger.debug('End point : /channels/'+channelName+'/update');
-	var host = req.body.host;
-	var port = req.body.port;
 	logger.debug('Channel name : ' + channelName);
-	logger.debug('Host : ' + host);
-	logger.debug('Port : ' + port);
+	var crl = req.body.crl;
+	logger.debug('crl : ' + crl);
 	if (!channelName) {
 		res.json(getErrorMessage('\'channelName\''));
 		return;
 	}
-	if (!host) {
-		res.json(getErrorMessage('\'host\''));
+	if (!channelName) {
+		res.json(getErrorMessage('\'channelName\''));
 		return;
 	}
-	if (!port) {
-		res.json(getErrorMessage('\'port\''));
-		return;
-	}
-	let message = await anchorUpdate.anchorPeerUpdate(channelName, req.username, req.orgname, req.body);
+	let message = await configUpdate.configUpdate(channelName, req.username, req.orgname, crl);
 	res.send(message);
 });
 

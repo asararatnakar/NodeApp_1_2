@@ -20,7 +20,7 @@ logger.setLevel('DEBUG');
 
 var path = require('path');
 var util = require('util');
-
+const fs = require('fs');
 var hfc = require('fabric-client');
 hfc.setLogger(logger);
 // var ORGS = hfc.getConfigSetting('network-config');
@@ -149,20 +149,13 @@ async function revokeUser(username, userOrg){
 			let adminUserObj = await client.setUserContext({username: admins[0].username, password: admins[0].secret});
 			let caClient = client.getCertificateAuthority();
 			let crl = await caClient.revoke({enrollmentID: username}, adminUserObj);
-			console.log('##############################');
-			console.log(crl);
+			// console.log('##############################');
+			logger.debug(crl);
 			console.log('##############################');
 			// return crl;
 			let genCrl = await caClient.generateCRL({}, adminUserObj);
-			// ({enrollmentID: username}, adminUserObj);
-			console.log('##############################');
-			console.log(genCrl);
+			logger.debug(genCrl);
 			return genCrl;
-			// console.log('-------------------------------');
-			// var crlCert = new Buffer(genCrl, 'base64');
-			// console.log(crlCert.toString());
-			// console.log('##############################');
-			// return crlCert.toString();
 		} else {
 			logger.error('Failed to get registered user: %s !!! First register the user : '+username);
 		}
@@ -171,10 +164,37 @@ async function revokeUser(username, userOrg){
 		return 'failed '+error.toString();
 	}
 }
+function readAllFiles(dir) {
+	var files = fs.readdirSync(dir);
+	var certs = [];
+	files.forEach((file_name) => {
+			let file_path = path.join(dir,file_name);
+			let data = fs.readFileSync(file_path);
+			certs.push(data);
+	});
+	return certs;
+}
 
+//TODO: How can we make this specific to admin actions and esp'ly when private key info not available in connection profile
+function getOrdererAdmin(client) {
+	var keyPath = path.join(__dirname, '../artifacts/channel/crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/keystore');
+	var keyPEM = Buffer.from(readAllFiles(keyPath)[0]).toString();
+	var certPath = path.join(__dirname, '../artifacts/channel/crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts');
+	var certPEM = readAllFiles(certPath)[0];
+
+	return Promise.resolve(client.createUser({
+			username: 'ordererAdmin',
+			mspid: 'OrdererMSP', //TODO: hardcoding  ?
+			cryptoContent: {
+					privateKeyPEM: keyPEM.toString(),
+					signedCertPEM: certPEM.toString()
+			}
+	}));
+}
 exports.getClientForOrg = getClientForOrg;
 exports.getLogger = getLogger;
 exports.setupChaincodeDeploy = setupChaincodeDeploy;
 exports.getRegisteredUser = getRegisteredUser;
 exports.tlsEnroll = tlsEnroll;
 exports.revokeUser = revokeUser;
+exports.getOrdererAdmin = getOrdererAdmin;
