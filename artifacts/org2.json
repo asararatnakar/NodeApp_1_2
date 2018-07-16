@@ -1,0 +1,16 @@
+{
+    "name": "balance-transfer-org2",
+    "x-type": "hlfv1",
+    "description": "Balance Transfer Network - client definition for Org2",
+    "version": "1.0",
+    "client": {
+        "organization": "Org2",
+        "credentialStore": {
+            "path": "./fabric-client-kv-org2",
+            "cryptoStore": {
+                "path": "./fabric-client-kv-org2"
+            },
+            "wallet": "wallet-name"
+        }
+    }
+}

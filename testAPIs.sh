@@ -40,15 +40,15 @@ done
 ## Update the channel name in the connection profile
 function changeChannelName(){
   cd artifacts
-  cp network-config-template.yaml network-config.yaml
+  cp network-config-template.json network-config.json
   ARCH=`uname -s | grep Darwin`
     if [ "$ARCH" == "Darwin" ]; then
       OPTS="-it"
     else
       OPTS="-i"
     fi
-  sed $OPTS "s/CHANNEL_NAME/${CHANNEL}/g" network-config.yaml
-  rm -rf network-config.yamlt
+  sed $OPTS "s/CHANNEL_NAME/${CHANNEL}/g" network-config.json
+  rm -rf network-config.jsont
   cd -
 }
 
@@ -96,9 +96,6 @@ echo
 echo "ORG2 token is $ORG2_TOKEN"
 echo
 
-echo
-echo "ORG2 token is $TEMP_TOKEN"
-echo
 echo
 echo "POST request Create channel  ..."
 echo
@@ -177,7 +174,8 @@ function registerAndRevokeUser() {
   echo $TEMP_TOKEN
   TEMP_TOKEN=$(echo $TEMP_TOKEN | jq ".token" | sed "s/\"//g")
   echo
-
+  echo "TEMP token is $TEMP_TOKEN"
+  echo
   ###### REVOKE USER ######
   echo
   echo "POST request revokeUser ratnakar on Org1  ..."
