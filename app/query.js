@@ -31,6 +31,8 @@ var queryChaincode = async function(peer, channelName, chaincodeName, args, fcn,
 		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
 
 		var channel = client.getChannel(channelName);
+		//TODO: This will not work when the network is launched remotely ?
+		await channel.initialize({discover:true, asLocalhost:true});
 		if(!channel) {
 			let message = util.format('Channel %s was not defined in the connection profile', channelName);
 			logger.error(message);
@@ -39,6 +41,7 @@ var queryChaincode = async function(peer, channelName, chaincodeName, args, fcn,
 
 		// send query
 		var request = {
+			//NOTE: If targets not specified, it will query all the peers from the connection profile
 			targets : [peer], //queryByChaincode allows for multiple targets
 			chaincodeId: chaincodeName,
 			fcn: fcn,

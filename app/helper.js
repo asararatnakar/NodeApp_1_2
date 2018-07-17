@@ -23,11 +23,6 @@ var util = require('util');
 const fs = require('fs');
 var hfc = require('fabric-client');
 hfc.setLogger(logger);
-// var ORGS = hfc.getConfigSetting('network-config');
-
-// var clients = {};
-// var channels = {};
-// var caClients = {};
 
 var sleep = async function (sleep_time_ms) {
 	return new Promise(resolve => setTimeout(resolve, sleep_time_ms));

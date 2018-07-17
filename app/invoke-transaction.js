@@ -59,17 +59,18 @@ var invokeChaincode = async function (peerNames, channelName, chaincodeName, fcn
 			logger.error(message);
 			throw new Error(message);
 		}
+		await channel.initialize({ discover: true, asLocalhost: true });
 		var tx_id = client.newTransactionID();
 		// will need the transaction ID string for the event registration later
 		tx_id_string = tx_id.getTransactionID();
 
 		// send proposal to endorser
 		var request = {
-			targets: peerNames,
+			// targets: peerNames,
 			chaincodeId: chaincodeName,
 			fcn: fcn,
 			args: args,
-			chainId: channelName,
+			// chainId: channelName,
 			txId: tx_id
 		};
 

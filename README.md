@@ -1,4 +1,4 @@
-# balance-transfer sample with Fabric V1.2 software
+# A NodeSDK 1.2.0 based sample with Fabric V1.2 software
 
 Added the following functionality :
 
@@ -11,10 +11,7 @@ Added the following functionality :
 * add support for couchdb Indexes
 * Update Anchor peers using channel config update
 * Revoke a user and Update the channel with revoked user (*** refer the note at the end)
-
-**TODO** :
-
-* Service Discovery
+* Service Discovery (Partial changes only)
 
 
 How to use this , I wrote the initial version of balance-transfer sample [here](https://github.com/hyperledger/fabric-samples/tree/release-1.0/balance-transfer)

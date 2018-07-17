@@ -200,7 +200,7 @@ function registerAndRevokeUser() {
   }"
   echo 
   echo 
-  echo "Query chaincode with revoked user ratnakat"
+  echo "Query chaincode with revoked user ratnakar"
   echo 
   curl -s -X GET \
     "http://localhost:4000/channels/${CHANNEL}/chaincodes/mycc?peer=peer0.org1.example.com&fcn=readMarble&args=%5B%22marble1%22%5D" \
@@ -341,7 +341,6 @@ installInstantiateUpgradeChaincode 0 false
 sleep 1
 invokeAndQuery 1
 
-
 ### regsiter a new user ratnakar, revoke and update the channel
 registerAndRevokeUser
 
@@ -349,7 +348,6 @@ registerAndRevokeUser
 installInstantiateUpgradeChaincode 1 true
 sleep 1
 invokeAndQuery 2
-
 richQuery
 rangeQuery
 
@@ -369,21 +367,6 @@ curl -s -X GET "http://localhost:4000/channels/${CHANNEL}/transactions/$TRX_ID?p
   -H "content-type: application/json"
 echo
 echo
-
-############################################################################
-### TODO: What to pass to fetch the Block information
-############################################################################
-#echo "GET query Block by Hash"
-#echo
-#hash=????
-#curl -s -X GET \
-#  "http://localhost:4000/channels/${CHANNEL}/blocks?hash=$hash&peer=peer1" \
-#  -H "authorization: Bearer $ORG1_TOKEN" \
-#  -H "cache-control: no-cache" \
-#  -H "content-type: application/json" \
-#  -H "x-access-token: $ORG1_TOKEN"
-#echo
-#echo
 
 echo "GET query ChainInfo"
 echo
