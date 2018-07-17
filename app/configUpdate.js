@@ -80,25 +80,10 @@ var configUpdate = async function (channelName, username, orgName, crl) {
 		// this will use the admin identity assigned to the client when the connection profile was loaded
 		let signatures = [];
 		client.newTransactionID(true);
-		// sign and collect signature
+		// sign and collect signature from org1
 		let signature = client.signChannelConfig(configProto);
 		signatures.push(signature);
-		console.log(client._userContext);
-		// make sure we do not reuse the user
-		client._userContext = null;
-
-		//TODO: Don't hardcode
-		var client2 = await helper.getClientForOrg('Org2');
-		client2.newTransactionID(true);
-		signature = client2.signChannelConfig(configProto);
-		signatures.push(signature);
-		console.log(client2._userContext);
-
-		let ordererAdmin = await helper.getOrdererAdmin(client);
-		// collect signature
-		signature = client.signChannelConfig(configProto);
-		signatures.push(signature);
-		console.log(client._userContext);
+		
 		let request = {
 			config: configProto,
 			signatures: [signature],
