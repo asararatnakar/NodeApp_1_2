@@ -45,14 +45,22 @@ var instantiateUpdgradeChaincode = async function(peers, channelName, chaincodeN
 		                                       // be used to sign the proposal request.
 		// will need the transaction ID string for the event registration later
 		var deployId = tx_id.getTransactionID();
-		// send proposal to endorser
+		const endorsement_policy = {
+			identities: [
+				{ role: { name: 'member', mspId: 'Org1MSP' } },
+				{ role: { name: 'member', mspId: 'Org2MSP' } }
+			],
+				policy: {
+				'1-of': [{ 'signed-by': 0 }, { 'signed-by': 1 }]
+			}
+		}
 		var request = {
 			targets : peers,
 			chaincodeId: chaincodeName,
 			chaincodeType: chaincodeType,
 			chaincodeVersion: chaincodeVersion,
 			args: args,
-			
+			'endorsement-policy': endorsement_policy,
 			txId: tx_id
 		};
 
@@ -61,6 +69,7 @@ var instantiateUpdgradeChaincode = async function(peers, channelName, chaincodeN
 
 		let results = null;
 		let collectionsConfigPath = "";
+		// send instantiate/upgrade proposal to endorser
 		if (isUpgrade && isUpgrade == true){
 			collectionsConfigPath = path.resolve(__dirname, '../artifacts/src/github.com/marbles/collections_config_update.json');
 			console.log(collectionsConfigPath.toString());
@@ -121,7 +130,7 @@ var instantiateUpdgradeChaincode = async function(peers, channelName, chaincodeN
 						clearTimeout(event_timeout);
 
 						if (code !== 'VALID') {
-							let message = until.format('The chaincode instantiate transaction was invalid, code:%s',code);
+							let message = util.format('The chaincode instantiate transaction was invalid, code:%s',code);
 							logger.error(message);
 							reject(new Error(message));
 						} else {

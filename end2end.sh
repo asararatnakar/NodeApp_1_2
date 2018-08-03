@@ -341,6 +341,7 @@ installInstantiateUpgradeChaincode 0 false
 sleep 1
 invokeAndQuery 1
 
+# exit
 ### regsiter a new user ratnakar, revoke and update the channel
 registerAndRevokeUser
 
