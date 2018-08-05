@@ -55,7 +55,7 @@ var joinChannel = async function(channel_name, peers, username, org_name) {
 		// tell each peer to join and wait 10 secs
 		// for the channel to be joined each peer
 		var promises = [];
-		promises.push(new Promise(resolve => setTimeout(resolve, 10000)));
+		promises.push(new Promise(resolve => setTimeout(resolve, 3000)));
 
 		let join_request = {
 			targets: peers, //using the peer names which only is allowed when a connection profile is loaded

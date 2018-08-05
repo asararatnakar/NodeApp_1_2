@@ -109,6 +109,8 @@ type marblePrivateDetails struct {
 	Price      int    `json:"price"`
 }
 
+const PRICE = "price"
+
 // ===================================================================================
 // Main
 // ===================================================================================
@@ -173,10 +175,10 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 func (t *SimpleChaincode) initMarble(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var err error
 
-	//  0-name  1-color  2-size  3-owner  4-price
-	// "asdf",  "blue",  "35",   "bob",   "99"
-	if len(args) != 5 {
-		return shim.Error("Incorrect number of arguments. Expecting 5")
+	//  0-name  1-color  2-size  3-owner
+	// "asdf",  "blue",  "35",   "bob",
+	if len(args) != 4 {
+		return shim.Error("Incorrect number of arguments. Expecting 4")
 	}
 
 	// ==== Input sanitation ====
@@ -193,9 +195,7 @@ func (t *SimpleChaincode) initMarble(stub shim.ChaincodeStubInterface, args []st
 	if len(args[3]) == 0 {
 		return shim.Error("4th argument must be a non-empty string")
 	}
-	if len(args[4]) == 0 {
-		return shim.Error("5th argument must be a non-empty string")
-	}
+
 	marbleName := args[0]
 	color := strings.ToLower(args[1])
 	owner := strings.ToLower(args[3])
@@ -203,10 +203,20 @@ func (t *SimpleChaincode) initMarble(stub shim.ChaincodeStubInterface, args []st
 	if err != nil {
 		return shim.Error("3rd argument must be a numeric string")
 	}
-	price, err := strconv.Atoi(args[4])
+	tMap, err := stub.GetTransient()
 	if err != nil {
-		return shim.Error("5th argument must be a numeric string")
+		return shim.Error("{\"Error\":\"Did not find expected transient map in the proposal}")
 	}
+	priceVal, ok := tMap[PRICE]
+	if !ok {
+		return shim.Error("{\"Error\":\"Did not find expected key \"price\" in the transient map of the proposal}")
+	}
+
+	price, err := strconv.Atoi(string(priceVal[:]))
+	if err != nil {
+		return shim.Error("transient value price must be a numeric string")
+	}
+	fmt.Printf("The Transient value price is %d", price)
 
 	// ==== Check if marble already exists ====
 	marbleAsBytes, err := stub.GetPrivateData("collectionMarbles", marbleName)

@@ -268,7 +268,7 @@ INIT_MARBLE=$(cat <<EOF
 {
     "peers": ["peer0.org1.example.com","peer0.org2.example.com"],
     "fcn":"initMarble",
-    "args":["marble$1", "blue", "35", "tom", "99"]
+    "args":["marble$1", "blue", "35", "tom"]
 }
 EOF
 )

@@ -63,7 +63,8 @@ var invokeChaincode = async function (peerNames, channelName, chaincodeName, fcn
 		var tx_id = client.newTransactionID();
 		// will need the transaction ID string for the event registration later
 		tx_id_string = tx_id.getTransactionID();
-
+		// var transientMap = { 'price': 'MTAwCg==' }; //TODO: Don't hardcode ?
+		var transientMap = { 'price': Buffer.from("100").toString('base64') }; //TODO: Don't hardcode ?
 		// send proposal to endorser
 		var request = {
 			// targets: peerNames,
@@ -71,7 +72,8 @@ var invokeChaincode = async function (peerNames, channelName, chaincodeName, fcn
 			fcn: fcn,
 			args: args,
 			// chainId: channelName,
-			txId: tx_id
+			txId: tx_id,
+			transientMap: transientMap
 		};
 
 		let results = await channel.sendTransactionProposal(request);

@@ -41,6 +41,8 @@ services:
       - ORDERER_KAFKA_RETRY_SHORTINTERVAL=1s
       - ORDERER_KAFKA_RETRY_SHORTTOTAL=30s
       - ORDERER_KAFKA_VERBOSE=true
+      # - ORDERER_GENERAL_BCCSP_SW_HASH=SHA3
+      # - ORDERER_GENERAL_BCCSP_SW_SECURITY=256
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/orderers
     command: orderer
     volumes:
@@ -65,6 +67,7 @@ services:
       # https://docs.docker.com/compose/networking/
       - CORE_VM_DOCKER_HOSTCONFIG_NETWORKMODE=artifacts_default
       - CORE_LOGGING_LEVEL=INFO
+      # - CORE_LOGGING_LEVEL=DEBUG
       # - CORE_LOGGING_PEER_GOSSIP=WARNING
       - CORE_LOGGING_PEER_GOSSIP=WARNING
       - CORE_PEER_GOSSIP_USELEADERELECTION=true
@@ -78,6 +81,8 @@ services:
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/crypto/peer/tls/server.crt
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/crypto/ca/ca.crt
       - CORE_PEER_TLS_CLIENTROOTCAS_FILES=/etc/hyperledger/crypto/ca1/ca.crt /etc/hyperledger/crypto/ca2/ca.crt 
+      # - CORE_PEER_BCCSP_SW_HASH=SHA3
+      # - CORE_PEER_BCCSP_SW_SECURITY=256
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: peer node start
     volumes:
