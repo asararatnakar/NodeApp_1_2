@@ -47,8 +47,8 @@ var instantiateUpdgradeChaincode = async function(peers, channelName, chaincodeN
 		var deployId = tx_id.getTransactionID();
 		const endorsement_policy = {
 			identities: [
-				{ role: { name: 'member', mspId: 'Org1MSP' } },
-				{ role: { name: 'member', mspId: 'Org2MSP' } }
+				{ role: { name: 'peer', mspId: 'Org1MSP' } },
+				{ role: { name: 'peer', mspId: 'Org2MSP' } }
 			],
 				policy: {
 				'1-of': [{ 'signed-by': 0 }, { 'signed-by': 1 }]
