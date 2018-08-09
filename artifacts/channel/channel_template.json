@@ -3,10 +3,7 @@
   "read_set": {
     "groups": {
       "Application": {
-        "groups": {
-          "Org1MSP": {},
-          "Org2MSP": {}
-        }
+        "groups": {}
       }
     },
     "mod_policy": "",
@@ -17,10 +14,7 @@
   "write_set": {
     "groups": {
       "Application": {
-        "groups": {
-          "Org1MSP": {},
-          "Org2MSP": {}
-        },
+        "groups": {},
         "mod_policy": "Admins",
         "policies": {
           "Admins": {

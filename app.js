@@ -154,13 +154,25 @@ app.post('/channels', async function(req, res) {
 	logger.info('<<<<<<<<<<<<<<<<< C R E A T E  C H A N N E L >>>>>>>>>>>>>>>>>');
 	logger.debug('End point : /channels');
 	var channelName = req.body.channelName;
+	var mspIds = req.body.mspIds;
+	var consortium = req.body.consortium;
 	logger.debug('Channel name : ' + channelName);
+	logger.debug('consortium : ' + consortium);
+	logger.debug('orgs : ');
+	logger.debug(mspIds);
 	if (!channelName) {
 		res.json(getErrorMessage('\'channelName\''));
 		return;
 	}
-
-	let message = await createChannel.createChannel(channelName, req.username, req.orgname);
+	if (!consortium) {
+		res.json(getErrorMessage('\'consortium\''));
+		return;
+	}
+	if (!mspIds || mspIds.length == 0 ) {
+		res.json(getErrorMessage('\'mspIds\''));
+		return;
+	}
+	let message = await createChannel.createChannel(channelName, consortium, mspIds, req.username, req.orgname);
 	res.send(message);
 });
 // Join Channel

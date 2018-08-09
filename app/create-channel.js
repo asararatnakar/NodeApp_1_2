@@ -21,7 +21,7 @@ const agent = require('superagent-promise')(require('superagent'), Promise);
 var helper = require('./helper.js');
 var logger = helper.getLogger('Create-Channel');
 //Attempt to send a request to the orderer with the sendTransaction method
-var createChannel = async function(channelName, username, orgName) {
+var createChannel = async function(channelName, consortium, mspIds, username, orgName) {
 	logger.debug('\n====== Creating Channel \'' + channelName + '\' ======\n');
 	try {
 		// first setup the client for this org
@@ -39,6 +39,16 @@ var createChannel = async function(channelName, username, orgName) {
 		const channelCfg = fs.readFileSync(path.join(__dirname, '../artifacts/channel/channel_template.json'));
 		const configJson = JSON.parse(channelCfg.toString());
 		configJson.channel_id = channelName;
+		var orgsGroup = {};
+		//TODO: Handle empty groups
+		for (i=0;i<mspIds.length;i++){
+			orgsGroup[mspIds[i]] = {};
+		}
+		configJson.read_set.groups.Application.groups = orgsGroup;
+		configJson.write_set.groups.Application.groups = orgsGroup;
+
+		configJson.write_set.values.Consortium.value.name = consortium;
+		// console.log(JSON.stringify(configJson));
 
 		const config = await agent.post('http://127.0.0.1:7059/protolator/encode/common.ConfigUpdate', JSON.stringify(configJson))
 		.buffer();
