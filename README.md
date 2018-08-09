@@ -1,4 +1,4 @@
-# A NodeSDK 1.2.0 based sample with Fabric V1.2 software
+# A NodeSDK 1.2.x based sample with Fabric V1.2 software
 
 Added the following functionality :
 
@@ -14,12 +14,10 @@ Added the following functionality :
 * Service Discovery (Partial changes only)
 
 
-How to use this , I wrote the initial version of balance-transfer sample [here](https://github.com/hyperledger/fabric-samples/tree/release-1.0/balance-transfer)
-
 **Terminal - 1** : 
 Issue the following command
 ```
-./runApp.sh
+./bootstrap.sh
 ```
 
 This does the following
@@ -31,17 +29,28 @@ This does the following
 **Terminal - 2** : Issue the following command to test fabric 1.2 features using REST calls with NodeSDK as the underlying client.
 
 *ex:* 
-    - Register/Enroll/Revoke user,
-    - Create Channel,
-    - Join peers, 
-    - Update Anchor peers , 
-    - Install/Instantiate chaincode, 
-    - Invoke & Query
+
+  * Register/Enroll/Revoke user,
+
+  * Create Channel/ Update Channel,
+
+  * Join peers, 
+
+  * Update Anchor peers , 
+
+  * Install/Instantiate chaincode, 
+
+  * Invoke & Query
+
+
 ex:
 
-`./testApis.sh -c testchain`
+`./end2end.sh -c testchain -l golang`
 
-( **note**: don't use language flag as nodejs chaincode yet to support private APIs in v1.2 ? )
+`./end2end.sh -c testchain`
+
+`./end2end.sh -l node`
+
 
 ----
 *note:* *** when user has been revoked and updated the channel with the CRL , the same user can't operate (ex: query/invoke) on the Blockchain any more.
