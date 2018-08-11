@@ -14,34 +14,42 @@
  *  limitations under the License.
  */
 'use strict';
-var log4js = require('log4js');
-var logger = log4js.getLogger('SampleWebApp');
-var express = require('express');
-var session = require('express-session');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var http = require('http');
-var util = require('util');
-var app = express();
-var expressJWT = require('express-jwt');
-var jwt = require('jsonwebtoken');
-var bearerToken = require('express-bearer-token');
-var cors = require('cors');
+const log4js = require('log4js');
+const logger = log4js.getLogger('SampleWebApp');
+const express = require('express');
+// var session = require('express-session');
+// var cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const http = require('http');
+const util = require('util');
+const app = express();
+const expressJWT = require('express-jwt');
+const jwt = require('jsonwebtoken');
+const bearerToken = require('express-bearer-token');
+const cors = require('cors');
+const path = require('path');
+const hfc = require('fabric-client');
 
-require('./config.js');
-var hfc = require('fabric-client');
+const helper = require('./app/helper.js');
+const createChannel = require('./app/create-channel.js');
+const anchorUpdate = require('./app/anchorPeerUpdate.js');
+const configUpdate = require('./app/configUpdate.js');
+const join = require('./app/join-channel.js');
+const install = require('./app/install-chaincode.js');
+const instantiate = require('./app/instantiate-upgrade-chaincode.js');
+const invoke = require('./app/invoke-transaction.js');
+const query = require('./app/query.js');
+const host = process.env.HOST || hfc.getConfigSetting('host');
+const port = process.env.PORT || hfc.getConfigSetting('port');
 
-var helper = require('./app/helper.js');
-var createChannel = require('./app/create-channel.js');
-var anchorUpdate = require('./app/anchorPeerUpdate.js');
-var configUpdate = require('./app/configUpdate.js');
-var join = require('./app/join-channel.js');
-var install = require('./app/install-chaincode.js');
-var instantiate = require('./app/instantiate-upgrade-chaincode.js');
-var invoke = require('./app/invoke-transaction.js');
-var query = require('./app/query.js');
-var host = process.env.HOST || hfc.getConfigSetting('host');
-var port = process.env.PORT || hfc.getConfigSetting('port');
+
+// indicate to the application where the setup file is located so it able
+// to have the hfc load it to initalize the fabric client instance
+hfc.setConfigSetting('Org1-connection-profile-path',path.join(__dirname, 'artifacts', 'network-config-org1.json'));
+hfc.setConfigSetting('Org2-connection-profile-path',path.join(__dirname, 'artifacts', 'network-config-org2.json'));
+// some other settings the application might need to know
+hfc.addConfigFile(path.join(__dirname, 'config.json'));
+
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// SET CONFIGURATONS ////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////

@@ -2,12 +2,5 @@
    "host":"localhost",
    "port":"4000",
    "jwt_expiretime": "36000",
-   "CC_SRC_PATH":"../artifacts",
-   "eventWaitTime":"30000",
-   "admins":[
-      {
-         "username":"admin",
-         "secret":"adminpw"
-      }
-   ]
+   "CC_SRC_PATH":"../artifacts"
 }

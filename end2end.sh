@@ -12,6 +12,13 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
+ARCH=`uname -s | grep Darwin`
+if [ "$ARCH" == "Darwin" ]; then
+  OPTS="-it"
+else
+  OPTS="-i"
+fi
+
 starttime=$(date +%s)
 
 # Print the usage message
@@ -38,21 +45,21 @@ while getopts "h?l:c:" opt; do
 done
 
 ## Update the channel name in the connection profile
-function changeChannelName(){
+function generateConnectionProfiles(){
   cd artifacts
-  cp network-config-template.json network-config.json
-  ARCH=`uname -s | grep Darwin`
-    if [ "$ARCH" == "Darwin" ]; then
-      OPTS="-it"
-    else
-      OPTS="-i"
-    fi
-  sed $OPTS "s/CHANNEL_NAME/${CHANNEL}/g" network-config.json
-  rm -rf network-config.jsont
+  for org_name in Org1 Org2
+  do
+    lower_org_name=$(echo "$org_name" | awk '{print tolower($0)}')
+    cp network-config-template.json network-config-${lower_org_name}.json
+    sed $OPTS "s|CHANNEL_NAME|${CHANNEL}|g" network-config-${lower_org_name}.json
+    sed $OPTS "s|ORG_NAME|${org_name}|g" network-config-${lower_org_name}.json
+    sed $OPTS "s|KEYSTORE_ORG|./fabric-client-kv-${lower_org_name}|g" network-config-${lower_org_name}.json
+    rm -rf network-config-${lower_org_name}.jsont
+  done
   cd -
 }
 
-changeChannelName
+generateConnectionProfiles
 
 ##set chaincode path
 function setChaincodePath(){
@@ -181,17 +188,14 @@ function registerAndRevokeUser() {
   ###### REVOKE USER ######
   echo
   echo "POST request revokeUser ratnakar on Org1  ..."
-  echo
   CRL=$(curl -s -X POST \
     http://localhost:4000/revokeUser \
     -H "authorization: Bearer $TEMP_TOKEN" \
     -H "content-type: application/x-www-form-urlencoded")
-  echo ""
   printf "\nCRL of user ratnakar is: ${CRL}\n"
   ###### REVOKE USER ######
 
-  echo "curl -s -X POST http://localhost:4000/channels/${CHANNEL}/update -H \"authorization: Bearer $TEMP_TOKEN\" -H \"content-type: application/json\" -d \"{ \\\"crl\\\":\\\"${CRL}\\\"}\""
-  echo 
+  # echo "curl -s -X POST http://localhost:4000/channels/${CHANNEL}/update -H \"authorization: Bearer $TEMP_TOKEN\" -H \"content-type: application/json\" -d \"{ \\\"crl\\\":\\\"${CRL}\\\"}\""
   echo 
   curl -s -X POST \
     "http://localhost:4000/channels/${CHANNEL}/update" \

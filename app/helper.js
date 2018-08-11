@@ -20,7 +20,6 @@ logger.setLevel('DEBUG');
 
 var path = require('path');
 var util = require('util');
-const fs = require('fs');
 var hfc = require('fabric-client');
 hfc.setLogger(logger);
 
@@ -34,15 +33,16 @@ async function getClientForOrg (userorg, username) {
 	let config = '-connection-profile-path';
 
 	// build a client context and load it with a connection profile
-	// lets only load the network settings and save the client for later
-	let client = hfc.loadFromConfig(hfc.getConfigSetting('network'+config));
+	// lets load the network settings and a client section. This will also set an admin 
+        // identity because the organization defined in the client section has one defined.
+	let client = hfc.loadFromConfig(hfc.getConfigSetting(userorg+config));
 
 	// This will load a connection profile over the top of the current one one
 	// since the first one did not have a client section and the following one does
 	// nothing will actually be replaced.
 	// This will also set an admin identity because the organization defined in the
 	// client section has one defined
-	client.loadFromConfig(hfc.getConfigSetting(userorg+config));
+	// client.loadFromConfig(hfc.getConfigSetting(userorg+config));
 
 	// this will create both the state store and the crypto store based
 	// on the settings in the client section of the connection profile
@@ -75,11 +75,11 @@ var getRegisteredUser = async function(username, userOrg, isJson) {
 		if (user && user.isEnrolled()) {
 			logger.info('Successfully loaded member from persistence');
 		} else {
+			let caClient = client.getCertificateAuthority();
+			var admins = caClient.getRegistrar();
 			// user was not enrolled, so we will need an admin user object to register
 			logger.info('User %s was not enrolled, so we will need an admin user object to register',username);
-			var admins = hfc.getConfigSetting('admins');
-			let adminUserObj = await client.setUserContext({username: admins[0].username, password: admins[0].secret});
-			let caClient = client.getCertificateAuthority();
+			let adminUserObj = await client.setUserContext({username: admins[0].enrollId, password: admins[0].enrollSecret});
 			let secret = await caClient.register({
 				enrollmentID: username,
 				affiliation: userOrg.toLowerCase() + '.department1'
@@ -120,10 +120,10 @@ var getLogger = function(moduleName) {
 
 async function tlsEnroll(client) {
 		let caClient = client.getCertificateAuthority();
-
+		var admins = caClient.getRegistrar();
 		let req = {
-			enrollmentID: 'admin',
-			enrollmentSecret: 'adminpw',
+			enrollmentID: admins[0].enrollId,
+			enrollmentSecret: admins[0].enrollSecret,
 			profile: 'tls'
 		};
 		var enrollment = await caClient.enroll(req);
@@ -140,14 +140,13 @@ async function revokeUser(username, userOrg){
 		var user = await client.getUserContext(username, true);
 		if (user && user.isEnrolled()) {
 			logger.info('Successfully loaded member from persistence');
-			var admins = hfc.getConfigSetting('admins');
-			let adminUserObj = await client.setUserContext({username: admins[0].username, password: admins[0].secret});
 			let caClient = client.getCertificateAuthority();
+			var admins = caClient.getRegistrar();
+			let adminUserObj = await client.setUserContext({username: admins[0].enrollId, password: admins[0].enrollSecret});
 			let crl = await caClient.revoke({enrollmentID: username}, adminUserObj);
-			// console.log('##############################');
+			console.log('-------------- C R L --------------');
 			logger.debug(crl);
-			console.log('##############################');
-			// return crl;
+			console.log('-------------- C R L --------------');
 			let genCrl = await caClient.generateCRL({}, adminUserObj);
 			logger.debug(genCrl);
 			return genCrl;
@@ -159,37 +158,10 @@ async function revokeUser(username, userOrg){
 		return 'failed '+error.toString();
 	}
 }
-function readAllFiles(dir) {
-	var files = fs.readdirSync(dir);
-	var certs = [];
-	files.forEach((file_name) => {
-			let file_path = path.join(dir,file_name);
-			let data = fs.readFileSync(file_path);
-			certs.push(data);
-	});
-	return certs;
-}
 
-//TODO: How can we make this specific to admin actions and esp'ly when private key info not available in connection profile
-function getOrdererAdmin(client) {
-	var keyPath = path.join(__dirname, '../artifacts/channel/crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/keystore');
-	var keyPEM = Buffer.from(readAllFiles(keyPath)[0]).toString();
-	var certPath = path.join(__dirname, '../artifacts/channel/crypto-config/ordererOrganizations/example.com/users/Admin@example.com/msp/signcerts');
-	var certPEM = readAllFiles(certPath)[0];
-
-	return Promise.resolve(client.createUser({
-			username: 'ordererAdmin',
-			mspid: 'OrdererMSP', //TODO: hardcoding  ?
-			cryptoContent: {
-					privateKeyPEM: keyPEM.toString(),
-					signedCertPEM: certPEM.toString()
-			}
-	}));
-}
 exports.getClientForOrg = getClientForOrg;
 exports.getLogger = getLogger;
 exports.setupChaincodeDeploy = setupChaincodeDeploy;
 exports.getRegisteredUser = getRegisteredUser;
 exports.tlsEnroll = tlsEnroll;
 exports.revokeUser = revokeUser;
-exports.getOrdererAdmin = getOrdererAdmin;

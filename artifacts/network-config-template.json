@@ -3,6 +3,16 @@
     "x-type": "hlfv1",
     "description": "Balance Transfer Network",
     "version": "1.0",
+    "client": {
+        "organization": "ORG_NAME",
+        "credentialStore": {
+            "path": "KEYSTORE_ORG",
+            "cryptoStore": {
+                "path": "KEYSTORE_ORG"
+            },
+            "wallet": "wallet-name"
+        }
+    },
     "channels": {
         "CHANNEL_NAME": {
             "orderers": [
