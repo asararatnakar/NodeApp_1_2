@@ -39,9 +39,6 @@ const install = require('./app/install-chaincode.js');
 const instantiate = require('./app/instantiate-upgrade-chaincode.js');
 const invoke = require('./app/invoke-transaction.js');
 const query = require('./app/query.js');
-const host = process.env.HOST || hfc.getConfigSetting('host');
-const port = process.env.PORT || hfc.getConfigSetting('port');
-
 
 // indicate to the application where the setup file is located so it able
 // to have the hfc load it to initalize the fabric client instance
@@ -50,6 +47,8 @@ hfc.setConfigSetting('Org2-connection-profile-path',path.join(__dirname, 'artifa
 // some other settings the application might need to know
 hfc.addConfigFile(path.join(__dirname, 'config.json'));
 
+const host = process.env.HOST || hfc.getConfigSetting('host');
+const port = process.env.PORT || hfc.getConfigSetting('port');
 ///////////////////////////////////////////////////////////////////////////////
 //////////////////////////////// SET CONFIGURATONS ////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
