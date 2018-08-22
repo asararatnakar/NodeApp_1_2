@@ -81,19 +81,27 @@ setChaincodePath
 echo "POST request Enroll on Org1  ..."
 echo
 ORG1_TOKEN=$(curl -s -X POST \
-  http://localhost:4000/users \
+  http://localhost:4000/user/register \
   -H "content-type: application/x-www-form-urlencoded" \
-  -d 'username=Jim&orgName=Org1')
+  -d 'username=barry&orgName=Org1')
 echo $ORG1_TOKEN
 ORG1_TOKEN=$(echo $ORG1_TOKEN | jq ".token" | sed "s/\"//g")
+
+echo "POST request updatePassword for user barry"
+echo
+curl -s -X POST http://localhost:4000/user/update \
+  -H "authorization: Bearer $ORG1_TOKEN" \
+  -H "content-type: application/json" \
+  -d "{ \"password\":\"mypassword\" }"
+echo
 
 echo
 echo "POST request Enroll on Org2 ..."
 echo
 ORG2_TOKEN=$(curl -s -X POST \
-  http://localhost:4000/users \
+  http://localhost:4000/user/register \
   -H "content-type: application/x-www-form-urlencoded" \
-  -d 'username=Barry&orgName=Org2')
+  -d 'username=sid&orgName=Org2')
 echo $ORG2_TOKEN
 ORG2_TOKEN=$(echo $ORG2_TOKEN | jq ".token" | sed "s/\"//g")
 echo
@@ -172,10 +180,10 @@ echo
 
 function registerAndRevokeUser() {
   echo
-  echo "POST request Enroll ratnakar on Org1 ..."
+  echo "POST request Enroll ratnakar on Org1"
   echo
   TEMP_TOKEN=$(curl -s -X POST \
-    http://localhost:4000/users \
+    http://localhost:4000/user/register \
     -H "content-type: application/x-www-form-urlencoded" \
     -d 'username=ratnakar&orgName=Org1')
   echo $TEMP_TOKEN
@@ -185,9 +193,9 @@ function registerAndRevokeUser() {
   echo
   ###### REVOKE USER ######
   echo
-  echo "POST request revokeUser ratnakar on Org1  ..."
+  echo "POST request revoke user ratnakar"
   CRL=$(curl -s -X POST \
-    http://localhost:4000/revokeUser \
+    http://localhost:4000/user/revoke \
     -H "authorization: Bearer $TEMP_TOKEN" \
     -H "content-type: application/x-www-form-urlencoded")
   printf "\nCRL of user ratnakar is: ${CRL}\n"
@@ -386,7 +394,7 @@ echo "GET query TransactionSummary"
 echo
 curl -s -X GET http://localhost:4000/channels/${CHANNEL}/transactions?peer=peer0.org1.example.com \
   -H "authorization: Bearer $ORG1_TOKEN" \
-  -H "content-type: application/json"
+  -H "content-type: application/json" | jq .
 echo
 echo
 
@@ -404,7 +412,7 @@ echo
 curl -s -X GET \
   "http://localhost:4000/chaincodes?peer=peer0.org1.example.com" \
   -H "authorization: Bearer $ORG1_TOKEN" \
-  -H "content-type: application/json"
+  -H "content-type: application/json" | jq .
 echo
 echo
 
@@ -413,7 +421,7 @@ echo
 curl -s -X GET \
   "http://localhost:4000/channels/${CHANNEL}/chaincodes?peer=peer0.org1.example.com" \
   -H "authorization: Bearer $ORG1_TOKEN" \
-  -H "content-type: application/json"
+  -H "content-type: application/json" | jq .
 echo
 echo
 
@@ -422,7 +430,7 @@ echo
 curl -s -X GET \
   "http://localhost:4000/channels?peer=peer0.org1.example.com" \
   -H "authorization: Bearer $ORG1_TOKEN" \
-  -H "content-type: application/json"
+  -H "content-type: application/json" | jq .
 echo
 echo
 

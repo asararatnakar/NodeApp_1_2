@@ -158,10 +158,42 @@ async function revokeUser(username, userOrg){
 		return 'failed '+error.toString();
 	}
 }
+var updatePassword = async function (username, secret, userOrg, isJson) {
+	try {
+		let client = await getClientForOrg(userOrg);
+		let caClient = client.getCertificateAuthority();
 
+		var admins = caClient.getRegistrar();
+		let adminUser = await client.setUserContext({username: admins[0].enrollId, password: admins[0].enrollSecret});
+
+		try {
+			let identityService = caClient.newIdentityService();
+			identityService.update(username, {
+				enrollmentSecret: secret
+			}, adminUser);
+		}
+		catch (error) {
+			logger.error('Failed to get update password for user: "%s" with error: "%s"', username, error.toString());
+			throw new Error(error.toString());
+		}
+
+		if (isJson && isJson === true) {
+			var response = {
+				success: true,
+				username: username,
+				password: secret
+			};
+			return response;
+		}
+	} catch (error) {
+		logger.error('Failed to update password for user: "%s" with error: "%s"', username, error.toString());
+		throw new Error(error.toString());
+	}
+}
 exports.getClientForOrg = getClientForOrg;
 exports.getLogger = getLogger;
 exports.setupChaincodeDeploy = setupChaincodeDeploy;
 exports.getRegisteredUser = getRegisteredUser;
 exports.tlsEnroll = tlsEnroll;
 exports.revokeUser = revokeUser;
+exports.updatePassword = updatePassword;

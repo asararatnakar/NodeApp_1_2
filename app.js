@@ -65,12 +65,12 @@ app.set('secret', 'thisismysecret');
 app.use(expressJWT({
 	secret: 'thisismysecret'
 }).unless({
-	path: ['/users']
+	path: ['/user/register']
 }));
 app.use(bearerToken());
 app.use(function(req, res, next) {
 	logger.debug(' ------>>>>>> new request for %s',req.originalUrl);
-	if (req.originalUrl.indexOf('/users') >= 0) {
+	if (req.originalUrl.indexOf('/user/register') >= 0) {
 		return next();
 	}
 
@@ -80,7 +80,7 @@ app.use(function(req, res, next) {
 			res.send({
 				success: false,
 				message: 'Failed to authenticate token. Make sure to include the ' +
-					'token returned from /users call in the authorization header ' +
+					'token returned from /user call in the authorization header ' +
 					' as a Bearer token'
 			});
 			return;
@@ -115,10 +115,10 @@ function getErrorMessage(field) {
 ///////////////////////// REST ENDPOINTS START HERE ///////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // Register and enroll user
-app.post('/users', async function(req, res) {
+app.post('/user/register', async function(req, res) {
 	var username = req.body.username;
 	var orgName = req.body.orgName;
-	logger.debug('End point : /users');
+	logger.debug('End point : /user');
 	logger.debug('User name : ' + username);
 	logger.debug('Org name  : ' + orgName);
 	if (!username) {
@@ -148,11 +148,21 @@ app.post('/users', async function(req, res) {
 });
 
 // Revoke User
-app.post('/revokeUser', async function(req, res) {
+app.post('/user/revoke', async function(req, res) {
 	logger.info('<<<<<<<<<<<<<<<<< R E V O K E   U S E R >>>>>>>>>>>>>>>>>');
 	logger.debug('End point : /revokeUser');
 
 	let message = await helper.revokeUser(req.username, req.orgname);
+	res.send(message);
+});
+
+// update enrollment secret of a User
+//TODO: Can be enhanced this to update several other details like max enrollments etc.,
+app.post('/user/update', async function(req, res) {
+	logger.info('<<<<<<<<<<<<<<<<< U P D A T E   U S E R   P S W D >>>>>>>>>>>>>>>>>');
+	logger.debug('End point : /updatePassword');
+	var pswd = req.body.password;
+	let message = await helper.updatePassword(req.username, pswd, req.orgname, true);
 	res.send(message);
 });
 
