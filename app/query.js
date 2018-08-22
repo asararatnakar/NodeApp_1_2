@@ -62,30 +62,108 @@ var queryChaincode = async function(peer, channelName, chaincodeName, args, fcn,
 		return error.toString();
 	}
 };
-var getBlockByNumber = async function(peer, channelName, blockNumber, username, org_name) {
+var getBlockByNumber = async function (peer, channelName, id, username, org_name) {
 	try {
 		// first setup the client for this org
 		var client = await helper.getClientForOrg(org_name, username);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
+		
 		// enable Client TLS
 		var tlsInfo =  await helper.tlsEnroll(client);
 		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
+
 		var channel = client.getChannel(channelName);
-		if(!channel) {
+		if (!channel) {
 			let message = util.format('Channel %s was not defined in the connection profile', channelName);
 			logger.error(message);
 			throw new Error(message);
 		}
+		var alphaNumeric = /^[0-9a-zA-Z]+$/;
+		var numeric = /^[0-9]+$/;
+		let response_payload = null;
 
-		let response_payload = await channel.queryBlock(parseInt(blockNumber, peer));
+		if (id.match(numeric)) {
+			logger.debug('Blocknumber %s is passed, Calling channel.queryBlock')
+			response_payload = await channel.queryInfo(peer);
+			if (response_payload) {
+				var blockheight = parseInt(response_payload.height.toString());
+				logger.debug('Block height is %s', blockheight);
+				if (parseInt(id) <= blockheight) {
+					response_payload = await channel.queryBlock(parseInt(id, peer));
+				} else {
+					logger.error('Block '+id+'  doesn\'t exists');
+					return 'Block '+id+' doesn\'t exists';
+				}
+			}
+		} else if (id.match(alphaNumeric)) {
+			logger.debug('TransactionID %s is passed, Calling channel.queryBlockByTxID')
+			response_payload = await channel.queryBlockByTxID(id);
+		} else {
+			logger.error('Invalid ID passed');
+			return 'Invalid ID passed';
+		}
 		if (response_payload) {
-			logger.debug(response_payload);
+			// logger.debug(response_payload);
 			return response_payload;
 		} else {
 			logger.error('response_payload is null');
 			return 'response_payload is null';
 		}
-	} catch(error) {
+	} catch (error) {
+		logger.error('Failed to query due to error: ' + error.stack ? error.stack : error);
+		return error.toString();
+	}
+};
+var getTransactionSummary = async function (peer, channelName, username, org_name) {
+	try {
+		// first setup the client for this org
+		var client = await helper.getClientForOrg(org_name, username);
+		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
+		
+		// enable Client TLS
+		var tlsInfo =  await helper.tlsEnroll(client);
+		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
+
+		var channel = client.getChannel(channelName);
+		if (!channel) {
+			let message = util.format('Channel %s was not defined in the connection profile', channelName);
+			logger.error(message);
+			throw new Error(message);
+		}
+		let channelInfo = await channel.queryInfo(peer);
+		let totalTxns = 0;
+		let cfgUpdate = 0;
+		let endorseTxns = 0;
+		if (channelInfo) {
+			var blockheight = parseInt(channelInfo.height.toString());
+			logger.debug('Block height is %s', blockheight);
+			logger.debug('---------------------------------------');
+			for (i=0;i<blockheight;i++){
+				let block = await channel.queryBlock(i, peer);
+				let txnCounter = block.data.data.length
+				// console.log(block.data.data[0].payload.header.channel_header);
+				// console.log(block.data.data[0].payload.header.channel_header.typeString);
+				// console.log('Transactions in Blocks '+i+' are : ' +txnCounter);
+				if (block.data.data[0].payload.header.channel_header.typeString === "CONFIG") {
+					cfgUpdate++;
+				} else if (block.data.data[0].payload.header.channel_header.typeString === "ENDORSER_TRANSACTION") {
+					endorseTxns++
+				}
+				//TODO: Identify Instantiate vs Invoke Transaction ?
+				totalTxns += txnCounter;
+			}
+			let trxnSummary = {};
+			trxnSummary.total_blocks = blockheight;
+			trxnSummary.total_transactions = totalTxns;
+			trxnSummary.configupdate_transactions = cfgUpdate;
+			trxnSummary.endorsement_transactions = endorseTxns;
+
+			return JSON.stringify(trxnSummary);
+		} else {
+			logger.error('Transactions summary is null');
+			return 'Transactions summary is null';
+		}
+	} catch (error) {
 		logger.error('Failed to query due to error: ' + error.stack ? error.stack : error);
 		return error.toString();
 	}
@@ -254,3 +332,4 @@ exports.getBlockByHash = getBlockByHash;
 exports.getChainInfo = getChainInfo;
 exports.getInstalledChaincodes = getInstalledChaincodes;
 exports.getChannels = getChannels;
+exports.getTransactionSummary = getTransactionSummary;

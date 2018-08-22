@@ -86,8 +86,6 @@ ORG1_TOKEN=$(curl -s -X POST \
   -d 'username=Jim&orgName=Org1')
 echo $ORG1_TOKEN
 ORG1_TOKEN=$(echo $ORG1_TOKEN | jq ".token" | sed "s/\"//g")
-echo
-echo "ORG1 token is $ORG1_TOKEN"
 
 echo
 echo "POST request Enroll on Org2 ..."
@@ -358,10 +356,19 @@ invokeAndQuery 2
 richQuery
 rangeQuery
 
-echo "GET query Block by blockNumber"
+echo "GET query Block by invalid blockNumber"
 echo
 curl -s -X GET \
-  "http://localhost:4000/channels/${CHANNEL}/blocks/4?peer=peer0.org1.example.com" \
+  "http://localhost:4000/channels/${CHANNEL}/blocks/100?peer=peer0.org1.example.com" \
+  -H "authorization: Bearer $ORG1_TOKEN" \
+  -H "content-type: application/json"
+echo
+echo
+
+echo "GET query Block by TransactionID"
+echo
+curl -s -X GET \
+  "http://localhost:4000/channels/${CHANNEL}/blocks/${TRX_ID}?peer=peer0.org1.example.com" \
   -H "authorization: Bearer $ORG1_TOKEN" \
   -H "content-type: application/json"
 echo
@@ -369,7 +376,15 @@ echo
 
 echo "GET query Transaction by TransactionID"
 echo
-curl -s -X GET "http://localhost:4000/channels/${CHANNEL}/transactions/$TRX_ID?peer=peer0.org1.example.com" \
+curl -s -X GET http://localhost:4000/channels/${CHANNEL}/transactions/${TRX_ID}?peer=peer0.org1.example.com \
+  -H "authorization: Bearer $ORG1_TOKEN" \
+  -H "content-type: application/json"
+echo
+echo
+
+echo "GET query TransactionSummary"
+echo
+curl -s -X GET http://localhost:4000/channels/${CHANNEL}/transactions?peer=peer0.org1.example.com \
   -H "authorization: Bearer $ORG1_TOKEN" \
   -H "content-type: application/json"
 echo

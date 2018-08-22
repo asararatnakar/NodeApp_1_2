@@ -401,19 +401,19 @@ app.get('/channels/:channelName/chaincodes/:chaincodeName', async function(req, 
 	res.send(message);
 });
 //  Query Get Block by BlockNumber
-app.get('/channels/:channelName/blocks/:blockId', async function(req, res) {
+app.get('/channels/:channelName/blocks/:id', async function(req, res) {
 	logger.debug('==================== GET BLOCK BY NUMBER ==================');
-	let blockId = req.params.blockId;
+	let id = req.params.id;
 	let peer = req.query.peer;
 	logger.debug('channelName : ' + req.params.channelName);
-	logger.debug('BlockID : ' + blockId);
+	logger.debug('ID : ' + id);
 	logger.debug('Peer : ' + peer);
-	if (!blockId) {
-		res.json(getErrorMessage('\'blockId\''));
+	if (!id) {
+		res.json(getErrorMessage('\'ID\''));
 		return;
 	}
 
-	let message = await query.getBlockByNumber(peer, req.params.channelName, blockId, req.username, req.orgname);
+	let message = await query.getBlockByNumber(peer, req.params.channelName, id, req.username, req.orgname);
 	res.send(message);
 });
 // Query Get Transaction by Transaction ID
@@ -428,6 +428,14 @@ app.get('/channels/:channelName/transactions/:trxnId', async function(req, res) 
 	}
 
 	let message = await query.getTransactionByID(peer, req.params.channelName, trxnId, req.username, req.orgname);
+	res.send(message);
+});
+// Query Transaction Summary
+app.get('/channels/:channelName/transactions', async function(req, res) {
+	logger.debug('================ GET TRANSACTION BY TRANSACTION_ID ======================');
+	logger.debug('channelName : ' + req.params.channelName);
+	let peer = req.query.peer;
+	let message = await query.getTransactionSummary(peer, req.params.channelName, req.username, req.orgname);
 	res.send(message);
 });
 // Query Get Block by Hash
