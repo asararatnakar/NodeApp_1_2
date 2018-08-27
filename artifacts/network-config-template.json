@@ -62,10 +62,10 @@
                 "ca-org1"
             ],
             "adminPrivateKey": {
-                "path": "artifacts/channel/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/keystore/ea5dc0221301d130050317ef96d2e9ff140cc380e569b4b8f156db45d533df60_sk"
+                "pem": "-----BEGIN PRIVATE KEY-----\nMIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQg81NDsON9E9wt6jAj\nUN93szq8wljhFFjaKqg0IJJtqjyhRANCAAS8TNnR3Js/TQ0teB05fi7xH0bGHHCx\nkpMbvi2qFg2GXIxq9l1G2QaPB3T/Paeu4/eqB8e95KjFHFByfqfxLpMq\n-----END PRIVATE KEY-----\n"
             },
             "signedCert": {
-                "path": "artifacts/channel/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp/signcerts/Admin@org1.example.com-cert.pem"
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICKTCCAdCgAwIBAgIQDM3gWVx7bjGzXyC91XWP5jAKBggqhkjOPQQDAjBzMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEZMBcGA1UEChMQb3JnMS5leGFtcGxlLmNvbTEcMBoGA1UEAxMTY2Eu\nb3JnMS5leGFtcGxlLmNvbTAeFw0xODA2MjkwMDExNDFaFw0yODA2MjYwMDExNDFa\nMGwxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1T\nYW4gRnJhbmNpc2NvMQ8wDQYDVQQLEwZjbGllbnQxHzAdBgNVBAMMFkFkbWluQG9y\nZzEuZXhhbXBsZS5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAS8TNnR3Js/\nTQ0teB05fi7xH0bGHHCxkpMbvi2qFg2GXIxq9l1G2QaPB3T/Paeu4/eqB8e95KjF\nHFByfqfxLpMqo00wSzAOBgNVHQ8BAf8EBAMCB4AwDAYDVR0TAQH/BAIwADArBgNV\nHSMEJDAigCCHnmjGGGl4Mt262a1z7FpcPETZu4nDu8S261riWe8fSTAKBggqhkjO\nPQQDAgNHADBEAiBDrJtx0yKuzb/q9w8z+uz0+cxlGwNYWbljhclmQZerZAIgUdgi\nYmzvcm20wMRgRRajVWbo9kaoAudhFVum2ocNRtA=\n-----END CERTIFICATE-----\n"
             }
         },
         "Org2": {
@@ -78,10 +78,10 @@
                 "ca-org2"
             ],
             "adminPrivateKey": {
-                "path": "artifacts/channel/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/keystore/373e7602ad3d4c1f23a198bddbd8c16efd8c02af2c73f91a8978430e9b89dd3b_sk"
+                "pem": "-----BEGIN PRIVATE KEY-----\nMIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgqw5JAS7YEASCcudI\nW7ICOdJaIfqIFGX2Yr6tNMJ0muuhRANCAARnOJchAv2Uyvoi5ganr6sGFhozEC+X\nO6vTjI0JXZZd+KkFSB6X4gut30pQoogJyFptyCIcL76fyAx4YCx+Lgra\n-----END PRIVATE KEY-----\n"
             },
             "signedCert": {
-                "path": "artifacts/channel/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp/signcerts/Admin@org2.example.com-cert.pem"
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICKTCCAdCgAwIBAgIQO0pYtJuLdG1M0qzvbtZaCDAKBggqhkjOPQQDAjBzMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEZMBcGA1UEChMQb3JnMi5leGFtcGxlLmNvbTEcMBoGA1UEAxMTY2Eu\nb3JnMi5leGFtcGxlLmNvbTAeFw0xODA2MjkwMDExNDFaFw0yODA2MjYwMDExNDFa\nMGwxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1T\nYW4gRnJhbmNpc2NvMQ8wDQYDVQQLEwZjbGllbnQxHzAdBgNVBAMMFkFkbWluQG9y\nZzIuZXhhbXBsZS5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAARnOJchAv2U\nyvoi5ganr6sGFhozEC+XO6vTjI0JXZZd+KkFSB6X4gut30pQoogJyFptyCIcL76f\nyAx4YCx+Lgrao00wSzAOBgNVHQ8BAf8EBAMCB4AwDAYDVR0TAQH/BAIwADArBgNV\nHSMEJDAigCCz29H1Ma+cBh4Kvs5qWTvzwUYLoCXEW5RfTEnfTF770zAKBggqhkjO\nPQQDAgNHADBEAiBojOSQm7RK1DeWA3yhTeyg6Gx/XPbXuYBbLiu2H2XcBAIgeMV+\nIGmx+efe8UzGRGkx0awEzhkqOxfkffxspjGgy/E=\n-----END CERTIFICATE-----\n"
             }
         }
     },
@@ -92,7 +92,7 @@
                 "ssl-target-name-override": "orderer0.example.com"
             },
             "tlsCACerts": {
-                "path": "artifacts/channel/crypto-config/ordererOrganizations/example.com/orderers/orderer0.example.com/tls/ca.crt"
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICNDCCAdugAwIBAgIQFL+gs+NuzfcpYBBQtzw4bDAKBggqhkjOPQQDAjBsMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEUMBIGA1UEChMLZXhhbXBsZS5jb20xGjAYBgNVBAMTEXRsc2NhLmV4\nYW1wbGUuY29tMB4XDTE4MDYyOTAwMTE0MVoXDTI4MDYyNjAwMTE0MVowbDELMAkG\nA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBGcmFu\nY2lzY28xFDASBgNVBAoTC2V4YW1wbGUuY29tMRowGAYDVQQDExF0bHNjYS5leGFt\ncGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABH8FJEnN6BaCauE6S29d\nDz6wc9SvfsWzVVuaGIBzue+RA3bUQPWFeb556YM58h6yUtvQkPYPTsIC31Y0p62g\nm+GjXzBdMA4GA1UdDwEB/wQEAwIBpjAPBgNVHSUECDAGBgRVHSUAMA8GA1UdEwEB\n/wQFMAMBAf8wKQYDVR0OBCIEILi6sKtl5zOwJCNQWCz3OV5LrtdzOICeoUQO4MvJ\n/8UyMAoGCCqGSM49BAMCA0cAMEQCIC7bXd8y6y2wlaHhhjZiexkbARImPELphsyD\nkQ9+5n83AiBiEraIslE0cXzSRKv2Mk5EtdU7IboOsvuIjMoeM+WHmA==\n-----END CERTIFICATE-----\n"
             }
         },
         "orderer1.example.com": {
@@ -101,7 +101,7 @@
                 "ssl-target-name-override": "orderer1.example.com"
             },
             "tlsCACerts": {
-                "path": "artifacts/channel/crypto-config/ordererOrganizations/example.com/orderers/orderer1.example.com/tls/ca.crt"
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICNDCCAdugAwIBAgIQFL+gs+NuzfcpYBBQtzw4bDAKBggqhkjOPQQDAjBsMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEUMBIGA1UEChMLZXhhbXBsZS5jb20xGjAYBgNVBAMTEXRsc2NhLmV4\nYW1wbGUuY29tMB4XDTE4MDYyOTAwMTE0MVoXDTI4MDYyNjAwMTE0MVowbDELMAkG\nA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBGcmFu\nY2lzY28xFDASBgNVBAoTC2V4YW1wbGUuY29tMRowGAYDVQQDExF0bHNjYS5leGFt\ncGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABH8FJEnN6BaCauE6S29d\nDz6wc9SvfsWzVVuaGIBzue+RA3bUQPWFeb556YM58h6yUtvQkPYPTsIC31Y0p62g\nm+GjXzBdMA4GA1UdDwEB/wQEAwIBpjAPBgNVHSUECDAGBgRVHSUAMA8GA1UdEwEB\n/wQFMAMBAf8wKQYDVR0OBCIEILi6sKtl5zOwJCNQWCz3OV5LrtdzOICeoUQO4MvJ\n/8UyMAoGCCqGSM49BAMCA0cAMEQCIC7bXd8y6y2wlaHhhjZiexkbARImPELphsyD\nkQ9+5n83AiBiEraIslE0cXzSRKv2Mk5EtdU7IboOsvuIjMoeM+WHmA==\n-----END CERTIFICATE-----\n"
             }
         },
         "orderer2.example.com": {
@@ -110,7 +110,7 @@
                 "ssl-target-name-override": "orderer2.example.com"
             },
             "tlsCACerts": {
-                "path": "artifacts/channel/crypto-config/ordererOrganizations/example.com/orderers/orderer2.example.com/tls/ca.crt"
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICNDCCAdugAwIBAgIQFL+gs+NuzfcpYBBQtzw4bDAKBggqhkjOPQQDAjBsMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEUMBIGA1UEChMLZXhhbXBsZS5jb20xGjAYBgNVBAMTEXRsc2NhLmV4\nYW1wbGUuY29tMB4XDTE4MDYyOTAwMTE0MVoXDTI4MDYyNjAwMTE0MVowbDELMAkG\nA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBGcmFu\nY2lzY28xFDASBgNVBAoTC2V4YW1wbGUuY29tMRowGAYDVQQDExF0bHNjYS5leGFt\ncGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABH8FJEnN6BaCauE6S29d\nDz6wc9SvfsWzVVuaGIBzue+RA3bUQPWFeb556YM58h6yUtvQkPYPTsIC31Y0p62g\nm+GjXzBdMA4GA1UdDwEB/wQEAwIBpjAPBgNVHSUECDAGBgRVHSUAMA8GA1UdEwEB\n/wQFMAMBAf8wKQYDVR0OBCIEILi6sKtl5zOwJCNQWCz3OV5LrtdzOICeoUQO4MvJ\n/8UyMAoGCCqGSM49BAMCA0cAMEQCIC7bXd8y6y2wlaHhhjZiexkbARImPELphsyD\nkQ9+5n83AiBiEraIslE0cXzSRKv2Mk5EtdU7IboOsvuIjMoeM+WHmA==\n-----END CERTIFICATE-----\n"
             }
         }
     },
@@ -121,7 +121,7 @@
                 "ssl-target-name-override": "peer0.org1.example.com"
             },
             "tlsCACerts": {
-                "path": "artifacts/channel/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/tls/ca.crt"
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICSTCCAfCgAwIBAgIRANBobb31WwWl7zibr5sbcA8wCgYIKoZIzj0EAwIwdjEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xGTAXBgNVBAoTEG9yZzEuZXhhbXBsZS5jb20xHzAdBgNVBAMTFnRs\nc2NhLm9yZzEuZXhhbXBsZS5jb20wHhcNMTgwNjI5MDAxMTQxWhcNMjgwNjI2MDAx\nMTQxWjB2MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UE\nBxMNU2FuIEZyYW5jaXNjbzEZMBcGA1UEChMQb3JnMS5leGFtcGxlLmNvbTEfMB0G\nA1UEAxMWdGxzY2Eub3JnMS5leGFtcGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49\nAwEHA0IABJoJuJcRSkFx4d9gXqx+mpsu57R060kS0APTbUDjEhS7MAEbWaquOTqZ\nYnp7tScbYAqUcp9rXH36Ewz1wijdiGCjXzBdMA4GA1UdDwEB/wQEAwIBpjAPBgNV\nHSUECDAGBgRVHSUAMA8GA1UdEwEB/wQFMAMBAf8wKQYDVR0OBCIEIAwqhxKZUaty\nZlOdGbhtZcoBDVd6Ftb+aIB19o25+x2QMAoGCCqGSM49BAMCA0cAMEQCIAgFb2di\nF7wxULNTfoHZzqjsbF3LwTjAZaNrn6YDUCa9AiAQADCJ/7JsU3fqgUt1pz23nB+Y\nOrwEui3y+xAoQLYsNA==\n-----END CERTIFICATE-----\n"
             }
         },
         "peer1.org1.example.com": {
@@ -130,7 +130,7 @@
                 "ssl-target-name-override": "peer1.org1.example.com"
             },
             "tlsCACerts": {
-                "path": "artifacts/channel/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/tls/ca.crt"
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICSTCCAfCgAwIBAgIRANBobb31WwWl7zibr5sbcA8wCgYIKoZIzj0EAwIwdjEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xGTAXBgNVBAoTEG9yZzEuZXhhbXBsZS5jb20xHzAdBgNVBAMTFnRs\nc2NhLm9yZzEuZXhhbXBsZS5jb20wHhcNMTgwNjI5MDAxMTQxWhcNMjgwNjI2MDAx\nMTQxWjB2MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UE\nBxMNU2FuIEZyYW5jaXNjbzEZMBcGA1UEChMQb3JnMS5leGFtcGxlLmNvbTEfMB0G\nA1UEAxMWdGxzY2Eub3JnMS5leGFtcGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49\nAwEHA0IABJoJuJcRSkFx4d9gXqx+mpsu57R060kS0APTbUDjEhS7MAEbWaquOTqZ\nYnp7tScbYAqUcp9rXH36Ewz1wijdiGCjXzBdMA4GA1UdDwEB/wQEAwIBpjAPBgNV\nHSUECDAGBgRVHSUAMA8GA1UdEwEB/wQFMAMBAf8wKQYDVR0OBCIEIAwqhxKZUaty\nZlOdGbhtZcoBDVd6Ftb+aIB19o25+x2QMAoGCCqGSM49BAMCA0cAMEQCIAgFb2di\nF7wxULNTfoHZzqjsbF3LwTjAZaNrn6YDUCa9AiAQADCJ/7JsU3fqgUt1pz23nB+Y\nOrwEui3y+xAoQLYsNA==\n-----END CERTIFICATE-----\n"
             }
         },
         "peer0.org2.example.com": {
@@ -139,7 +139,7 @@
                 "ssl-target-name-override": "peer0.org2.example.com"
             },
             "tlsCACerts": {
-                "path": "artifacts/channel/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt"
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICSjCCAfCgAwIBAgIRAPWI5mnVnf1CC77tPiuLYikwCgYIKoZIzj0EAwIwdjEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xGTAXBgNVBAoTEG9yZzIuZXhhbXBsZS5jb20xHzAdBgNVBAMTFnRs\nc2NhLm9yZzIuZXhhbXBsZS5jb20wHhcNMTgwNjI5MDAxMTQxWhcNMjgwNjI2MDAx\nMTQxWjB2MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UE\nBxMNU2FuIEZyYW5jaXNjbzEZMBcGA1UEChMQb3JnMi5leGFtcGxlLmNvbTEfMB0G\nA1UEAxMWdGxzY2Eub3JnMi5leGFtcGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49\nAwEHA0IABD6WGTVWx+wm9qXFb/zWydgEjs5m6UWtn5LuCmHkgLRSbvL9PDSQlh5U\nlC9r2+2GBQ1hUspDCdCtggGsfYDtqDyjXzBdMA4GA1UdDwEB/wQEAwIBpjAPBgNV\nHSUECDAGBgRVHSUAMA8GA1UdEwEB/wQFMAMBAf8wKQYDVR0OBCIEIEu30R7UHr6H\nQHv4D3pbHvIkcJlOaMHzbTTuO3hy8jE2MAoGCCqGSM49BAMCA0gAMEUCIQC959jr\nHti7hUA8E5VZqqYixXS40Jz9yNZcBVNwuWyYFQIgJ4F+p1ZVbbHanCuls0Zvixcw\nRfT915nM0OTlQBZ4Yd4=\n-----END CERTIFICATE-----\n"
             }
         },
         "peer1.org2.example.com": {
@@ -148,7 +148,7 @@
                 "ssl-target-name-override": "peer1.org2.example.com"
             },
             "tlsCACerts": {
-                "path": "artifacts/channel/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/tls/ca.crt"
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICSjCCAfCgAwIBAgIRAPWI5mnVnf1CC77tPiuLYikwCgYIKoZIzj0EAwIwdjEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xGTAXBgNVBAoTEG9yZzIuZXhhbXBsZS5jb20xHzAdBgNVBAMTFnRs\nc2NhLm9yZzIuZXhhbXBsZS5jb20wHhcNMTgwNjI5MDAxMTQxWhcNMjgwNjI2MDAx\nMTQxWjB2MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UE\nBxMNU2FuIEZyYW5jaXNjbzEZMBcGA1UEChMQb3JnMi5leGFtcGxlLmNvbTEfMB0G\nA1UEAxMWdGxzY2Eub3JnMi5leGFtcGxlLmNvbTBZMBMGByqGSM49AgEGCCqGSM49\nAwEHA0IABD6WGTVWx+wm9qXFb/zWydgEjs5m6UWtn5LuCmHkgLRSbvL9PDSQlh5U\nlC9r2+2GBQ1hUspDCdCtggGsfYDtqDyjXzBdMA4GA1UdDwEB/wQEAwIBpjAPBgNV\nHSUECDAGBgRVHSUAMA8GA1UdEwEB/wQFMAMBAf8wKQYDVR0OBCIEIEu30R7UHr6H\nQHv4D3pbHvIkcJlOaMHzbTTuO3hy8jE2MAoGCCqGSM49BAMCA0gAMEUCIQC959jr\nHti7hUA8E5VZqqYixXS40Jz9yNZcBVNwuWyYFQIgJ4F+p1ZVbbHanCuls0Zvixcw\nRfT915nM0OTlQBZ4Yd4=\n-----END CERTIFICATE-----\n"
             }
         }
     },
@@ -159,7 +159,7 @@
                 "verify": false
             },
             "tlsCACerts": {
-                "path": "artifacts/channel/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem"
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICQjCCAemgAwIBAgIQVB7mGBaY07mxF4jZhd86SjAKBggqhkjOPQQDAjBzMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEZMBcGA1UEChMQb3JnMS5leGFtcGxlLmNvbTEcMBoGA1UEAxMTY2Eu\nb3JnMS5leGFtcGxlLmNvbTAeFw0xODA2MjkwMDExNDFaFw0yODA2MjYwMDExNDFa\nMHMxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1T\nYW4gRnJhbmNpc2NvMRkwFwYDVQQKExBvcmcxLmV4YW1wbGUuY29tMRwwGgYDVQQD\nExNjYS5vcmcxLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE\nhtd4Rtvx55c0iFyyYCvKG1IHrKP8gbp2PbHroENlG0fZg1BGSZwiXrvECnryhpSA\n1GDtZls5EbXu20x8xYZrkaNfMF0wDgYDVR0PAQH/BAQDAgGmMA8GA1UdJQQIMAYG\nBFUdJQAwDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQgh55oxhhpeDLdutmtc+xa\nXDxE2buJw7vEtuta4lnvH0kwCgYIKoZIzj0EAwIDRwAwRAIgJN8E0qcvGktvAPuX\n+g7wfdjhAvj0B2xkd+eFKYpY/6QCIAL600IrtWL6IFvw41RwEFzU0ZpEmorzReVo\niXXC+lf7\n-----END CERTIFICATE-----\n"
             },
             "registrar": [
                 {
@@ -175,7 +175,7 @@
                 "verify": false
             },
             "tlsCACerts": {
-                "path": "artifacts/channel/crypto-config/peerOrganizations/org2.example.com/ca/ca.org2.example.com-cert.pem"
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICQzCCAemgAwIBAgIQNdFuNpSvmyYOXw1fRyxnVjAKBggqhkjOPQQDAjBzMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEZMBcGA1UEChMQb3JnMi5leGFtcGxlLmNvbTEcMBoGA1UEAxMTY2Eu\nb3JnMi5leGFtcGxlLmNvbTAeFw0xODA2MjkwMDExNDFaFw0yODA2MjYwMDExNDFa\nMHMxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1T\nYW4gRnJhbmNpc2NvMRkwFwYDVQQKExBvcmcyLmV4YW1wbGUuY29tMRwwGgYDVQQD\nExNjYS5vcmcyLmV4YW1wbGUuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE\nh5VHRnXWqWujzXyOM8DxIh8DEKZJJ4q3OU6222gbUpUP3YYdzDq8sulpXcb4LGNt\nVNCn8p5kS2znQnTEb+rFUaNfMF0wDgYDVR0PAQH/BAQDAgGmMA8GA1UdJQQIMAYG\nBFUdJQAwDwYDVR0TAQH/BAUwAwEB/zApBgNVHQ4EIgQgs9vR9TGvnAYeCr7Oalk7\n88FGC6AlxFuUX0xJ30xe+9MwCgYIKoZIzj0EAwIDSAAwRQIhAI4B+cclU1o7upXu\nCKK7ggkyVu0aB8FwKkbBSnQNQjYYAiB+sN7vL803Y/jskrlhE+S0QQbPWq8urtbf\nl/UikGBfOA==\n-----END CERTIFICATE-----\n"
             },
             "registrar": [
                 {

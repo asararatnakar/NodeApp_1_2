@@ -17,8 +17,6 @@
 const log4js = require('log4js');
 const logger = log4js.getLogger('SampleWebApp');
 const express = require('express');
-// var session = require('express-session');
-// var cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const http = require('http');
 const util = require('util');
