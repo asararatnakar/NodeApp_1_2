@@ -40,8 +40,8 @@ const query = require('./app/query.js');
 
 // indicate to the application where the setup file is located so it able
 // to have the hfc load it to initalize the fabric client instance
-hfc.setConfigSetting('Org1-connection-profile-path',path.join(__dirname, 'artifacts', 'network-config-org1.json'));
-hfc.setConfigSetting('Org2-connection-profile-path',path.join(__dirname, 'artifacts', 'network-config-org2.json'));
+hfc.setConfigSetting('Org1-connection-profile',path.join(__dirname, 'artifacts', 'network-config-org1.json'));
+hfc.setConfigSetting('Org2-connection-profile',path.join(__dirname, 'artifacts', 'network-config-org2.json'));
 // some other settings the application might need to know
 hfc.addConfigFile(path.join(__dirname, 'config.json'));
 
@@ -161,6 +161,20 @@ app.post('/user/update', async function(req, res) {
 	logger.debug('End point : /updatePassword');
 	var pswd = req.body.password;
 	let message = await helper.updatePassword(req.username, pswd, req.orgname, true);
+	res.send(message);
+});
+
+//Update connection profile with the channel name
+app.put('/channel/:channel', async function(req, res) {
+	logger.info('<<<<<<<<<<<<<<<<< U P D A T E   C C P >>>>>>>>>>>>>>>>>');
+	logger.debug('End point : /channel/:channel');
+	var channel = req.params.channel;
+	logger.debug('Channel name : ' + channel);
+	if (!channel) {
+		res.json(getErrorMessage('\'channel\''));
+		return;
+	}
+	let message = await helper.updateCCP(channel);
 	res.send(message);
 });
 

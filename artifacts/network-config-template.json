@@ -13,44 +13,7 @@
             "wallet": "wallet-name"
         }
     },
-    "channels": {
-        "CHANNEL_NAME": {
-            "orderers": [
-                "orderer0.example.com",
-                "orderer1.example.com",
-                "orderer2.example.com"
-            ],
-            "peers": {
-                "peer0.org1.example.com": {
-                    "endorsingPeer": true,
-                    "chaincodeQuery": true,
-                    "ledgerQuery": true,
-                    "eventSource": true
-                },
-                "peer1.org1.example.com": {
-                    "endorsingPeer": false,
-                    "chaincodeQuery": true,
-                    "ledgerQuery": true,
-                    "eventSource": false
-                },
-                "peer0.org2.example.com": {
-                    "endorsingPeer": true,
-                    "chaincodeQuery": true,
-                    "ledgerQuery": true,
-                    "eventSource": true
-                },
-                "peer1.org2.example.com": {
-                    "endorsingPeer": false,
-                    "chaincodeQuery": true,
-                    "ledgerQuery": true,
-                    "eventSource": false
-                }
-            },
-            "chaincodes": [
-                "mycc:v0"
-            ]
-        }
-    },
+    "channels": {},
     "organizations": {
         "Org1": {
             "mspid": "Org1MSP",

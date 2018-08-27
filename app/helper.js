@@ -14,28 +14,83 @@
  *  limitations under the License.
  */
 'use strict';
-var log4js = require('log4js');
-var logger = log4js.getLogger('Helper');
+const log4js = require('log4js');
+const logger = log4js.getLogger('Helper');
 logger.setLevel('DEBUG');
 
-var path = require('path');
-var util = require('util');
-var hfc = require('fabric-client');
+const path = require('path');
+const util = require('util');
+const hfc = require('fabric-client');
 hfc.setLogger(logger);
+const fs = require('fs');
+///TODO: no don't do this 
+const cfg = require('../artifacts/network-config-template.json');
 
-var sleep = async function (sleep_time_ms) {
-	return new Promise(resolve => setTimeout(resolve, sleep_time_ms));
+function orgsList(config){
+	let orgs = [];
+	for (let key in config.organizations) {
+		orgs.push(key)
+	}
+	return orgs;
 }
-
-async function getClientForOrg (userorg, username) {
+function getChannelSection(){
+	let peers = {};
+	for (let key in cfg.organizations) {
+		let orgPeers = cfg.organizations[key].peers;
+		for (let peer in orgPeers) {
+			let val = orgPeers[peer]
+			peers[val] = {};
+		}
+	}
+	let orderers = [];
+	for (let key in cfg.orderers) {
+		orderers.push(key);
+	}
+	let channel = {};
+	channel.peers = peers;
+	channel.orderers = orderers;
+	// console.log(JSON.stringify(main));
+	// return JSON.stringify(main);
+	return channel;
+}
+function isChannelExists (channel, config){
+	for (let key in config.channels){
+		if ( key == channel ){
+			return true;
+		}
+	}
+	return false;
+}
+async function updateCCP(channel) {
+	logger.debug('updateCCP - ****** update connection profile with channel name : ', channel);
+	var config = require('../artifacts/network-config-org1.json');
+	let orgs = orgsList(config);
+	if (isChannelExists(channel, config)) {
+		//No need to update the connection profile if it already updated with channel section
+		return;
+	}
+	let configStr = '-connection-profile';
+	// build a client context and load it with a connection profile
+	// lets load the network settings and a client section. This will also set an admin
+	// identity because the organization defined in the client section has one defined.
+	for (let key in orgs) {
+		//TODO: Hardcoding in several places looks ugly ?
+		config = require(path.join(__dirname, '../artifacts', 'network-config-'+orgs[key].toLowerCase()+'.json'));
+		config.channels[channel] = getChannelSection();
+		// console.log(JSON.stringify(config, null, 4));
+		fs.writeFileSync(path.join(__dirname, '../artifacts', 'network-config-'+orgs[key].toLowerCase()+'.json'), JSON.stringify(config, null, 4), 'utf-8');
+		hfc.setConfigSetting(orgs[key]+configStr ,path.join(__dirname, '../artifacts', 'network-config-'+orgs[key].toLowerCase()+'.json'));
+	}
+}
+async function getClientForOrg(userorg, username) {
 	logger.debug('getClientForOrg - ****** START %s %s', userorg, username)
 	// get a fabric client loaded with a connection profile for this org
-	let config = '-connection-profile-path';
+	let config = '-connection-profile';
 
 	// build a client context and load it with a connection profile
 	// lets load the network settings and a client section. This will also set an admin 
-        // identity because the organization defined in the client section has one defined.
-	let client = hfc.loadFromConfig(hfc.getConfigSetting(userorg+config));
+	// identity because the organization defined in the client section has one defined.
+	let client = hfc.loadFromConfig(hfc.getConfigSetting(userorg + config));
 
 	// This will load a connection profile over the top of the current one one
 	// since the first one did not have a client section and the following one does
@@ -52,9 +107,9 @@ async function getClientForOrg (userorg, username) {
 	// If the user has been saved to persistence then that means the user has
 	// been registered and enrolled. If the user is found in persistence
 	// the call will then assign the user to the client object.
-	if(username) {
+	if (username) {
 		let user = await client.getUserContext(username, true);
-		if(!user) {
+		if (!user) {
 			throw new Error(util.format('User was not found :', username));
 		} else {
 			logger.debug('User %s was found to be registered and enrolled', username);
@@ -65,12 +120,12 @@ async function getClientForOrg (userorg, username) {
 	return client;
 }
 
-var getRegisteredUser = async function(username, userOrg, isJson) {
+var getRegisteredUser = async function (username, userOrg, isJson) {
 	try {
 		var client = await getClientForOrg(userOrg);
 		logger.debug('Successfully initialized the credential stores');
-			// client can now act as an agent for organization Org1
-			// first check to see if the user is already enrolled
+		// client can now act as an agent for organization Org1
+		// first check to see if the user is already enrolled
 		var user = await client.getUserContext(username, true);
 		if (user && user.isEnrolled()) {
 			logger.info('Successfully loaded member from persistence');
@@ -78,17 +133,17 @@ var getRegisteredUser = async function(username, userOrg, isJson) {
 			let caClient = client.getCertificateAuthority();
 			var admins = caClient.getRegistrar();
 			// user was not enrolled, so we will need an admin user object to register
-			logger.info('User %s was not enrolled, so we will need an admin user object to register',username);
-			let adminUserObj = await client.setUserContext({username: admins[0].enrollId, password: admins[0].enrollSecret});
+			logger.info('User %s was not enrolled, so we will need an admin user object to register', username);
+			let adminUserObj = await client.setUserContext({ username: admins[0].enrollId, password: admins[0].enrollSecret });
 			let secret = await caClient.register({
 				enrollmentID: username,
 				affiliation: userOrg.toLowerCase() + '.department1'
 			}, adminUserObj);
-			logger.debug('Successfully got the secret for user %s',username);
-			user = await client.setUserContext({username:username, password:secret});
+			logger.debug('Successfully got the secret for user %s', username);
+			user = await client.setUserContext({ username: username, password: secret });
 			logger.debug('Successfully enrolled username %s  and setUserContext on the client object', username);
 		}
-		if(user && user.isEnrolled) {
+		if (user && user.isEnrolled) {
 			if (isJson && isJson === true) {
 				var response = {
 					success: true,
@@ -100,38 +155,38 @@ var getRegisteredUser = async function(username, userOrg, isJson) {
 		} else {
 			throw new Error('User was not enrolled ');
 		}
-	} catch(error) {
+	} catch (error) {
 		logger.error('Failed to get registered user: %s with error: %s', username, error.toString());
-		return 'failed '+error.toString();
+		return 'failed ' + error.toString();
 	}
 
 };
 
 
-var setupChaincodeDeploy = function() {
+var setupChaincodeDeploy = function () {
 	process.env.GOPATH = path.join(__dirname, hfc.getConfigSetting('CC_SRC_PATH'));
 };
 
-var getLogger = function(moduleName) {
+var getLogger = function (moduleName) {
 	var logger = log4js.getLogger(moduleName);
 	logger.setLevel('DEBUG');
 	return logger;
 };
 
 async function tlsEnroll(client) {
-		let caClient = client.getCertificateAuthority();
-		var admins = caClient.getRegistrar();
-		let req = {
-			enrollmentID: admins[0].enrollId,
-			enrollmentSecret: admins[0].enrollSecret,
-			profile: 'tls'
-		};
-		var enrollment = await caClient.enroll(req);
-		enrollment.key = enrollment.key.toBytes();
-		return enrollment;
+	let caClient = client.getCertificateAuthority();
+	var admins = caClient.getRegistrar();
+	let req = {
+		enrollmentID: admins[0].enrollId,
+		enrollmentSecret: admins[0].enrollSecret,
+		profile: 'tls'
+	};
+	var enrollment = await caClient.enroll(req);
+	enrollment.key = enrollment.key.toBytes();
+	return enrollment;
 }
 
-async function revokeUser(username, userOrg){
+async function revokeUser(username, userOrg) {
 	try {
 		var client = await getClientForOrg(userOrg);
 		logger.debug('Successfully initialized the credential stores');
@@ -142,8 +197,8 @@ async function revokeUser(username, userOrg){
 			logger.info('Successfully loaded member from persistence');
 			let caClient = client.getCertificateAuthority();
 			var admins = caClient.getRegistrar();
-			let adminUserObj = await client.setUserContext({username: admins[0].enrollId, password: admins[0].enrollSecret});
-			let crl = await caClient.revoke({enrollmentID: username}, adminUserObj);
+			let adminUserObj = await client.setUserContext({ username: admins[0].enrollId, password: admins[0].enrollSecret });
+			let crl = await caClient.revoke({ enrollmentID: username }, adminUserObj);
 			console.log('-------------- C R L --------------');
 			logger.debug(crl);
 			console.log('-------------- C R L --------------');
@@ -151,11 +206,11 @@ async function revokeUser(username, userOrg){
 			logger.debug(genCrl);
 			return genCrl;
 		} else {
-			logger.error('Failed to get registered user: %s !!! First register the user : '+username);
+			logger.error('Failed to get registered user: %s !!! First register the user : ' + username);
 		}
-	} catch(error) {
+	} catch (error) {
 		logger.error('Failed to get registered user: %s with error: %s', username, error.toString());
-		return 'failed '+error.toString();
+		return 'failed ' + error.toString();
 	}
 }
 var updatePassword = async function (username, secret, userOrg, isJson) {
@@ -164,7 +219,7 @@ var updatePassword = async function (username, secret, userOrg, isJson) {
 		let caClient = client.getCertificateAuthority();
 
 		var admins = caClient.getRegistrar();
-		let adminUser = await client.setUserContext({username: admins[0].enrollId, password: admins[0].enrollSecret});
+		let adminUser = await client.setUserContext({ username: admins[0].enrollId, password: admins[0].enrollSecret });
 
 		try {
 			let identityService = caClient.newIdentityService();
@@ -197,3 +252,4 @@ exports.getRegisteredUser = getRegisteredUser;
 exports.tlsEnroll = tlsEnroll;
 exports.revokeUser = revokeUser;
 exports.updatePassword = updatePassword;
+exports.updateCCP = updateCCP;

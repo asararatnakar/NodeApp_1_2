@@ -51,7 +51,7 @@ function generateConnectionProfiles(){
   do
     lower_org_name=$(echo "$org_name" | awk '{print tolower($0)}')
     cp network-config-template.json network-config-${lower_org_name}.json
-    sed $OPTS "s|CHANNEL_NAME|${CHANNEL}|g" network-config-${lower_org_name}.json
+    # sed $OPTS "s|CHANNEL_NAME|${CHANNEL}|g" network-config-${lower_org_name}.json
     sed $OPTS "s|ORG_NAME|${org_name}|g" network-config-${lower_org_name}.json
     sed $OPTS "s|KEYSTORE_ORG|./fabric-client-kv-${lower_org_name}|g" network-config-${lower_org_name}.json
     rm -rf network-config-${lower_org_name}.jsont
@@ -109,6 +109,15 @@ echo "ORG2 token is $ORG2_TOKEN"
 echo
 
 echo
+echo "PUT request for Connection Profile update with the channel  ..."
+echo
+curl -s -X PUT \
+  http://localhost:4000/channel/${CHANNEL} \
+  -H "authorization: Bearer $ORG1_TOKEN" \
+  -H "content-type: application/json"
+echo
+
+echo
 echo "POST request Create channel  ..."
 echo
 curl -s -X POST \
@@ -120,10 +129,11 @@ curl -s -X POST \
 	\"consortium\":\"SampleConsortium\",
 	\"mspIds\":[\"Org1MSP\",\"Org2MSP\"]
 }"
-
+# exit
 echo
 echo
 sleep 5
+
 echo "POST request Join channel on Org1"
 echo
 curl -s -X POST \
