@@ -182,15 +182,15 @@ app.put('/channel/:channel', async function(req, res) {
 app.post('/channel', async function(req, res) {
 	logger.info('<<<<<<<<<<<<<<<<< C R E A T E  C H A N N E L >>>>>>>>>>>>>>>>>');
 	logger.debug('End point : /channel');
-	var channelName = req.body.channelName;
+	var channel = req.body.channel;
 	var mspIds = req.body.mspIds;
 	var consortium = req.body.consortium;
-	logger.debug('Channel name : ' + channelName);
+	logger.debug('Channel name : ' + channel);
 	logger.debug('consortium : ' + consortium);
 	logger.debug('orgs : ');
 	logger.debug(mspIds);
-	if (!channelName) {
-		res.json(getErrorMessage('\'channelName\''));
+	if (!channel) {
+		res.json(getErrorMessage('\'channel\''));
 		return;
 	}
 	if (!consortium) {
@@ -201,7 +201,7 @@ app.post('/channel', async function(req, res) {
 		res.json(getErrorMessage('\'mspIds\''));
 		return;
 	}
-	let message = await createChannel.createChannel(channelName, consortium, mspIds, req.username, req.orgname);
+	let message = await createChannel.createChannel(channel, consortium, mspIds, req.username, req.orgname);
 	res.send(message);
 });
 // Join Channel
@@ -227,7 +227,7 @@ app.post('/channel/:channelName/peers', async function(req, res) {
 	res.send(message);
 });
 // Anchor peer update on a Channel
-app.post('/channel/:channelName/anchorupdate', async function(req, res) {
+app.put('/channel/:channelName/anchorupdate', async function(req, res) {
 	logger.info('<<<<<<<<<<<<<<<<< A N C H O R    P E E R   U P D A T E  >>>>>>>>>>>>>>>>>');
 	var channelName = req.params.channelName;
 	logger.debug('End point : /channel/'+channelName+'/update');
@@ -253,22 +253,22 @@ app.post('/channel/:channelName/anchorupdate', async function(req, res) {
 });
 
 // Update the Channel
-app.post('/channel/:channelName/update', async function(req, res) {
+app.put('/channel/:channel/update', async function(req, res) {
 	logger.info('<<<<<<<<<<<<<<<<< A N C H O R    P E E R   U P D A T E  >>>>>>>>>>>>>>>>>');
-	var channelName = req.params.channelName;
-	logger.debug('End point : /channel/'+channelName+'/update');
-	logger.debug('Channel name : ' + channelName);
+	var channel = req.params.channel;
+	logger.debug('End point : /channel/'+channel+'/update');
+	logger.debug('Channel name : ' + channel);
 	var crl = req.body.crl;
 	logger.debug('crl : ' + crl);
-	if (!channelName) {
-		res.json(getErrorMessage('\'channelName\''));
+	if (!channel) {
+		res.json(getErrorMessage('\'channel\''));
 		return;
 	}
-	if (!channelName) {
-		res.json(getErrorMessage('\'channelName\''));
+	if (!crl) {
+		res.json(getErrorMessage('\'crl\''));
 		return;
 	}
-	let message = await configUpdate.configUpdate(channelName, req.username, req.orgname, crl);
+	let message = await configUpdate.configUpdate(channel, req.username, req.orgname, crl);
 	res.send(message);
 });
 

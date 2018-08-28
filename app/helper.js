@@ -26,14 +26,14 @@ const fs = require('fs');
 ///TODO: no don't do this 
 const cfg = require('../artifacts/network-config-template.json');
 
-function orgsList(config){
+function orgsList(config) {
 	let orgs = [];
 	for (let key in config.organizations) {
 		orgs.push(key)
 	}
 	return orgs;
 }
-function getChannelSection(){
+function getChannelSection() {
 	let peers = {};
 	for (let key in cfg.organizations) {
 		let orgPeers = cfg.organizations[key].peers;
@@ -53,9 +53,9 @@ function getChannelSection(){
 	// return JSON.stringify(main);
 	return channel;
 }
-function isChannelExists (channel, config){
-	for (let key in config.channels){
-		if ( key == channel ){
+function isChannelExists(channel, config) {
+	for (let key in config.channels) {
+		if (key == channel) {
 			return true;
 		}
 	}
@@ -67,7 +67,7 @@ async function updateCCP(channel) {
 	let orgs = orgsList(config);
 	if (isChannelExists(channel, config)) {
 		//No need to update the connection profile if it already updated with channel section
-		return;
+		return { 'message': 'channel ' + channel + ' already exists in the connection profile' };
 	}
 	let configStr = '-connection-profile';
 	// build a client context and load it with a connection profile
@@ -75,12 +75,14 @@ async function updateCCP(channel) {
 	// identity because the organization defined in the client section has one defined.
 	for (let key in orgs) {
 		//TODO: Hardcoding in several places looks ugly ?
-		config = require(path.join(__dirname, '../artifacts', 'network-config-'+orgs[key].toLowerCase()+'.json'));
+		config = require(path.join(__dirname, '../artifacts', 'network-config-' + orgs[key].toLowerCase() + '.json'));
 		config.channels[channel] = getChannelSection();
 		// console.log(JSON.stringify(config, null, 4));
-		fs.writeFileSync(path.join(__dirname, '../artifacts', 'network-config-'+orgs[key].toLowerCase()+'.json'), JSON.stringify(config, null, 4), 'utf-8');
-		hfc.setConfigSetting(orgs[key]+configStr ,path.join(__dirname, '../artifacts', 'network-config-'+orgs[key].toLowerCase()+'.json'));
+		fs.writeFileSync(path.join(__dirname, '../artifacts', 'network-config-' + orgs[key].toLowerCase() + '.json'), JSON.stringify(config, null, 4), 'utf-8');
+		hfc.setConfigSetting(orgs[key] + configStr, path.join(__dirname, '../artifacts', 'network-config-' + orgs[key].toLowerCase() + '.json'));
 	}
+	return { 'message': 'Connection profiles are updated successfully with channel ' + channel };
+
 }
 async function getClientForOrg(userorg, username) {
 	logger.debug('getClientForOrg - ****** START %s %s', userorg, username)

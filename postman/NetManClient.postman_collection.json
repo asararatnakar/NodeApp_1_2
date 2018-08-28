@@ -1,0 +1,1587 @@
+{
+	"info": {
+		"_postman_id": "65182e1b-e8ea-4242-9426-29631d7470c8",
+		"name": "NetManClient",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"_postman_id": "2db45df7-ac11-4b34-82eb-46c030f249c9",
+			"name": "userRegister1",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "barry",
+							"sessionValue": "xyz",
+							"type": "text"
+						},
+						{
+							"key": "orgName",
+							"value": "Org1",
+							"sessionValue": "Org1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:4000/user/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "f23a7919-861c-4f82-95c3-d386c759018e",
+			"name": "userRegister2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "sid",
+							"sessionValue": "xyz",
+							"type": "text"
+						},
+						{
+							"key": "orgName",
+							"value": "Org2",
+							"sessionValue": "Org1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:4000/user/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "dbdf2bbf-d604-4be0-83cb-964b0d8878ba",
+			"name": "dummyUsrRegister",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "ratz",
+							"sessionValue": "xyz",
+							"type": "text"
+						},
+						{
+							"key": "orgName",
+							"value": "Org1",
+							"sessionValue": "Org1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:4000/user/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "a718337a-a88f-41da-8600-558fef6a2a7d",
+			"name": "userUpdate",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjY1NTYsInVzZXJuYW1lIjoiYmFycnkiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTM5MDU1Nn0.hFEEUwTGHw26ZlmjX3UcFU0NqAGOHTOxbowUrJvWtWo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "password",
+							"value": "mypassword",
+							"sessionValue": "mypassword",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:4000/user/update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"user",
+						"update"
+					]
+				},
+				"description": "Update user details like password , (TODO) max enrollment etc.,"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "9e40dc78-a0fa-45dc-9b48-39f2a1eb7d50",
+			"name": "ccpUpdate",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjY1NTYsInVzZXJuYW1lIjoiYmFycnkiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTM5MDU1Nn0.hFEEUwTGHw26ZlmjX3UcFU0NqAGOHTOxbowUrJvWtWo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:4000/channel/channel1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"channel",
+						"channel1"
+					]
+				},
+				"description": "update connection profile with given channel name"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "413e92f7-5c24-4a21-9b47-1daca66d5f5b",
+			"name": "createChannel",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjY1NTYsInVzZXJuYW1lIjoiYmFycnkiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTM5MDU1Nn0.hFEEUwTGHw26ZlmjX3UcFU0NqAGOHTOxbowUrJvWtWo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{ \n\"channel\": \"channel1\",\n\"consortium\" : \"SampleConsortium\",\n\"mspIds\" : [\"Org1MSP\", \"Org2MSP\"]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/channel",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"channel"
+					]
+				},
+				"description": "Channel creation request"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "04b8cd32-7705-4539-8c12-1fe51cb4fc0f",
+			"name": "JoinChannelOrg1",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjY1NTYsInVzZXJuYW1lIjoiYmFycnkiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTM5MDU1Nn0.hFEEUwTGHw26ZlmjX3UcFU0NqAGOHTOxbowUrJvWtWo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/channel/channel1/peers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"channel",
+						"channel1",
+						"peers"
+					]
+				},
+				"description": "Join the peers of Org1 to the given channel"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "60e1fddc-4d4f-4406-88d8-aab97031830d",
+			"name": "queryRevokeUsr",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjY1NTYsInVzZXJuYW1lIjoiYmFycnkiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTM5MDU1Nn0.hFEEUwTGHw26ZlmjX3UcFU0NqAGOHTOxbowUrJvWtWo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:4000/channel/channel1/chaincode/mycc?peer=peer0.org1.example.com&fcn=readMarble&args=[\"marble1\"]",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"channel",
+						"channel1",
+						"chaincode",
+						"mycc"
+					],
+					"query": [
+						{
+							"key": "peer",
+							"value": "peer0.org1.example.com"
+						},
+						{
+							"key": "fcn",
+							"value": "readMarble"
+						},
+						{
+							"key": "args",
+							"value": "[\"marble1\"]"
+						}
+					]
+				},
+				"description": "Query chaincode on a peer"
+			},
+			"response": [
+				{
+					"id": "f2767ea2-76cb-46e2-b4be-c05d2ed4de3d",
+					"name": "query",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:4000/channel/channel1/chaincode/mycc?peer=peer0.org1.example.com&fcn=readMarble&args=[\"marble1\"]",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"channel",
+								"channel1",
+								"chaincode",
+								"mycc"
+							],
+							"query": [
+								{
+									"key": "peer",
+									"value": "peer0.org1.example.com"
+								},
+								{
+									"key": "fcn",
+									"value": "readMarble"
+								},
+								{
+									"key": "args",
+									"value": "[\"marble1\"]"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "html",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*",
+							"name": "Access-Control-Allow-Origin",
+							"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Length",
+							"value": "86",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/html; charset=utf-8",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 28 Aug 2018 02:21:12 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"56-8o4ULi4rjaZEOjozTHCO/q4wgbA\"",
+							"name": "ETag",
+							"description": "An identifier for a specific version of a resource, often a message digest"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [],
+					"body": "marble1 : {\"color\":\"blue\",\"docType\":\"marble\",\"name\":\"marble1\",\"owner\":\"tom\",\"size\":35}"
+				}
+			]
+		},
+		{
+			"_postman_id": "991ad4b9-bca5-48a3-bd92-d5ded45f9b77",
+			"name": "JoinChannelOrg2",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjgzNTQsInVzZXJuYW1lIjoic2lkIiwib3JnTmFtZSI6Ik9yZzIiLCJpYXQiOjE1MzUzOTIzNTR9.guqflk63pZOKgC3-oEUwHgbJBglFllJw5_VRPZGdkuc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/channel/channel1/peers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"channel",
+						"channel1",
+						"peers"
+					]
+				},
+				"description": "Join the peers of Org2 to the given channel"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "e3cb1f55-50de-44d6-84a2-d524b843051a",
+			"name": "Org1AnchorUpdate",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjY1NTYsInVzZXJuYW1lIjoiYmFycnkiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTM5MDU1Nn0.hFEEUwTGHw26ZlmjX3UcFU0NqAGOHTOxbowUrJvWtWo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"host\":\"peer0.org1.example.com\",\n  \"port\": 7051\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/channel/channel1/anchorupdate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"channel",
+						"channel1",
+						"anchorupdate"
+					]
+				},
+				"description": "Update anchor peer on Organization 1"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "8b19547a-bcec-4031-8dde-0fba0342b3a8",
+			"name": "Org2AnchorUpdate",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjgzNTQsInVzZXJuYW1lIjoic2lkIiwib3JnTmFtZSI6Ik9yZzIiLCJpYXQiOjE1MzUzOTIzNTR9.guqflk63pZOKgC3-oEUwHgbJBglFllJw5_VRPZGdkuc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"host\":\"peer0.org2.example.com\",\n  \"port\": 7051\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/channel/channel1/anchorupdate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"channel",
+						"channel1",
+						"anchorupdate"
+					]
+				},
+				"description": "Update anchor peer on Organization 2"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "8be0f76d-1bfb-42c6-96d4-769e6e2a45b8",
+			"name": "revokeUser",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0NjA4NjcsInVzZXJuYW1lIjoiaGFpZGEiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTQyNDg2N30.k6KbhGJIp_6uUahmDKXuXmyRsFnOpiyKELp6rHsEVfw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:4000/user/revoke",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"user",
+						"revoke"
+					]
+				},
+				"description": "Revoke a user and update the channel"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "f65c4e4e-fe95-4807-a6f7-c07c581bdafe",
+			"name": "configUpdate",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0NjA4NjcsInVzZXJuYW1lIjoiaGFpZGEiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTQyNDg2N30.k6KbhGJIp_6uUahmDKXuXmyRsFnOpiyKELp6rHsEVfw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"crl\" : \"LS0tLS1CRUdJTiBYNTA5IENSTC0tLS0tCk1JSUJmRENDQVNNQ0FRRXdDZ1lJS29aSXpqMEVBd0l3Y3pFTE1Ba0dBMVVFQmhNQ1ZWTXhFekFSQmdOVkJBZ1QKQ2tOaGJHbG1iM0p1YVdFeEZqQVVCZ05WQkFjVERWTmhiaUJHY21GdVkybHpZMjh4R1RBWEJnTlZCQW9URUc5eQpaekV1WlhoaGJYQnNaUzVqYjIweEhEQWFCZ05WQkFNVEUyTmhMbTl5WnpFdVpYaGhiWEJzWlM1amIyMFhEVEU0Ck1EZ3lPREF5TlRRMU1sb1hEVEU0TURneU9UQXlOVFExTWxvd1RqQWxBaFJqZG12Y2VaZm5XWW14aG9lUWNNK2sKajZlZ3ZoY05NVGd3T0RJM01UZ3lORFEwV2pBbEFoUjJvZGk4amFrQTB0UzVZNFErQXBDZUtxM203eGNOTVRndwpPREk0TURJMU5EVXlXcUF2TUMwd0t3WURWUjBqQkNRd0lvQWdoNTVveGhocGVETGR1dG10Yyt4YVhEeEUyYnVKCnc3dkV0dXRhNGxudkgwa3dDZ1lJS29aSXpqMEVBd0lEUndBd1JBSWdLRDRJZnVkMVJZU2ZaVXM4cTVZcFBnRWsKY3NaYXdGYTFSS3k1RGtPTDZKVUNJSG5INitBTkpzYXlkMUlYR0ZuUERXaFlpa3M5S0o1QnVnNGhESXJKQStvdwotLS0tLUVORCBYNTA5IENSTC0tLS0tCg==\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/channel/channel1/update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"channel",
+						"channel1",
+						"update"
+					]
+				},
+				"description": "channel config update with CRL for user revocation"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "6b949632-9c08-4098-9a37-d85b94d717f8",
+			"name": "InstallCCOrg1",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjY1NTYsInVzZXJuYW1lIjoiYmFycnkiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTM5MDU1Nn0.hFEEUwTGHw26ZlmjX3UcFU0NqAGOHTOxbowUrJvWtWo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"peers\": [\"peer0.org1.example.com\",\"peer1.org1.example.com\"],\n    \"chaincodeName\": \"mycc\",\n    \"chaincodePath\": \"github.com/marbles/go\",\n    \"chaincodeType\": \"golang\",\n    \"chaincodeVersion\":\"v0\"\n  }"
+				},
+				"url": {
+					"raw": "http://localhost:4000/chaincode",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"chaincode"
+					]
+				},
+				"description": "Request to Install chaincode on a peer"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "0143a34a-2897-4aa9-b1f5-9f1760f2f0e0",
+			"name": "InstallCCOrg2",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjgzNTQsInVzZXJuYW1lIjoic2lkIiwib3JnTmFtZSI6Ik9yZzIiLCJpYXQiOjE1MzUzOTIzNTR9.guqflk63pZOKgC3-oEUwHgbJBglFllJw5_VRPZGdkuc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"peers\": [\"peer0.org2.example.com\",\"peer1.org2.example.com\"],\n    \"chaincodeName\": \"mycc\",\n    \"chaincodePath\": \"github.com/marbles/go\",\n    \"chaincodeType\": \"golang\",\n    \"chaincodeVersion\":\"v0\"\n  }"
+				},
+				"url": {
+					"raw": "http://localhost:4000/chaincode",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"chaincode"
+					]
+				},
+				"description": "Request to Install chaincode on a peer of Org2"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "388cd6aa-f4d7-42fc-b7ab-793ecf9c92ea",
+			"name": "InstantiateCC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjY1NTYsInVzZXJuYW1lIjoiYmFycnkiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTM5MDU1Nn0.hFEEUwTGHw26ZlmjX3UcFU0NqAGOHTOxbowUrJvWtWo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"peers\": [\"peer0.org1.example.com\"],\n    \"chaincodeName\":\"mycc\",\n    \"chaincodeVersion\":\"v1\",\n    \"chaincodeType\": \"golang\",\n    \"isUpgrade\": true,\n    \"args\":[\"\"]\n  }"
+				},
+				"url": {
+					"raw": "http://localhost:4000/channel/channel1/chaincode",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"channel",
+						"channel1",
+						"chaincode"
+					]
+				},
+				"description": "Instantiate chiancode on given channel"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "53b366a6-f5ee-4a22-b0f6-bed0a786ea71",
+			"name": "UpgradeCC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjY1NTYsInVzZXJuYW1lIjoiYmFycnkiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTM5MDU1Nn0.hFEEUwTGHw26ZlmjX3UcFU0NqAGOHTOxbowUrJvWtWo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"peers\": [\"peer0.org1.example.com\"],\n    \"chaincodeName\":\"mycc\",\n    \"chaincodeVersion\":\"v0\",\n    \"chaincodeType\": \"golang\",\n    \"isUpgrade\": false,\n    \"args\":[\"\"]\n  }"
+				},
+				"url": {
+					"raw": "http://localhost:4000/channel/channel1/chaincode",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"channel",
+						"channel1",
+						"chaincode"
+					]
+				},
+				"description": "Instantiate chiancode on given channel"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "6bb25735-b651-40b5-8d9b-820978eb1dab",
+			"name": "Invoke",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjY1NTYsInVzZXJuYW1lIjoiYmFycnkiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTM5MDU1Nn0.hFEEUwTGHw26ZlmjX3UcFU0NqAGOHTOxbowUrJvWtWo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"peers\": [\"peer0.org1.example.com\",\"peer0.org2.example.com\"],\n    \"fcn\":\"initMarble\",\n    \"args\":[\"marble1\", \"blue\", \"35\", \"tom\"]\n}"
+				},
+				"url": {
+					"raw": "http://localhost:4000/channel/channel1/chaincode/mycc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"channel",
+						"channel1",
+						"chaincode",
+						"mycc"
+					]
+				},
+				"description": "Invoke chaincode transaction on a channel"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "5a20806e-1131-4de3-ae19-bc65a1fb7aeb",
+			"name": "query",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjY1NTYsInVzZXJuYW1lIjoiYmFycnkiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTM5MDU1Nn0.hFEEUwTGHw26ZlmjX3UcFU0NqAGOHTOxbowUrJvWtWo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:4000/channel/channel1/chaincode/mycc?peer=peer0.org1.example.com&fcn=readMarble&args=[\"marble1\"]",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"channel",
+						"channel1",
+						"chaincode",
+						"mycc"
+					],
+					"query": [
+						{
+							"key": "peer",
+							"value": "peer0.org1.example.com"
+						},
+						{
+							"key": "fcn",
+							"value": "readMarble"
+						},
+						{
+							"key": "args",
+							"value": "[\"marble1\"]"
+						}
+					]
+				},
+				"description": "Query chaincode on a peer"
+			},
+			"response": [
+				{
+					"id": "89eb3dab-dbd1-419a-b81e-28b39278341b",
+					"name": "query",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:4000/channel/channel1/chaincode/mycc?peer=peer0.org1.example.com&fcn=readMarble&args=[\"marble1\"]",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"channel",
+								"channel1",
+								"chaincode",
+								"mycc"
+							],
+							"query": [
+								{
+									"key": "peer",
+									"value": "peer0.org1.example.com"
+								},
+								{
+									"key": "fcn",
+									"value": "readMarble"
+								},
+								{
+									"key": "args",
+									"value": "[\"marble1\"]"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "html",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*",
+							"name": "Access-Control-Allow-Origin",
+							"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Length",
+							"value": "86",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/html; charset=utf-8",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 28 Aug 2018 02:21:12 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"56-8o4ULi4rjaZEOjozTHCO/q4wgbA\"",
+							"name": "ETag",
+							"description": "An identifier for a specific version of a resource, often a message digest"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [],
+					"body": "marble1 : {\"color\":\"blue\",\"docType\":\"marble\",\"name\":\"marble1\",\"owner\":\"tom\",\"size\":35}"
+				}
+			]
+		},
+		{
+			"_postman_id": "aa1752ed-a566-419f-b2b5-b5aa3f29dc9f",
+			"name": "richQuery",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjY1NTYsInVzZXJuYW1lIjoiYmFycnkiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTM5MDU1Nn0.hFEEUwTGHw26ZlmjX3UcFU0NqAGOHTOxbowUrJvWtWo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:4000/channel/channel1/chaincode/mycc?peer=peer0.org1.example.com&fcn=queryMarblesByOwner&args=[\"tom\"]",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"channel",
+						"channel1",
+						"chaincode",
+						"mycc"
+					],
+					"query": [
+						{
+							"key": "peer",
+							"value": "peer0.org1.example.com"
+						},
+						{
+							"key": "fcn",
+							"value": "queryMarblesByOwner"
+						},
+						{
+							"key": "args",
+							"value": "[\"tom\"]"
+						}
+					]
+				},
+				"description": "Query chaincode on a peer"
+			},
+			"response": [
+				{
+					"id": "789302ad-4291-404e-96af-97ae53ffd142",
+					"name": "query",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:4000/channel/channel1/chaincode/mycc?peer=peer0.org1.example.com&fcn=readMarble&args=[\"marble1\"]",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"channel",
+								"channel1",
+								"chaincode",
+								"mycc"
+							],
+							"query": [
+								{
+									"key": "peer",
+									"value": "peer0.org1.example.com"
+								},
+								{
+									"key": "fcn",
+									"value": "readMarble"
+								},
+								{
+									"key": "args",
+									"value": "[\"marble1\"]"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "html",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*",
+							"name": "Access-Control-Allow-Origin",
+							"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Length",
+							"value": "86",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/html; charset=utf-8",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 28 Aug 2018 02:21:12 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"56-8o4ULi4rjaZEOjozTHCO/q4wgbA\"",
+							"name": "ETag",
+							"description": "An identifier for a specific version of a resource, often a message digest"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [],
+					"body": "marble1 : {\"color\":\"blue\",\"docType\":\"marble\",\"name\":\"marble1\",\"owner\":\"tom\",\"size\":35}"
+				}
+			]
+		},
+		{
+			"_postman_id": "97817795-1696-4fe2-81d3-aa4e3249845f",
+			"name": "rangeQuery",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjY1NTYsInVzZXJuYW1lIjoiYmFycnkiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTM5MDU1Nn0.hFEEUwTGHw26ZlmjX3UcFU0NqAGOHTOxbowUrJvWtWo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:4000/channel/channel1/chaincode/mycc?peer=peer0.org1.example.com&fcn=getMarblesByRange&args=[\"marble1\", \"marble99\"]",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"channel",
+						"channel1",
+						"chaincode",
+						"mycc"
+					],
+					"query": [
+						{
+							"key": "peer",
+							"value": "peer0.org1.example.com"
+						},
+						{
+							"key": "fcn",
+							"value": "getMarblesByRange"
+						},
+						{
+							"key": "args",
+							"value": "[\"marble1\", \"marble99\"]"
+						}
+					]
+				},
+				"description": "Range Query"
+			},
+			"response": [
+				{
+					"id": "77ef75ba-3f3e-46b8-a519-257c80f48f94",
+					"name": "query",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {},
+						"url": {
+							"raw": "http://localhost:4000/channel/channel1/chaincode/mycc?peer=peer0.org1.example.com&fcn=readMarble&args=[\"marble1\"]",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"channel",
+								"channel1",
+								"chaincode",
+								"mycc"
+							],
+							"query": [
+								{
+									"key": "peer",
+									"value": "peer0.org1.example.com"
+								},
+								{
+									"key": "fcn",
+									"value": "readMarble"
+								},
+								{
+									"key": "args",
+									"value": "[\"marble1\"]"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "html",
+					"header": [
+						{
+							"key": "Access-Control-Allow-Origin",
+							"value": "*",
+							"name": "Access-Control-Allow-Origin",
+							"description": "Specifies a URI that may access the resource. For requests without credentials, the server may specify '*' as a wildcard, thereby allowing any origin to access the resource."
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive",
+							"name": "Connection",
+							"description": "Options that are desired for the connection"
+						},
+						{
+							"key": "Content-Length",
+							"value": "86",
+							"name": "Content-Length",
+							"description": "The length of the response body in octets (8-bit bytes)"
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/html; charset=utf-8",
+							"name": "Content-Type",
+							"description": "The mime type of this content"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 28 Aug 2018 02:21:12 GMT",
+							"name": "Date",
+							"description": "The date and time that the message was sent"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"56-8o4ULi4rjaZEOjozTHCO/q4wgbA\"",
+							"name": "ETag",
+							"description": "An identifier for a specific version of a resource, often a message digest"
+						},
+						{
+							"key": "X-Powered-By",
+							"value": "Express",
+							"name": "X-Powered-By",
+							"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+						}
+					],
+					"cookie": [],
+					"body": "marble1 : {\"color\":\"blue\",\"docType\":\"marble\",\"name\":\"marble1\",\"owner\":\"tom\",\"size\":35}"
+				}
+			]
+		},
+		{
+			"_postman_id": "78db00f3-2296-4ed1-8d13-a751ac01d1a2",
+			"name": "BlockByNumber",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjY1NTYsInVzZXJuYW1lIjoiYmFycnkiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTM5MDU1Nn0.hFEEUwTGHw26ZlmjX3UcFU0NqAGOHTOxbowUrJvWtWo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:4000/channel/channel1/blocks/1?peer=peer0.org1.example.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"channel",
+						"channel1",
+						"blocks",
+						"1"
+					],
+					"query": [
+						{
+							"key": "peer",
+							"value": "peer0.org1.example.com"
+						}
+					]
+				},
+				"description": "Get Block by block number"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "9e809a89-6147-4d5f-96de-bfa5d87f4f3d",
+			"name": "BlockByHash",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjY1NTYsInVzZXJuYW1lIjoiYmFycnkiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTM5MDU1Nn0.hFEEUwTGHw26ZlmjX3UcFU0NqAGOHTOxbowUrJvWtWo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:4000/channel/channel1/blocks?peer=peer0.org1.example.com&hash=e5e7c0dfb407f6921eb4290d8b8a4545dbcd80322f120e3069155a8d3768479a",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"channel",
+						"channel1",
+						"blocks"
+					],
+					"query": [
+						{
+							"key": "peer",
+							"value": "peer0.org1.example.com"
+						},
+						{
+							"key": "hash",
+							"value": "e5e7c0dfb407f6921eb4290d8b8a4545dbcd80322f120e3069155a8d3768479a"
+						}
+					]
+				},
+				"description": "Get Block by block number"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "46c8e212-4af9-45e8-8f67-7301c9f3602b",
+			"name": "BlockByTrxnID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjY1NTYsInVzZXJuYW1lIjoiYmFycnkiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTM5MDU1Nn0.hFEEUwTGHw26ZlmjX3UcFU0NqAGOHTOxbowUrJvWtWo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:4000/channel/channel1/blocks/745ab34adc62493c6bff957735950f93b3ba15fa4cb5d6b2e8abf084930b3da5?peer=peer0.org1.example.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"channel",
+						"channel1",
+						"blocks",
+						"745ab34adc62493c6bff957735950f93b3ba15fa4cb5d6b2e8abf084930b3da5"
+					],
+					"query": [
+						{
+							"key": "peer",
+							"value": "peer0.org1.example.com"
+						}
+					]
+				},
+				"description": "Get Block by transactonID"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "71349713-c374-4c75-96aa-29e8dac77977",
+			"name": "TransactionSummary",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjY1NTYsInVzZXJuYW1lIjoiYmFycnkiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTM5MDU1Nn0.hFEEUwTGHw26ZlmjX3UcFU0NqAGOHTOxbowUrJvWtWo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:4000/channel/channel1/transaction?peer=peer0.org1.example.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"channel",
+						"channel1",
+						"transaction"
+					],
+					"query": [
+						{
+							"key": "peer",
+							"value": "peer0.org1.example.com"
+						}
+					]
+				},
+				"description": "Get Block by transactonID"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "77417ff8-9858-4f52-80c6-0c8d9984e30e",
+			"name": "getChannelInfo",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjY1NTYsInVzZXJuYW1lIjoiYmFycnkiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTM5MDU1Nn0.hFEEUwTGHw26ZlmjX3UcFU0NqAGOHTOxbowUrJvWtWo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:4000/channel/channel1?peer=peer0.org1.example.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"channel",
+						"channel1"
+					],
+					"query": [
+						{
+							"key": "peer",
+							"value": "peer0.org1.example.com"
+						}
+					]
+				},
+				"description": "Get Block by transactonID"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "7d6b10cd-c4fb-433d-8516-679ccba5d112",
+			"name": "queryChannels",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjY1NTYsInVzZXJuYW1lIjoiYmFycnkiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTM5MDU1Nn0.hFEEUwTGHw26ZlmjX3UcFU0NqAGOHTOxbowUrJvWtWo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:4000/channels?peer=peer0.org1.example.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"channels"
+					],
+					"query": [
+						{
+							"key": "peer",
+							"value": "peer0.org1.example.com"
+						}
+					]
+				},
+				"description": "Query for channel information on a peer"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "d1397e1b-4795-405e-ac96-b72bbb0ec792",
+			"name": "getInstalledCC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjY1NTYsInVzZXJuYW1lIjoiYmFycnkiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTM5MDU1Nn0.hFEEUwTGHw26ZlmjX3UcFU0NqAGOHTOxbowUrJvWtWo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:4000/chaincode?peer=peer0.org1.example.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"chaincode"
+					],
+					"query": [
+						{
+							"key": "peer",
+							"value": "peer0.org1.example.com"
+						}
+					]
+				},
+				"description": "Get Block by transactonID"
+			},
+			"response": []
+		},
+		{
+			"_postman_id": "1d9e2671-857e-4cac-9a51-009dd06139bd",
+			"name": "getInstantiatedCC",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1MzU0MjY1NTYsInVzZXJuYW1lIjoiYmFycnkiLCJvcmdOYW1lIjoiT3JnMSIsImlhdCI6MTUzNTM5MDU1Nn0.hFEEUwTGHw26ZlmjX3UcFU0NqAGOHTOxbowUrJvWtWo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:4000/channel/channel1/chaincode?peer=peer0.org1.example.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"channel",
+						"channel1",
+						"chaincode"
+					],
+					"query": [
+						{
+							"key": "peer",
+							"value": "peer0.org1.example.com"
+						}
+					]
+				},
+				"description": "Get Instantiated Chaincodes"
+			},
+			"response": []
+		}
+	]
+}

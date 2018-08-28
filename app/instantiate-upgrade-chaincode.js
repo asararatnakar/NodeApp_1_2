@@ -71,11 +71,13 @@ var instantiateUpdgradeChaincode = async function(peers, channelName, chaincodeN
 		let collectionsConfigPath = "";
 		// send instantiate/upgrade proposal to endorser
 		if (isUpgrade && isUpgrade == true){
+			//TODO: No hard codings please ?
 			collectionsConfigPath = path.resolve(__dirname, '../artifacts/src/github.com/marbles/collections_config_update.json');
 			console.log(collectionsConfigPath.toString());
 			request['collections-config'] = collectionsConfigPath;
 			results = await channel.sendUpgradeProposal(request); //Upgrade
 		} else {
+			//TODO: No hard codings please ?
 			collectionsConfigPath = path.resolve(__dirname, '../artifacts/src/github.com/marbles/collections_config.json');
 			console.log(collectionsConfigPath.toString());
 			request['collections-config'] = collectionsConfigPath;

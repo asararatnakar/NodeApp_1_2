@@ -125,7 +125,7 @@ curl -s -X POST \
   -H "authorization: Bearer $ORG1_TOKEN" \
   -H "content-type: application/json" \
   -d "{
-	\"channelName\":\"${CHANNEL}\",
+	\"channel\":\"${CHANNEL}\",
 	\"consortium\":\"SampleConsortium\",
 	\"mspIds\":[\"Org1MSP\",\"Org2MSP\"]
 }"
