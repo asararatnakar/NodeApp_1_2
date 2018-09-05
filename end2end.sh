@@ -12,13 +12,6 @@ if [ $? -ne 0 ]; then
 	exit 1
 fi
 
-ARCH=`uname -s | grep Darwin`
-if [ "$ARCH" == "Darwin" ]; then
-  OPTS="-it"
-else
-  OPTS="-i"
-fi
-
 starttime=$(date +%s)
 
 # Print the usage message
@@ -43,23 +36,6 @@ while getopts "h?l:c:" opt; do
     ;;
   esac
 done
-
-## Update the channel name in the connection profile
-function generateConnectionProfiles(){
-  cd artifacts
-  for org_name in Org1 Org2
-  do
-    lower_org_name=$(echo "$org_name" | awk '{print tolower($0)}')
-    cp network-config-template.json network-config-${lower_org_name}.json
-    # sed $OPTS "s|CHANNEL_NAME|${CHANNEL}|g" network-config-${lower_org_name}.json
-    sed $OPTS "s|ORG_NAME|${org_name}|g" network-config-${lower_org_name}.json
-    sed $OPTS "s|KEYSTORE_ORG|./fabric-client-kv-${lower_org_name}|g" network-config-${lower_org_name}.json
-    rm -rf network-config-${lower_org_name}.jsont
-  done
-  cd -
-}
-
-generateConnectionProfiles
 
 ##set chaincode path
 function setChaincodePath(){
@@ -162,7 +138,7 @@ echo
 echo
 echo "POST request update Anchor peer on the channel  ..."
 echo
-curl -s -X POST \
+curl -s -X PUT \
   "http://localhost:4000/channel/${CHANNEL}/anchorupdate" \
   -H "authorization: Bearer $ORG1_TOKEN" \
   -H "content-type: application/json" \
@@ -176,7 +152,7 @@ echo
 echo
 echo "POST request Anchor peer on the channel  ..."
 echo
-curl -s -X POST \
+curl -s -X PUT \
   "http://localhost:4000/channel/${CHANNEL}/anchorupdate" \
   -H "authorization: Bearer $ORG2_TOKEN" \
   -H "content-type: application/json" \
@@ -212,7 +188,7 @@ function registerAndRevokeUser() {
   ###### REVOKE USER ######
 
   # echo "curl -s -X POST http://localhost:4000/channel/${CHANNEL}/update -H \"authorization: Bearer $TEMP_TOKEN\" -H \"content-type: application/json\" -d \"{ \\\"crl\\\":\\\"${CRL}\\\"}\""
-  echo 
+  echo
   curl -s -X POST \
     "http://localhost:4000/channel/${CHANNEL}/update" \
     -H "authorization: Bearer $TEMP_TOKEN" \
@@ -220,10 +196,10 @@ function registerAndRevokeUser() {
     -d "{
     \"crl\":\"${CRL}\"
   }"
-  echo 
-  echo 
+  echo
+  echo
   echo "Query chaincode with revoked user ratnakar"
-  echo 
+  echo
   curl -s -X GET \
     "http://localhost:4000/channel/${CHANNEL}/chaincode/mycc?peer=peer0.org1.example.com&fcn=readMarble&args=%5B%22marble1%22%5D" \
     -H "authorization: Bearer $TEMP_TOKEN" \
@@ -363,7 +339,7 @@ installInstantiateUpgradeChaincode 0 false
 sleep 1
 invokeAndQuery 1
 
-# exit
+ # exit
 ### regsiter a new user ratnakar, revoke and update the channel
 registerAndRevokeUser
 

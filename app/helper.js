@@ -25,6 +25,7 @@ hfc.setLogger(logger);
 const fs = require('fs');
 ///TODO: no don't do this 
 const cfg = require('../artifacts/network-config-template.json');
+const configStr = '-connection-profile';
 
 function orgsList(config) {
 	let orgs = [];
@@ -69,7 +70,6 @@ async function updateCCP(channel) {
 		//No need to update the connection profile if it already updated with channel section
 		return { 'message': 'channel ' + channel + ' already exists in the connection profile' };
 	}
-	let configStr = '-connection-profile';
 	// build a client context and load it with a connection profile
 	// lets load the network settings and a client section. This will also set an admin
 	// identity because the organization defined in the client section has one defined.
@@ -87,12 +87,10 @@ async function updateCCP(channel) {
 async function getClientForOrg(userorg, username) {
 	logger.debug('getClientForOrg - ****** START %s %s', userorg, username)
 	// get a fabric client loaded with a connection profile for this org
-	let config = '-connection-profile';
-
 	// build a client context and load it with a connection profile
 	// lets load the network settings and a client section. This will also set an admin 
 	// identity because the organization defined in the client section has one defined.
-	let client = hfc.loadFromConfig(hfc.getConfigSetting(userorg + config));
+	let client = hfc.loadFromConfig(hfc.getConfigSetting(userorg + configStr));
 
 	// This will load a connection profile over the top of the current one one
 	// since the first one did not have a client section and the following one does
@@ -247,6 +245,26 @@ var updatePassword = async function (username, secret, userOrg, isJson) {
 		throw new Error(error.toString());
 	}
 }
+var getCreds = function(orgname){
+	//TODO : validate if the org name exists in the current connetcion profile
+	// console.log('------------------------------');
+	let filePath = hfc.getConfigSetting(orgname + configStr);
+	if (fs.existsSync(filePath)) {
+		const credFile = fs.readFileSync(hfc.getConfigSetting(orgname + configStr) , 'utf-8');
+		if (credFile) {
+			// console.log(JSON.parse(credFile, null, 4));
+			// console.log('------------------------------');
+			return JSON.parse(credFile, null, 4);
+		}
+	}
+	return 'Connection profile for org : '+orgname+' doesn\'t exists';
+}
+var updateCreds = function(orgname, creds){
+	fs.writeFileSync(path.join(__dirname, '../artifacts', 'network-config-' + orgname.toLowerCase() + '.json'), JSON.stringify(creds, null, 4), 'utf-8');
+	hfc.setConfigSetting(orgname + configStr, path.join(__dirname, '../artifacts', 'network-config-' + orgname.toLowerCase() + '.json'));
+
+	return 'Connection profile for org : '+orgname+' Updated successfully !'
+}
 exports.getClientForOrg = getClientForOrg;
 exports.getLogger = getLogger;
 exports.setupChaincodeDeploy = setupChaincodeDeploy;
@@ -255,3 +273,5 @@ exports.tlsEnroll = tlsEnroll;
 exports.revokeUser = revokeUser;
 exports.updatePassword = updatePassword;
 exports.updateCCP = updateCCP;
+exports.getCreds = getCreds;
+exports.updateCreds = updateCreds;

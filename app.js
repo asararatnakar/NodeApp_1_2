@@ -63,12 +63,12 @@ app.set('secret', 'thisismysecret');
 app.use(expressJWT({
 	secret: 'thisismysecret'
 }).unless({
-	path: ['/user/register']
+	path: ['/user/register', '/network/creds']
 }));
 app.use(bearerToken());
 app.use(function(req, res, next) {
 	logger.debug(' ------>>>>>> new request for %s',req.originalUrl);
-	if (req.originalUrl.indexOf('/user/register') >= 0) {
+	if (req.originalUrl.indexOf('/user/register') >= 0 || req.originalUrl.indexOf('/network/creds') >= 0) {
 		return next();
 	}
 
@@ -164,6 +164,37 @@ app.post('/user/update', async function(req, res) {
 	res.send(message);
 });
 
+// get network creds of an org
+app.get('/network/creds', async function(req, res) {
+	logger.info('<<<<<<<<<<<<<<<<< G E T   C R E D S >>>>>>>>>>>>>>>>>');
+	logger.debug('End point : /network/creds');
+	var orgname = req.query.orgname;
+	logger.debug('orgname : ' + orgname);
+	if (!orgname) {
+		res.json(getErrorMessage('\'orgname\''));
+		return;
+	}
+	let message = await helper.getCreds(orgname);
+	res.send(message);
+});
+// get network creds of an org
+app.put('/network/creds', async function(req, res) {
+	logger.info('<<<<<<<<<<<<<<<<< U P D A T E    C R E D S >>>>>>>>>>>>>>>>>');
+	logger.debug('End point : /network/creds');
+	let orgname = req.query.orgname;
+	logger.debug('orgname : ' + orgname);
+	let creds = req.body.creds;
+	if (!orgname) {
+		res.json(getErrorMessage('\'orgname\''));
+		return;
+	}
+	if (!creds) {
+		res.json(getErrorMessage('\'creds\''));
+		return;
+	}
+	let message = await helper.updateCreds(orgname, creds);
+	res.send(message);
+});
 //Update connection profile with the channel name
 app.put('/channel/:channel', async function(req, res) {
 	logger.info('<<<<<<<<<<<<<<<<< U P D A T E   C C P >>>>>>>>>>>>>>>>>');
