@@ -53,7 +53,7 @@
             "mod_policy": "Admins",
             "value": {
               "capabilities": {
-                "V1_2": {}
+                "V1_3": {}
               }
             }
           }

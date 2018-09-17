@@ -187,9 +187,9 @@ function registerAndRevokeUser() {
   printf "\nCRL of user ratnakar is: ${CRL}\n"
   ###### REVOKE USER ######
 
-  # echo "curl -s -X POST http://localhost:4000/channel/${CHANNEL}/update -H \"authorization: Bearer $TEMP_TOKEN\" -H \"content-type: application/json\" -d \"{ \\\"crl\\\":\\\"${CRL}\\\"}\""
+  # echo "curl -s -X PUT http://localhost:4000/channel/${CHANNEL}/update -H \"authorization: Bearer $TEMP_TOKEN\" -H \"content-type: application/json\" -d \"{ \\\"crl\\\":\\\"${CRL}\\\"}\""
   echo
-  curl -s -X POST \
+  curl -s -X PUT \
     "http://localhost:4000/channel/${CHANNEL}/update" \
     -H "authorization: Bearer $TEMP_TOKEN" \
     -H "content-type: application/json" \

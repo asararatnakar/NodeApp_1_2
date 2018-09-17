@@ -285,7 +285,7 @@ app.put('/channel/:channelName/anchorupdate', async function(req, res) {
 
 // Update the Channel
 app.put('/channel/:channel/update', async function(req, res) {
-	logger.info('<<<<<<<<<<<<<<<<< A N C H O R    P E E R   U P D A T E  >>>>>>>>>>>>>>>>>');
+	logger.info('<<<<<<<<<<<<<<<<< U P D A T E    C H A N N E L >>>>>>>>>>>>>>>>>');
 	var channel = req.params.channel;
 	logger.debug('End point : /channel/'+channel+'/update');
 	logger.debug('Channel name : ' + channel);
