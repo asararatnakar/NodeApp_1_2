@@ -33,10 +33,10 @@ var joinChannel = async function(channel_name, peers, username, org_name) {
 		// first setup the client for this org
 		var client = await helper.getClientForOrg(org_name, username);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
-		
+
 		// enable Client TLS
-		var tlsInfo =  await helper.tlsEnroll(client);
-		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
+		// var tlsInfo =  await helper.tlsEnroll(client);
+		// client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
 
 		var channel = client.getChannel(channel_name);
 		if(!channel) {

@@ -29,8 +29,8 @@ var createChannel = async function(channelName, consortium, mspIds, username, or
 		logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
 
 		// enable Client TLS
-		var tlsInfo =  await helper.tlsEnroll(client);
-		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
+		// var tlsInfo =  await helper.tlsEnroll(client);
+		// client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
 
 		//TODO: needs to include the following + Cleanup
 		// 1. don't hardcode the URLs and PATHs

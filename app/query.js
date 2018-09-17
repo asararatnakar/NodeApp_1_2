@@ -25,10 +25,10 @@ var queryChaincode = async function(peer, channelName, chaincodeName, args, fcn,
 		// first setup the client for this org
 		var client = await helper.getClientForOrg(org_name, username);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
-		
+
 		// enable Client TLS
-		var tlsInfo =  await helper.tlsEnroll(client);
-		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
+		// var tlsInfo =  await helper.tlsEnroll(client);
+		// client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
 
 		var channel = client.getChannel(channelName);
 		//TODO: This will not work when the network is launched remotely ?
@@ -67,10 +67,10 @@ var getBlockByNumber = async function (peer, channelName, id, username, org_name
 		// first setup the client for this org
 		var client = await helper.getClientForOrg(org_name, username);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
-		
+
 		// enable Client TLS
-		var tlsInfo =  await helper.tlsEnroll(client);
-		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
+		// var tlsInfo =  await helper.tlsEnroll(client);
+		// client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
 
 		var channel = client.getChannel(channelName);
 		if (!channel) {
@@ -119,10 +119,10 @@ var getTransactionSummary = async function (peer, channelName, username, org_nam
 		// first setup the client for this org
 		var client = await helper.getClientForOrg(org_name, username);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
-		
+
 		// enable Client TLS
-		var tlsInfo =  await helper.tlsEnroll(client);
-		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
+		// var tlsInfo =  await helper.tlsEnroll(client);
+		// client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
 
 		var channel = client.getChannel(channelName);
 		if (!channel) {
@@ -174,8 +174,8 @@ var getTransactionByID = async function(peer, channelName, trxnID, username, org
 		var client = await helper.getClientForOrg(org_name, username);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
 		// enable Client TLS
-		var tlsInfo =  await helper.tlsEnroll(client);
-		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);		
+		// var tlsInfo =  await helper.tlsEnroll(client);
+		// client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
 		var channel = client.getChannel(channelName);
 		if(!channel) {
 			let message = util.format('Channel %s was not defined in the connection profile', channelName);
@@ -202,8 +202,8 @@ var getBlockByHash = async function(peer, channelName, hash, username, org_name)
 		var client = await helper.getClientForOrg(org_name, username);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
 		// enable Client TLS
-		var tlsInfo =  await helper.tlsEnroll(client);
-		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
+		// var tlsInfo =  await helper.tlsEnroll(client);
+		// client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
 		var channel = client.getChannel(channelName);
 		if(!channel) {
 			let message = util.format('Channel %s was not defined in the connection profile', channelName);
@@ -230,8 +230,8 @@ var getChainInfo = async function(peer, channelName, username, org_name) {
 		var client = await helper.getClientForOrg(org_name, username);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
 		// enable Client TLS
-		var tlsInfo =  await helper.tlsEnroll(client);
-		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
+		// var tlsInfo =  await helper.tlsEnroll(client);
+		// client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
 		var channel = client.getChannel(channelName);
 		if(!channel) {
 			let message = util.format('Channel %s was not defined in the connection profile', channelName);
@@ -259,8 +259,8 @@ var getInstalledChaincodes = async function(peer, channelName, type, username, o
 		var client = await helper.getClientForOrg(org_name, username);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
 		// enable Client TLS
-		var tlsInfo =  await helper.tlsEnroll(client);
-		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
+		// var tlsInfo =  await helper.tlsEnroll(client);
+		// client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
 		let response = null
 		if (type === 'installed') {
 			response = await client.queryInstalledChaincodes(peer, true); //use the admin identity
@@ -304,8 +304,8 @@ var getChannels = async function(peer, username, org_name) {
 		var client = await helper.getClientForOrg(org_name, username);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
 		// enable Client TLS
-		var tlsInfo =  await helper.tlsEnroll(client);
-		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
+		// var tlsInfo =  await helper.tlsEnroll(client);
+		// client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
 		let response = await client.queryChannels(peer);
 		if (response) {
 			logger.debug('<<< channels >>>');

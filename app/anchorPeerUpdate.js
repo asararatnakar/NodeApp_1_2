@@ -18,8 +18,8 @@ var anchorPeerUpdate = async function (channelName, username, orgName, body) {
 		logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
 
 		// enable Client TLS
-		var tlsInfo = await helper.tlsEnroll(client);
-		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
+		// var tlsInfo = await helper.tlsEnroll(client);
+		// client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
 		//TODO: Check what type of config update ?
 		//TODO: needs to include the following + Cleanup
 		// 1. don't hardcode the URLs and PATHs

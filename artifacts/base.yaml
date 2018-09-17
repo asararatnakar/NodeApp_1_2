@@ -34,7 +34,7 @@ services:
       - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
       - ORDERER_GENERAL_LOCALMSPDIR=/etc/hyperledger/crypto/orderer/msp
       - ORDERER_GENERAL_TLS_ENABLED=true  # enable TLS
-      - ORDERER_GENERAL_TLS_CLIENTAUTHREQUIRED=true  # enable Mutual TLS
+      # - ORDERER_GENERAL_TLS_CLIENTAUTHREQUIRED=true  # enable Mutual TLS
       - ORDERER_GENERAL_TLS_PRIVATEKEY=/etc/hyperledger/crypto/orderer/tls/server.key
       - ORDERER_GENERAL_TLS_CERTIFICATE=/etc/hyperledger/crypto/orderer/tls/server.crt
       - ORDERER_GENERAL_TLS_ROOTCAS=[/etc/hyperledger/crypto/orderer/msp/cacerts/ca.example.com-cert.pem, /etc/hyperledger/crypto/peerOrg1/msp/cacerts/ca.org1.example.com-cert.pem, /etc/hyperledger/crypto/peerOrg2/msp/cacerts/ca.org2.example.com-cert.pem]
@@ -76,12 +76,12 @@ services:
       - CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/crypto/peer/msp
       - CORE_PEER_GOSSIP_PVTDATA_PUSHACKTIMEOUT=12s
       - CORE_PEER_TLS_ENABLED=true #enable TLS
-      - CORE_PEER_TLS_CLIENTAUTHREQUIRED=true #enable Mutual TLS
+      # - CORE_PEER_TLS_CLIENTAUTHREQUIRED=true #enable Mutual TLS
       - CORE_PEER_EVENTS_ADDRESS=0.0.0.0:7053
       - CORE_PEER_TLS_KEY_FILE=/etc/hyperledger/crypto/peer/tls/server.key
       - CORE_PEER_TLS_CERT_FILE=/etc/hyperledger/crypto/peer/tls/server.crt
       - CORE_PEER_TLS_ROOTCERT_FILE=/etc/hyperledger/crypto/ca/ca.crt
-      - CORE_PEER_TLS_CLIENTROOTCAS_FILES=/etc/hyperledger/crypto/ca1/ca.crt /etc/hyperledger/crypto/ca2/ca.crt 
+      - CORE_PEER_TLS_CLIENTROOTCAS_FILES=/etc/hyperledger/crypto/ca1/ca.crt /etc/hyperledger/crypto/ca2/ca.crt
       # - CORE_PEER_BCCSP_SW_HASH=SHA3
       # - CORE_PEER_BCCSP_SW_SECURITY=384
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer

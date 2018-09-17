@@ -21,8 +21,8 @@ var configUpdate = async function (channelName, username, orgName, crl) {
 		logger.debug('Successfully got the fabric client for the organization "%s"', orgName);
 
 		// enable Client TLS
-		var tlsInfo = await helper.tlsEnroll(client);
-		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
+		// var tlsInfo = await helper.tlsEnroll(client);
+		// client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
 		var channel = client.getChannel(channelName);
 		var configEnvelope = await channel.getChannelConfig();//await channel.getChannelConfigFromOrderer();
 		const origConfigProto = configEnvelope.config.toBuffer();
@@ -83,7 +83,7 @@ var configUpdate = async function (channelName, username, orgName, crl) {
 		// sign and collect signature from org1
 		let signature = client.signChannelConfig(configProto);
 		signatures.push(signature);
-		
+
 		let request = {
 			config: configProto,
 			signatures: [signature],
