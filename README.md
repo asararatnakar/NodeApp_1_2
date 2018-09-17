@@ -1,4 +1,4 @@
-# A NodeSDK 1.2.x based sample with Fabric V1.2 software
+# WIP: A NodeSDK 1.3.x based sample with Fabric V1.3 software
 
 Added the following functionality :
 
@@ -26,7 +26,7 @@ This does the following
   - Kafka based orderering service (3 orderers, 4 kafka brokerers, 3 zoo keepers).
   - Two orgs, each org has two peers + one CA.
 
-**Terminal - 2** : Issue the following command to test fabric 1.2 features using REST calls with NodeSDK as the underlying client.
+**Terminal - 2** : Issue the following command to test fabric 1.3 features using REST calls with NodeSDK as the underlying client.
 
 *ex:* 
 
