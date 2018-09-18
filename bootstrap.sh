@@ -104,14 +104,14 @@ fi
 
 ## Update the channel name in the connection profile
 function generateConnectionProfiles(){
-  for org_name in Org1 Org2
+  for org_name in org1 org2
   do
-    lower_org_name=$(echo "$org_name" | awk '{print tolower($0)}')
-    cp ./artifacts/network-config-template.json ./artifacts/network-config-${lower_org_name}.json
+    # lower_org_name=$(echo "$org_name" | awk '{print tolower($0)}')
+    cp ./artifacts/network-config-template.json ./artifacts/network-config-${org_name}.json
     # sed $OPTS "s|CHANNEL_NAME|${CHANNEL}|g" network-config-${lower_org_name}.json
-    sed $OPTS "s|ORG_NAME|${org_name}|g" ./artifacts/network-config-${lower_org_name}.json
-    sed $OPTS "s|KEYSTORE_ORG|./fabric-client-kv-${lower_org_name}|g" ./artifacts/network-config-${lower_org_name}.json
-    rm -rf ./artifacts/network-config-${lower_org_name}.jsont
+    sed $OPTS "s|ORG_NAME|${org_name}|g" ./artifacts/network-config-${org_name}.json
+    sed $OPTS "s|KEYSTORE_ORG|./fabric-client-kv-${org_name}|g" ./artifacts/network-config-${org_name}.json
+    rm -rf ./artifacts/network-config-${org_name}.jsont
   done
 }
 

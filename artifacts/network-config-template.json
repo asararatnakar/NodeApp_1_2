@@ -15,7 +15,7 @@
     },
     "channels": {},
     "organizations": {
-        "Org1": {
+        "org1": {
             "mspid": "Org1MSP",
             "peers": [
                 "peer0.org1.example.com",
@@ -31,7 +31,7 @@
                 "pem": "-----BEGIN CERTIFICATE-----\nMIICKTCCAdCgAwIBAgIQDM3gWVx7bjGzXyC91XWP5jAKBggqhkjOPQQDAjBzMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEZMBcGA1UEChMQb3JnMS5leGFtcGxlLmNvbTEcMBoGA1UEAxMTY2Eu\nb3JnMS5leGFtcGxlLmNvbTAeFw0xODA2MjkwMDExNDFaFw0yODA2MjYwMDExNDFa\nMGwxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYwFAYDVQQHEw1T\nYW4gRnJhbmNpc2NvMQ8wDQYDVQQLEwZjbGllbnQxHzAdBgNVBAMMFkFkbWluQG9y\nZzEuZXhhbXBsZS5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAS8TNnR3Js/\nTQ0teB05fi7xH0bGHHCxkpMbvi2qFg2GXIxq9l1G2QaPB3T/Paeu4/eqB8e95KjF\nHFByfqfxLpMqo00wSzAOBgNVHQ8BAf8EBAMCB4AwDAYDVR0TAQH/BAIwADArBgNV\nHSMEJDAigCCHnmjGGGl4Mt262a1z7FpcPETZu4nDu8S261riWe8fSTAKBggqhkjO\nPQQDAgNHADBEAiBDrJtx0yKuzb/q9w8z+uz0+cxlGwNYWbljhclmQZerZAIgUdgi\nYmzvcm20wMRgRRajVWbo9kaoAudhFVum2ocNRtA=\n-----END CERTIFICATE-----\n"
             }
         },
-        "Org2": {
+        "org2": {
             "mspid": "Org2MSP",
             "peers": [
                 "peer0.org2.example.com",

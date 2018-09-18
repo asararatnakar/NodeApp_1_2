@@ -80,7 +80,7 @@ var configUpdate = async function (channelName, username, orgName, crl) {
 		// this will use the admin identity assigned to the client when the connection profile was loaded
 		let signatures = [];
 		client.newTransactionID(true);
-		// sign and collect signature from org1
+		// sign and collect signature from first org
 		let signature = client.signChannelConfig(configProto);
 		signatures.push(signature);
 

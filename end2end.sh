@@ -54,12 +54,12 @@ function setChaincodePath(){
 
 setChaincodePath
 
-echo "POST request Enroll on Org1  ..."
+echo "POST request Enroll on org1  ..."
 echo
 ORG1_TOKEN=$(curl -s -X POST \
   http://localhost:4000/user/register \
   -H "content-type: application/x-www-form-urlencoded" \
-  -d 'username=barry&orgName=Org1')
+  -d 'username=barry&orgName=org1')
 echo $ORG1_TOKEN
 ORG1_TOKEN=$(echo $ORG1_TOKEN | jq ".token" | sed "s/\"//g")
 
@@ -72,12 +72,12 @@ curl -s -X POST http://localhost:4000/user/update \
 echo
 
 echo
-echo "POST request Enroll on Org2 ..."
+echo "POST request Enroll on org2 ..."
 echo
 ORG2_TOKEN=$(curl -s -X POST \
   http://localhost:4000/user/register \
   -H "content-type: application/x-www-form-urlencoded" \
-  -d 'username=sid&orgName=Org2')
+  -d 'username=sid&orgName=org2')
 echo $ORG2_TOKEN
 ORG2_TOKEN=$(echo $ORG2_TOKEN | jq ".token" | sed "s/\"//g")
 echo
@@ -110,7 +110,7 @@ echo
 echo
 sleep 5
 
-echo "POST request Join channel on Org1"
+echo "POST request Join channel on org1"
 echo
 curl -s -X POST \
   "http://localhost:4000/channel/${CHANNEL}/peers" \
@@ -122,7 +122,7 @@ curl -s -X POST \
 echo
 echo
 
-echo "POST request Join channel on Org2"
+echo "POST request Join channel on org2"
 echo
 curl -s -X POST \
   "http://localhost:4000/channel/${CHANNEL}/peers" \
@@ -166,12 +166,12 @@ echo
 
 function registerAndRevokeUser() {
   echo
-  echo "POST request Enroll ratnakar on Org1"
+  echo "POST request Enroll ratnakar on org1"
   echo
   TEMP_TOKEN=$(curl -s -X POST \
     http://localhost:4000/user/register \
     -H "content-type: application/x-www-form-urlencoded" \
-    -d 'username=ratnakar&orgName=Org1')
+    -d 'username=ratnakar&orgName=org1')
   echo $TEMP_TOKEN
   TEMP_TOKEN=$(echo $TEMP_TOKEN | jq ".token" | sed "s/\"//g")
   echo
@@ -209,7 +209,7 @@ function registerAndRevokeUser() {
 }
 
 function installInstantiateUpgradeChaincode(){
-  echo "POST Install chaincode on Org1"
+  echo "POST Install chaincode on org1"
   echo
   curl -s -X POST \
     http://localhost:4000/chaincode \
@@ -225,7 +225,7 @@ function installInstantiateUpgradeChaincode(){
   echo
   echo
 
-  echo "POST Install chaincode on Org2"
+  echo "POST Install chaincode on org2"
   echo
   curl -s -X POST \
     http://localhost:4000/chaincode \
@@ -240,7 +240,7 @@ function installInstantiateUpgradeChaincode(){
   }"
   echo
   echo
-  echo "POST instantiate/upgrade chaincode on peer1 of Org1"
+  echo "POST instantiate/upgrade chaincode on peer1 of org1"
   echo
   curl -s -X POST \
     "http://localhost:4000/channel/${CHANNEL}/chaincode" \
@@ -259,7 +259,7 @@ function installInstantiateUpgradeChaincode(){
 }
 
 function invokeAndQuery() {
-  echo "POST invoke chaincode on peers of Org1 and Org2"
+  echo "POST invoke chaincode on peers of org1 and org2"
   echo
     # "peers": ["peer0.org1.example.com","peer0.org2.example.com"],
 INIT_MARBLE=$(cat <<EOF
@@ -314,7 +314,7 @@ do
 }
 
 function richQuery(){
-  echo "richQuery chaincode on peer1 of Org1, queryMarblesByOwner 'tom'"
+  echo "richQuery chaincode on peer1 of org1, queryMarblesByOwner 'tom'"
   echo
   curl -s -X GET \
     "http://localhost:4000/channel/${CHANNEL}/chaincode/mycc?peer=peer0.org1.example.com&fcn=queryMarblesByOwner&args=%5B%22tom%22%5D" \
@@ -325,7 +325,7 @@ function richQuery(){
 }
 
 function rangeQuery(){
-  echo "rangeQuery chaincode on peer1 of Org1, getMarblesByRange"
+  echo "rangeQuery chaincode on peer1 of org1, getMarblesByRange"
   echo
   curl -s -X GET \
     "http://localhost:4000/channel/${CHANNEL}/chaincode/mycc?peer=peer0.org1.example.com&fcn=getMarblesByRange&args=%5B%22marble1%22,%22marble3%22%5D" \

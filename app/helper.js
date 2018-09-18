@@ -23,8 +23,6 @@ const util = require('util');
 const hfc = require('fabric-client');
 hfc.setLogger(logger);
 const fs = require('fs');
-///TODO: no don't do this 
-const cfg = require('../artifacts/network-config-template.json');
 const configStr = '-connection-profile';
 
 function orgsList(config) {
@@ -34,17 +32,17 @@ function orgsList(config) {
 	}
 	return orgs;
 }
-function getChannelSection() {
+function getChannelSection(config) {
 	let peers = {};
-	for (let key in cfg.organizations) {
-		let orgPeers = cfg.organizations[key].peers;
+	for (let key in config.organizations) {
+		let orgPeers = config.organizations[key].peers;
 		for (let peer in orgPeers) {
 			let val = orgPeers[peer]
 			peers[val] = {};
 		}
 	}
 	let orderers = [];
-	for (let key in cfg.orderers) {
+	for (let key in config.orderers) {
 		orderers.push(key);
 	}
 	let channel = {};
@@ -62,9 +60,9 @@ function isChannelExists(channel, config) {
 	}
 	return false;
 }
-async function updateCCP(channel) {
+async function updateCCP(channel, orgname) {
 	logger.debug('updateCCP - ****** update connection profile with channel name : ', channel);
-	var config = require('../artifacts/network-config-org1.json');
+	var config = require('../artifacts/network-config-'+orgname+'.json');
 	let orgs = orgsList(config);
 	if (isChannelExists(channel, config)) {
 		//No need to update the connection profile if it already updated with channel section
@@ -75,10 +73,10 @@ async function updateCCP(channel) {
 	// identity because the organization defined in the client section has one defined.
 	for (let key in orgs) {
 		//TODO: Hardcoding in several places looks ugly ?
-		config = require(path.join(__dirname, '../artifacts', 'network-config-' + orgs[key].toLowerCase() + '.json'));
-		config.channels[channel] = getChannelSection();
+		config = require(path.join(__dirname, '../artifacts', 'network-config-' + orgs[key] + '.json'));
+		config.channels[channel] = getChannelSection(config);
 		// console.log(JSON.stringify(config, null, 4));
-		fs.writeFileSync(path.join(__dirname, '../artifacts', 'network-config-' + orgs[key].toLowerCase() + '.json'), JSON.stringify(config, null, 4), 'utf-8');
+		fs.writeFileSync(path.join(__dirname, '../artifacts', 'network-config-' + orgs[key] + '.json'), JSON.stringify(config, null, 4), 'utf-8');
 		hfc.setConfigSetting(orgs[key] + configStr, path.join(__dirname, '../artifacts', 'network-config-' + orgs[key].toLowerCase() + '.json'));
 	}
 	return { 'message': 'Connection profiles are updated successfully with channel ' + channel };
@@ -137,7 +135,7 @@ var getRegisteredUser = async function (username, userOrg, isJson) {
 			let adminUserObj = await client.setUserContext({ username: admins[0].enrollId, password: admins[0].enrollSecret });
 			let secret = await caClient.register({
 				enrollmentID: username,
-				affiliation: userOrg.toLowerCase() + '.department1'
+				affiliation: 'org1.department1' //TODO: change this as per the network type?
 			}, adminUserObj);
 			logger.debug('Successfully got the secret for user %s', username);
 			user = await client.setUserContext({ username: username, password: secret });
