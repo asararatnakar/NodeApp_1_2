@@ -8,7 +8,7 @@ version: '2'
 services:
   couchdb0:
     container_name: couchdb0
-    image: hyperledger/fabric-couchdb
+    image: hyperledger/fabric-couchdb${DOCKER_IMG_THIRDPARTY}
     environment:
       - COUCHDB_USER=
       - COUCHDB_PASSWORD=
@@ -28,7 +28,7 @@ services:
 
   couchdb1:
     container_name: couchdb1
-    image: hyperledger/fabric-couchdb
+    image: hyperledger/fabric-couchdb${DOCKER_IMG_THIRDPARTY}
     environment:
       - COUCHDB_USER=
       - COUCHDB_PASSWORD=
@@ -48,7 +48,7 @@ services:
 
   couchdb2:
     container_name: couchdb2
-    image: hyperledger/fabric-couchdb
+    image: hyperledger/fabric-couchdb${DOCKER_IMG_THIRDPARTY}
     environment:
       - COUCHDB_USER=
       - COUCHDB_PASSWORD=
@@ -68,7 +68,7 @@ services:
 
   couchdb3:
     container_name: couchdb3
-    image: hyperledger/fabric-couchdb
+    image: hyperledger/fabric-couchdb${DOCKER_IMG_THIRDPARTY}
     environment:
       - COUCHDB_USER=
       - COUCHDB_PASSWORD=

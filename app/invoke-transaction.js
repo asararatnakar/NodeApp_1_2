@@ -59,7 +59,10 @@ var invokeChaincode = async function (peerNames, channelName, chaincodeName, fcn
 			logger.error(message);
 			throw new Error(message);
 		}
-		await channel.initialize({ discover: true, asLocalhost: true });
+		let result = await channel.initialize({ discover: true, asLocalhost: true });
+		console.log('=================================================');
+		console.log(result);
+		console.log('=================================================');
 		var tx_id = client.newTransactionID();
 		// will need the transaction ID string for the event registration later
 		tx_id_string = tx_id.getTransactionID();
@@ -128,7 +131,7 @@ var invokeChaincode = async function (peerNames, channelName, chaincodeName, fcn
 						let message = 'REQUEST_TIMEOUT:' + eh.getPeerAddr();
 						logger.error(message);
 						eh.disconnect();
-					}, 3000);
+					}, 6000);
 					eh.registerTxEvent(tx_id_string, (tx, code, block_num) => {
 						logger.info('The chaincode invoke chaincode transaction has been committed on peer %s', eh.getPeerAddr());
 						logger.info('Transaction %s has status of %s in block %s', tx, code, block_num);

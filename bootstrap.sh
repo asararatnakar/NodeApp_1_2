@@ -84,7 +84,7 @@ function checkOrdereingService(){
 }
 
 # Download v1.2 docker images
-downloaFabricImages
+# downloaFabricImages
 
 #Restart the network each time you start application
 restartNetwork

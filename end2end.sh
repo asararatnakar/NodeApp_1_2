@@ -158,7 +158,7 @@ curl -s -X PUT \
   -H "content-type: application/json" \
   -d '{
   "host":"peer0.org2.example.com",
-  "port": 7051
+  "port": 8051
 }'
 echo
 echo
@@ -247,7 +247,7 @@ function installInstantiateUpgradeChaincode(){
     -H "authorization: Bearer $ORG1_TOKEN" \
     -H "content-type: application/json" \
     -d "{
-    \"peers\": [\"peer0.org1.example.com\"],
+    \"peers\": [\"peer0.org1.example.com\", \"peer0.org2.example.com\"],
     \"chaincodeName\":\"mycc\",
     \"chaincodeVersion\":\"v$1\",
     \"chaincodeType\": \"$LANGUAGE\",
@@ -279,7 +279,7 @@ EOF
   echo "Transaction ID is $TRX_ID"
   echo
   echo
-
+#exit
 #### Query the marbles
 for ((i=1;i<=2;i++))
 do
@@ -336,10 +336,10 @@ function rangeQuery(){
 }
 # Install & Instantiate the cc with version "v0". FALSE here indicates that this is CC Instantiate
 installInstantiateUpgradeChaincode 0 false
-sleep 1
+sleep 10
 invokeAndQuery 1
 
- # exit
+# exit
 ### regsiter a new user ratnakar, revoke and update the channel
 registerAndRevokeUser
 
