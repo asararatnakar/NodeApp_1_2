@@ -51,7 +51,7 @@ var instantiateUpdgradeChaincode = async function(peers, channelName, chaincodeN
 				{ role: { name: 'peer', mspId: 'Org2MSP' } }
 			],
 				policy: {
-				'1-of': [{ 'signed-by': 0 }, { 'signed-by': 1 }]
+				'2-of': [{ 'signed-by': 0 }, { 'signed-by': 1 }]
 			}
 		}
 		var request = {

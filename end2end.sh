@@ -158,7 +158,7 @@ curl -s -X PUT \
   -H "content-type: application/json" \
   -d '{
   "host":"peer0.org2.example.com",
-  "port": 7051
+  "port": 8051
 }'
 echo
 echo
@@ -189,7 +189,7 @@ function registerAndRevokeUser() {
 
   # echo "curl -s -X POST http://localhost:4000/channel/${CHANNEL}/update -H \"authorization: Bearer $TEMP_TOKEN\" -H \"content-type: application/json\" -d \"{ \\\"crl\\\":\\\"${CRL}\\\"}\""
   echo
-  curl -s -X POST \
+  curl -s -X PUT \
     "http://localhost:4000/channel/${CHANNEL}/update" \
     -H "authorization: Bearer $TEMP_TOKEN" \
     -H "content-type: application/json" \
@@ -336,7 +336,7 @@ function rangeQuery(){
 }
 # Install & Instantiate the cc with version "v0". FALSE here indicates that this is CC Instantiate
 installInstantiateUpgradeChaincode 0 false
-sleep 1
+sleep 10
 invokeAndQuery 1
 
  # exit

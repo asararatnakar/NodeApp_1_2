@@ -8,7 +8,7 @@ version: '2'
 services:
 
   ca.org1.example.com:
-    image: hyperledger/fabric-ca
+    image: hyperledger/fabric-ca${DOCKER_IMG_TAG}
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca-org1
@@ -25,7 +25,7 @@ services:
     container_name: ca_peerOrg1
 
   ca.org2.example.com:
-    image: hyperledger/fabric-ca
+    image: hyperledger/fabric-ca${DOCKER_IMG_TAG}
     environment:
       - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
       - FABRIC_CA_SERVER_CA_NAME=ca-org2
@@ -193,7 +193,6 @@ services:
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org1.example.com:7051
     ports:
       - 7051:7051
-      - 7053:7053
     volumes:
         - ./channel/crypto-config/peerOrganizations/org1.example.com/peers/peer0.org1.example.com/:/etc/hyperledger/crypto/peer
         - ./channel/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem:/etc/hyperledger/crypto/ca/ca.crt
@@ -212,13 +211,12 @@ services:
     environment:
       - CORE_PEER_ID=peer1.org1.example.com
       - CORE_PEER_LOCALMSPID=Org1MSP
-      - CORE_PEER_ADDRESS=peer1.org1.example.com:7051
-      - CORE_PEER_LISTENADDRESS=peer1.org1.example.com:7051
-      - CORE_PEER_GOSSIP_ENDPOINT=peer0.org1.example.com:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org1.example.com:7051
+      - CORE_PEER_ADDRESS=peer1.org1.example.com:7056
+      - CORE_PEER_LISTENADDRESS=peer1.org1.example.com:7056
+      - CORE_PEER_GOSSIP_ENDPOINT=peer0.org1.example.com:7056
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org1.example.com:7056
     ports:
-      - 7056:7051
-      - 7058:7053
+      - 7056:7056
     volumes:
         - ./channel/crypto-config/peerOrganizations/org1.example.com/peers/peer1.org1.example.com/:/etc/hyperledger/crypto/peer
         - ./channel/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem:/etc/hyperledger/crypto/ca1/ca.crt
@@ -237,13 +235,12 @@ services:
     environment:
       - CORE_PEER_ID=peer0.org2.example.com
       - CORE_PEER_LOCALMSPID=Org2MSP
-      - CORE_PEER_ADDRESS=peer0.org2.example.com:7051
-      - CORE_PEER_LISTENADDRESS=peer0.org2.example.com:7051
-      - CORE_PEER_GOSSIP_ENDPOINT=peer0.org2.example.com:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org2.example.com:7051
+      - CORE_PEER_ADDRESS=peer0.org2.example.com:8051
+      - CORE_PEER_LISTENADDRESS=peer0.org2.example.com:8051
+      - CORE_PEER_GOSSIP_ENDPOINT=peer0.org2.example.com:8051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.org2.example.com:8051
     ports:
-      - 8051:7051
-      - 8053:7053
+      - 8051:8051
     volumes:
         - ./channel/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/:/etc/hyperledger/crypto/peer
         - ./channel/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem:/etc/hyperledger/crypto/ca1/ca.crt
@@ -262,13 +259,12 @@ services:
     environment:
       - CORE_PEER_ID=peer1.org2.example.com
       - CORE_PEER_LOCALMSPID=Org2MSP
-      - CORE_PEER_ADDRESS=peer1.org2.example.com:7051
-      - CORE_PEER_LISTENADDRESS=peer1.org2.example.com:7051
-      - CORE_PEER_GOSSIP_ENDPOINT=peer0.org2.example.com:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org2.example.com:7051
+      - CORE_PEER_ADDRESS=peer1.org2.example.com:8056
+      - CORE_PEER_LISTENADDRESS=peer1.org2.example.com:8056
+      - CORE_PEER_GOSSIP_ENDPOINT=peer0.org2.example.com:8056
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.org2.example.com:8056
     ports:
-      - 8056:7051
-      - 8058:7053
+      - 8056:8056
     volumes:
         - ./channel/crypto-config/peerOrganizations/org2.example.com/peers/peer1.org2.example.com/:/etc/hyperledger/crypto/peer
         - ./channel/crypto-config/peerOrganizations/org1.example.com/ca/ca.org1.example.com-cert.pem:/etc/hyperledger/crypto/ca1/ca.crt
@@ -281,7 +277,7 @@ services:
 
   configtxlator:
     container_name: configtxlator
-    image: hyperledger/fabric-tools
+    image: hyperledger/fabric-tools${DOCKER_IMG_TAG}
     tty: true
     environment:
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
