@@ -23,8 +23,6 @@ const util = require('util');
 const hfc = require('fabric-client');
 hfc.setLogger(logger);
 const fs = require('fs');
-///TODO: no don't do this 
-const cfg = require('../artifacts/network-config-template.json');
 const configStr = '-connection-profile';
 
 function orgsList(config) {
@@ -34,17 +32,13 @@ function orgsList(config) {
 	}
 	return orgs;
 }
-function getChannelSection() {
+function getChannelSection(config) {
 	let peers = {};
-	for (let key in cfg.organizations) {
-		let orgPeers = cfg.organizations[key].peers;
-		for (let peer in orgPeers) {
-			let val = orgPeers[peer]
-			peers[val] = {};
-		}
+	for (let key in config.peers) {
+		peers[key] = { discover: true, endorsingPeer: true};
 	}
 	let orderers = [];
-	for (let key in cfg.orderers) {
+	for (let key in config.orderers) {
 		orderers.push(key);
 	}
 	let channel = {};
@@ -62,9 +56,10 @@ function isChannelExists(channel, config) {
 	}
 	return false;
 }
-async function updateCCP(channel) {
+async function updateCCP(channel, orgname) {
 	logger.debug('updateCCP - ****** update connection profile with channel name : ', channel);
-	var config = require('../artifacts/network-config-org1.json');
+	orgname = orgname.toLowerCase();
+	var config = require(`../artifacts/network-config-${orgname}.json`);
 	let orgs = orgsList(config);
 	if (isChannelExists(channel, config)) {
 		//No need to update the connection profile if it already updated with channel section
@@ -76,7 +71,7 @@ async function updateCCP(channel) {
 	for (let key in orgs) {
 		//TODO: Hardcoding in several places looks ugly ?
 		config = require(path.join(__dirname, '../artifacts', 'network-config-' + orgs[key].toLowerCase() + '.json'));
-		config.channels[channel] = getChannelSection();
+		config.channels[channel] = getChannelSection(config);
 		// console.log(JSON.stringify(config, null, 4));
 		fs.writeFileSync(path.join(__dirname, '../artifacts', 'network-config-' + orgs[key].toLowerCase() + '.json'), JSON.stringify(config, null, 4), 'utf-8');
 		hfc.setConfigSetting(orgs[key] + configStr, path.join(__dirname, '../artifacts', 'network-config-' + orgs[key].toLowerCase() + '.json'));
@@ -90,7 +85,7 @@ async function getClientForOrg(userorg, username) {
 	// build a client context and load it with a connection profile
 	// lets load the network settings and a client section. This will also set an admin 
 	// identity because the organization defined in the client section has one defined.
-	let client = hfc.loadFromConfig(hfc.getConfigSetting(userorg + configStr));
+	let client = hfc.loadFromConfig(hfc.getConfigSetting(userorg.toLowerCase() + configStr));
 
 	// This will load a connection profile over the top of the current one one
 	// since the first one did not have a client section and the following one does
@@ -250,7 +245,7 @@ var getCreds = function(orgname){
 	// console.log('------------------------------');
 	let filePath = hfc.getConfigSetting(orgname + configStr);
 	if (fs.existsSync(filePath)) {
-		const credFile = fs.readFileSync(hfc.getConfigSetting(orgname + configStr) , 'utf-8');
+		const credFile = fs.readFileSync(hfc.getConfigSetting(orgname.toLowerCase() + configStr) , 'utf-8');
 		if (credFile) {
 			// console.log(JSON.parse(credFile, null, 4));
 			// console.log('------------------------------');
@@ -261,7 +256,7 @@ var getCreds = function(orgname){
 }
 var updateCreds = function(orgname, creds){
 	fs.writeFileSync(path.join(__dirname, '../artifacts', 'network-config-' + orgname.toLowerCase() + '.json'), JSON.stringify(creds, null, 4), 'utf-8');
-	hfc.setConfigSetting(orgname + configStr, path.join(__dirname, '../artifacts', 'network-config-' + orgname.toLowerCase() + '.json'));
+	hfc.setConfigSetting(orgname.toLowerCase() + configStr, path.join(__dirname, '../artifacts', 'network-config-' + orgname.toLowerCase() + '.json'));
 
 	return 'Connection profile for org : '+orgname+' Updated successfully !'
 }

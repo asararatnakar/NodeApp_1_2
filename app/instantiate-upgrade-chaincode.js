@@ -45,22 +45,13 @@ var instantiateUpdgradeChaincode = async function(peers, channelName, chaincodeN
 		                                       // be used to sign the proposal request.
 		// will need the transaction ID string for the event registration later
 		var deployId = tx_id.getTransactionID();
-		const endorsement_policy = {
-			identities: [
-				{ role: { name: 'peer', mspId: 'Org1MSP' } },
-				{ role: { name: 'peer', mspId: 'Org2MSP' } }
-			],
-				policy: {
-				'2-of': [{ 'signed-by': 0 }, { 'signed-by': 1 }]
-			}
-		}
+
 		var request = {
 			targets : peers,
 			chaincodeId: chaincodeName,
 			chaincodeType: chaincodeType,
 			chaincodeVersion: chaincodeVersion,
 			args: args,
-			'endorsement-policy': endorsement_policy,
 			txId: tx_id
 		};
 
@@ -71,17 +62,27 @@ var instantiateUpdgradeChaincode = async function(peers, channelName, chaincodeN
 		let collectionsConfigPath = "";
 		// send instantiate/upgrade proposal to endorser
 		if (isUpgrade && isUpgrade == true){
-			//TODO: No hard codings please ?
+			//TODO: mspids varies for non Starer plans , don't hardcode
 			collectionsConfigPath = path.resolve(__dirname, '../artifacts/src/github.com/marbles/collections_config_update.json');
 			console.log(collectionsConfigPath.toString());
 			request['collections-config'] = collectionsConfigPath;
-			results = await channel.sendUpgradeProposal(request); //Upgrade
+
+			request['endorsement-policy'] = {
+				identities: [
+					{ role: { name: 'member', mspId: 'Org1MSP' } },
+					{ role: { name: 'member', mspId: 'Org2MSP' } }
+				],
+					policy: {
+					'2-of': [{ 'signed-by': 0 }, { 'signed-by': 1 }]
+				}
+			}
+			results = await channel.sendUpgradeProposal(request, 90000); //Upgrade
 		} else {
-			//TODO: No hard codings please ?
+			//TODO: No hard codings please, rather generate Dynamically ?
 			collectionsConfigPath = path.resolve(__dirname, '../artifacts/src/github.com/marbles/collections_config.json');
 			console.log(collectionsConfigPath.toString());
 			request['collections-config'] = collectionsConfigPath;
-			results = await channel.sendInstantiateProposal(request, 60000); //instantiate takes much longer
+			results = await channel.sendInstantiateProposal(request, 90000); //instantiate takes much longer
 		}
 
 		// the returned object has both the endorsement results

@@ -25,7 +25,7 @@ var queryChaincode = async function(peer, channelName, chaincodeName, args, fcn,
 		// first setup the client for this org
 		var client = await helper.getClientForOrg(org_name, username);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
-		
+
 		// enable Client TLS
 		var tlsInfo =  await helper.tlsEnroll(client);
 		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
@@ -67,7 +67,7 @@ var getBlockByNumber = async function (peer, channelName, id, username, org_name
 		// first setup the client for this org
 		var client = await helper.getClientForOrg(org_name, username);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
-		
+
 		// enable Client TLS
 		var tlsInfo =  await helper.tlsEnroll(client);
 		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);
@@ -119,7 +119,7 @@ var getTransactionSummary = async function (peer, channelName, username, org_nam
 		// first setup the client for this org
 		var client = await helper.getClientForOrg(org_name, username);
 		logger.debug('Successfully got the fabric client for the organization "%s"', org_name);
-		
+
 		// enable Client TLS
 		var tlsInfo =  await helper.tlsEnroll(client);
 		client.setTlsClientCertAndKey(tlsInfo.certificate, tlsInfo.key);

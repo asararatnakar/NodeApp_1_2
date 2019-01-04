@@ -38,10 +38,18 @@ const instantiate = require('./app/instantiate-upgrade-chaincode.js');
 const invoke = require('./app/invoke-transaction.js');
 const query = require('./app/query.js');
 
+let orgsList = [];
+let ORGS = process.env.ORGS_LIST || "org1,org2";
+let oList = ORGS.split(',');
+for (let i=0;i<oList.length;i++) {
+	orgsList.push(oList[i]);
+}
+
 // indicate to the application where the setup file is located so it able
 // to have the hfc load it to initalize the fabric client instance
-hfc.setConfigSetting('Org1-connection-profile',path.join(__dirname, 'artifacts', 'network-config-org1.json'));
-hfc.setConfigSetting('Org2-connection-profile',path.join(__dirname, 'artifacts', 'network-config-org2.json'));
+for (let i=0;i<orgsList.length;i++) {
+	hfc.setConfigSetting(orgsList[i]+'-connection-profile',path.join(__dirname, 'artifacts', 'network-config-'+orgsList[i]+'.json'));
+}
 // some other settings the application might need to know
 hfc.addConfigFile(path.join(__dirname, 'config.json'));
 
@@ -177,7 +185,7 @@ app.get('/network/creds', async function(req, res) {
 	let message = await helper.getCreds(orgname);
 	res.send(message);
 });
-// get network creds of an org
+// Update network creds of an org
 app.put('/network/creds', async function(req, res) {
 	logger.info('<<<<<<<<<<<<<<<<< U P D A T E    C R E D S >>>>>>>>>>>>>>>>>');
 	logger.debug('End point : /network/creds');
@@ -199,13 +207,13 @@ app.put('/network/creds', async function(req, res) {
 app.put('/channel/:channel', async function(req, res) {
 	logger.info('<<<<<<<<<<<<<<<<< U P D A T E   C C P >>>>>>>>>>>>>>>>>');
 	logger.debug('End point : /channel/:channel');
-	var channel = req.params.channel;
+	let channel = req.params.channel;
 	logger.debug('Channel name : ' + channel);
 	if (!channel) {
 		res.json(getErrorMessage('\'channel\''));
 		return;
 	}
-	let message = await helper.updateCCP(channel);
+	let message = await helper.updateCCP(channel, req.orgname);
 	res.send(message);
 });
 
@@ -285,7 +293,7 @@ app.put('/channel/:channelName/anchorupdate', async function(req, res) {
 
 // Update the Channel
 app.put('/channel/:channel/update', async function(req, res) {
-	logger.info('<<<<<<<<<<<<<<<<< A N C H O R    P E E R   U P D A T E  >>>>>>>>>>>>>>>>>');
+	logger.info('<<<<<<<<<<<<<<<<< U P D A T E    C H A N N E L >>>>>>>>>>>>>>>>>');
 	var channel = req.params.channel;
 	logger.debug('End point : /channel/'+channel+'/update');
 	logger.debug('Channel name : ' + channel);

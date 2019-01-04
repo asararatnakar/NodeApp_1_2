@@ -83,7 +83,7 @@ var configUpdate = async function (channelName, username, orgName, crl) {
 		// sign and collect signature from org1
 		let signature = client.signChannelConfig(configProto);
 		signatures.push(signature);
-		
+
 		let request = {
 			config: configProto,
 			signatures: [signature],

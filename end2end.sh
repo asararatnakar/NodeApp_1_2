@@ -18,13 +18,16 @@ starttime=$(date +%s)
 function printHelp () {
   echo "Usage: "
   echo "  ./testAPIs.sh -l golang|node"
+  echo "    -c <channelname> - chaincode to be created on the network"
+  echo "    -n <chaincode_id> - chaincode id to be used for chaincode operations"
   echo "    -l <language> - chaincode language (defaults to \"golang\")"
 }
 # Language defaults to "golang"
 LANGUAGE="golang"
-CHANNEL="testchannel"
+CHANNEL="defaultchannel"
+CHAINCODE="mycc"
 # Parse commandline args
-while getopts "h?l:c:" opt; do
+while getopts "h?l:c:n:" opt; do
   case "$opt" in
     h|\?)
       printHelp
@@ -33,6 +36,8 @@ while getopts "h?l:c:" opt; do
     l)  LANGUAGE=$OPTARG
     ;;
     c)  CHANNEL=$OPTARG
+    ;;
+    n)  CHAINCODE=$OPTARG
     ;;
   esac
 done
@@ -53,16 +58,17 @@ function setChaincodePath(){
 }
 
 setChaincodePath
-
-echo "POST request Enroll on Org1  ..."
+echo "POST request Enroll on org1  ..."
 echo
+USER1=org1user"$RANDOM"
 ORG1_TOKEN=$(curl -s -X POST \
   http://localhost:4000/user/register \
-  -H "content-type: application/x-www-form-urlencoded" \
-  -d 'username=barry&orgName=Org1')
+  --header 'Content-Type: application/x-www-form-urlencoded' \
+  --data-urlencode "username=${USER1}" \
+  --data-urlencode "orgName=org1")
 echo $ORG1_TOKEN
 ORG1_TOKEN=$(echo $ORG1_TOKEN | jq ".token" | sed "s/\"//g")
-
+echo
 echo "POST request updatePassword for user barry"
 echo
 curl -s -X POST http://localhost:4000/user/update \
@@ -74,16 +80,26 @@ echo
 echo
 echo "POST request Enroll on Org2 ..."
 echo
+
+USER2=org2"$RANDOM" \
 ORG2_TOKEN=$(curl -s -X POST \
   http://localhost:4000/user/register \
   -H "content-type: application/x-www-form-urlencoded" \
-  -d 'username=sid&orgName=Org2')
+  --header 'Content-Type: application/x-www-form-urlencoded' \
+  --data-urlencode "username=${USER2}" \
+  --data-urlencode "orgName=org2")
 echo $ORG2_TOKEN
 ORG2_TOKEN=$(echo $ORG2_TOKEN | jq ".token" | sed "s/\"//g")
 echo
 echo "ORG2 token is $ORG2_TOKEN"
 echo
-
+echo "POST request updatePassword for user org1user"
+echo
+curl -s -X POST http://localhost:4000/user/update \
+  -H "authorization: Bearer $ORG1_TOKEN" \
+  -H "content-type: application/json" \
+  -d "{ \"password\":\"mypassword\" }"
+echo
 echo
 echo "PUT request for Connection Profile update with the channel  ..."
 echo
@@ -105,7 +121,6 @@ curl -s -X POST \
 	\"consortium\":\"SampleConsortium\",
 	\"mspIds\":[\"Org1MSP\",\"Org2MSP\"]
 }"
-# exit
 echo
 echo
 sleep 5
@@ -133,6 +148,7 @@ curl -s -X POST \
 }'
 echo
 echo
+
 
 # Update Anchor peer on the channel
 echo
@@ -163,15 +179,16 @@ curl -s -X PUT \
 echo
 echo
 
-
 function registerAndRevokeUser() {
   echo
   echo "POST request Enroll ratnakar on Org1"
   echo
+  REVOKE_USER=revokeusr"$RANDOM"
   TEMP_TOKEN=$(curl -s -X POST \
     http://localhost:4000/user/register \
-    -H "content-type: application/x-www-form-urlencoded" \
-    -d 'username=ratnakar&orgName=Org1')
+    --header 'Content-Type: application/x-www-form-urlencoded' \
+    --data-urlencode "username=${REVOKE_USER}" \
+    --data-urlencode "orgName=org1")
   echo $TEMP_TOKEN
   TEMP_TOKEN=$(echo $TEMP_TOKEN | jq ".token" | sed "s/\"//g")
   echo
@@ -339,7 +356,6 @@ installInstantiateUpgradeChaincode 0 false
 sleep 10
 invokeAndQuery 1
 
- # exit
 ### regsiter a new user ratnakar, revoke and update the channel
 registerAndRevokeUser
 

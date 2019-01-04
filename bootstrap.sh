@@ -4,6 +4,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 #
+. .env
 TIMEOUT=45
 function stopContainers(){
 	# Stop chaincode containers and images as well
@@ -30,10 +31,10 @@ function npmInstall() {
 	echo
 	if [ -d node_modules ]; then
 	    value=$(npm list | awk -F@ '/fabric-client/ { print $2}')
-            if [ "$value" = "1.2.1" ]; then
+            if [ "$value" = "1.4.0-rc2" ]; then
                 echo "============== node modules installed already ============="
             else
-                echo "current fabric-client version is ${value}, changing it to 1.2.1"
+                echo "current fabric-client version is ${value}, changing it to 1.4.0-rc2"
                 npm install
             fi
         else
@@ -44,27 +45,27 @@ function npmInstall() {
 }
 
 function downloaFabricImages(){
-	FABRIC_TAG=1.2.0
-	IMAGES_CTR=$(docker images | grep ${FABRIC_TAG} | wc -l)
+    FAB_TAG=$(echo ${DOCKER_IMG_TAG} | tr ':' '\n' | tail -1)
+	IMAGES_CTR=$(docker images | grep ${FAB_TAG} | wc -l)
 	IMAGE_ARRAY=(peer orderer ca ccenv tools)
 	# array=(one two three four [5]=five)
 	if [ $IMAGES_CTR -lt ${#IMAGE_ARRAY[*]} ]; then
 		echo "============== Downloading Fabric Images =============="
 		for image in ${IMAGE_ARRAY[*]}
 		do
-            docker pull hyperledger/fabric-$image:$FABRIC_TAG
-            docker tag hyperledger/fabric-$image:$FABRIC_TAG hyperledger/fabric-$image
+            docker pull hyperledger/fabric-$image$DOCKER_IMG_TAG
+            docker tag hyperledger/fabric-$image$DOCKER_IMG_TAG hyperledger/fabric-$image
         done
 	fi
-	THIRDPARTY_TAG=0.4.10
-	IMAGES_CTR=$(docker images | grep "kafka\|zookeeper\|couchdb" | grep ${THIRDPARTY_TAG} | wc -l)
+    TAG=$(echo ${THIRDPARTY_IMG_TAG} | tr ':' '\n' | tail -1)
+	IMAGES_CTR=$(docker images | grep "kafka\|zookeeper\|couchdb" | grep ${TAG} | wc -l)
 	IMAGE_ARRAY=(couchdb kafka zookeeper)
 	if [ $IMAGES_CTR -lt ${#IMAGE_ARRAY[*]} ]; then
 		echo "============== Downloading Thirdparty Images =============="
 		for image in ${IMAGE_ARRAY[*]}
 		do
-            docker pull hyperledger/fabric-$image:$THIRDPARTY_TAG
-            docker tag hyperledger/fabric-$image:$THIRDPARTY_TAG hyperledger/fabric-$image
+            docker pull hyperledger/fabric-$image$THIRDPARTY_IMG_TAG
+            docker tag hyperledger/fabric-$image$THIRDPARTY_IMG_TAG hyperledger/fabric-$image
         done
 	fi
 }
@@ -83,13 +84,13 @@ function checkOrdereingService(){
 		printf "\n ========== Ordereing Service is UP and Running ======\n"
 }
 
-# Download v1.2 docker images
+# Download v1.4 docker images
 downloaFabricImages
 
 #Restart the network each time you start application
 restartNetwork
 
-#Install 1.2.x node modules
+#Install 1.4.x node modules
 npmInstall
 
 # Check if ordereing service (OSN) is available yet
